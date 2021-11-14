@@ -42,20 +42,19 @@ public:
 
 private:
 
-    double max_health;
-    double health;
-    double health_regen;
+    double max_health {};
+    double health {};
+    double health_regen {};
 
-    bool alive;
-    int size;
-    int vx, vy;
-    double xp;
-    int level;
+    bool alive = 1;
+    int size {};
+    int vx{}, vy{};
+    double xp{};
+    int level{};
 
 
 protected:
-    GameEntity(const double& health, const double& health_regen, const double& max_health,
-               const bool& alive, const int& size,
+    GameEntity(const double& health, const double& health_regen, const double& max_health, const int& size,
                const int& vx, const int& vy,const double& xp);
 
 };
