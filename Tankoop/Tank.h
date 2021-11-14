@@ -37,4 +37,6 @@ protected:
     );
 };
 
+//make all sub classes for the tank
+
 #endif // TANK_H
