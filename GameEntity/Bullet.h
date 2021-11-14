@@ -13,7 +13,6 @@ public:
 private:
     double damage;
     Tank& tank;
-
 };
 
 #endif // BULLET_H
