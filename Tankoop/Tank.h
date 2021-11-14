@@ -1,26 +1,40 @@
 #ifndef TANK_H
 #define TANK_H
 
-#include "gameentity.h"
+#include "GameEntity.h"
 
 class Tank: public GameEntity {
 public:
-    Tank();
 
-    double get_atk_spd() const;
-    void set_atk_spd(double atk_spd);
+    double get_attack_speed() const;
+    void set_attack_speed(double attack_speed);
 
-    double get_blt_spd() const;
-    void set_blt_spd(double blt_spd);
+    double get_bullet_damage() const;
+    void set_bullet_damage(double bullet_damage);
 
-    double get_dmg() const;
-    void set_dmg(double dmg);
+    double get_damage() const;
+    void set_damage(double damage); 
 
+    double get_reload_speed() const;
+    void set_reload_speed(double reload_speed);
+
+    int get_level() const;
+    void set_level(int level);
 
 private:
-    double atk_spd;
-    double blt_spd;
-    double dmg;
+    double attack_speed;
+    double bullet_speed;
+    double damage;
+    double reload_speed;
+    int level;
+
+protected:
+    Tank(const double& attack_speed,
+        const double& bullet_speed,
+        const double& damage,
+        const double& reload_speed,
+        const int& level
+    );
 };
 
 #endif // TANK_H
