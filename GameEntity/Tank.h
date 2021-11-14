@@ -24,8 +24,7 @@ public:
 private:
     double attack_speed;
     double bullet_speed;
-    double damage;
-    double reload_speed;
+    double damage;;    
     int level;
 
 protected:
@@ -35,7 +34,6 @@ protected:
         const double& attack_speed,
         const double& bullet_speed,
         const double& damage,
-        const double& reload_speed,
         const int& level
     );
 };

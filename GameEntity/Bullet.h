@@ -6,13 +6,13 @@
 
 class Bullet : public GameEntity
 {
-public:
-    Bullet(Tank& tank, const double& damage);
+public:        
+    Bullet(Tank& tank, const double& damage,const int& size, const int& vx, const int& vy);
     double get_damage() const;
 
 private:
     double damage;
-    Tank* tank;
+    Tank& tank;
 
 };
 

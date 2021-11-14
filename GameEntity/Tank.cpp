@@ -6,6 +6,5 @@ Tank::Tank(
         const double& attack_speed,
         const double& bullet_speed,
         const double& damage,
-        const double& reload_speed,
         const int& level):
-        GameEntity(health,health_regen,max_health,size,vx,vy,xp), attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage), reload_speed(reload_speed), level(level) {};
+        GameEntity(health,health_regen,max_health,size,vx,vy,xp), attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage), level(level) {};
