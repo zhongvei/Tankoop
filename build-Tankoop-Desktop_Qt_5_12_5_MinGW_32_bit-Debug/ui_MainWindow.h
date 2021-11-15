@@ -26,7 +26,9 @@ public:
     QWidget *centralwidget;
     QPushButton *start_button;
     QPushButton *load_button;
-    QLabel *title;
+    QLabel *label;
+    QPushButton *quit_button;
+    QLabel *label_2;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -39,17 +41,25 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         start_button = new QPushButton(centralwidget);
         start_button->setObjectName(QString::fromUtf8("start_button"));
-        start_button->setGeometry(QRect(40, 170, 361, 111));
+        start_button->setGeometry(QRect(280, 340, 251, 41));
         load_button = new QPushButton(centralwidget);
         load_button->setObjectName(QString::fromUtf8("load_button"));
-        load_button->setGeometry(QRect(420, 170, 361, 111));
-        title = new QLabel(centralwidget);
-        title->setObjectName(QString::fromUtf8("title"));
-        title->setGeometry(QRect(350, 70, 131, 51));
+        load_button->setGeometry(QRect(280, 390, 251, 41));
+        label = new QLabel(centralwidget);
+        label->setObjectName(QString::fromUtf8("label"));
+        label->setGeometry(QRect(210, 30, 411, 91));
+        label->setPixmap(QPixmap(QString::fromUtf8(":/resource/brand/TANKOOP.png")));
+        quit_button = new QPushButton(centralwidget);
+        quit_button->setObjectName(QString::fromUtf8("quit_button"));
+        quit_button->setGeometry(QRect(280, 440, 251, 41));
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setGeometry(QRect(310, 120, 181, 201));
+        label_2->setPixmap(QPixmap(QString::fromUtf8(":/resource/brand/diep_logo.png")));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 21));
+        menubar->setGeometry(QRect(0, 0, 800, 24));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -65,7 +75,9 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
         start_button->setText(QApplication::translate("MainWindow", "Start Game", nullptr));
         load_button->setText(QApplication::translate("MainWindow", "Load Game", nullptr));
-        title->setText(QApplication::translate("MainWindow", "TANKOOP", nullptr));
+        label->setText(QString());
+        quit_button->setText(QApplication::translate("MainWindow", "Quit Game", nullptr));
+        label_2->setText(QString());
     } // retranslateUi
 
 };

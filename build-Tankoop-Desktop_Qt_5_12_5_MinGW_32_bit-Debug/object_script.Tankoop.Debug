@@ -1,0 +1,17 @@
+debug/qrc_resources.o
+debug/Basic.o
+debug/Block.o
+debug/Bullet.o
+debug/GamePlay.o
+debug/GameWindow.o
+debug/MainWindow.o
+debug/Tank.o
+debug/gameentity.o
+debug/Player.o
+debug/Tile.o
+debug/dataLoader.o
+debug/keyInput.o
+debug/main.o
+debug/view.o
+debug/moc_GameWindow.o
+debug/moc_MainWindow.o
