@@ -13,50 +13,48 @@ public:
 
     ~GameEntity() = default;
 
+    inline double get_max_health() const;
+    inline void set_max_health(double max_health);
 
-    double get_max_health() const;
-    void set_max_health(double max_health);
+    inline double get_health() const;
+    inline void set_health(double health);
 
-    double get_health() const;
-    void set_health(int health);
+    inline double get_health_regen() const;
+    inline void set_health_regen(double health_regen);
 
-    double get_health_regen() const;
-    void set_health_regen(double health_regen);
+    inline bool get_alive() const;
+    inline void set_alive(bool alive);
 
-    bool get_alive() const;
-    void set_alive();
+    inline int get_size() const;
+    inline void set_size(int size);
 
-    int get_size() const;
-    void set_size(int size);
+    inline int get_vx() const;
+    inline int get_vy() const;
+    inline void set_vx(int vx);
+    inline void set_vy(int vy);
 
-    int get_vx() const;
-    int get_vy() const;
-    void set_vx();
-    void set_vy();
+    inline double get_xp() const;
+    inline void set_xp(double xp);
 
-    double get_xp() const;
-    void set_xp();
-
-    int get_level() const;
-    void set_level(int level);
+    inline int get_level() const;
+    inline void set_level(int level);
 
 private:
 
-    double max_health;
-    double health;
-    double health_regen;
+    double max_health {};
+    double health {};
+    double health_regen {};
 
-    bool alive;
-    int size;
-    int vx, vy;
-    double xp;
-    int level;
+    bool alive = 1;
+    int size {};
+    int vx{}, vy{};
+    double xp{};
+    int level{};
 
 
 protected:
-    GameEntity(const double& health, const double& health_regen, const double& max_health,
-               const bool& alive, const int& size,
-               const int& vx, const int& vy,const double& xp);
+    GameEntity(const double& health, const double& health_regen, const double& max_health, const int& size,
+               const int& vx, const int& vy,const double& xp,const int& level);
 
 };
 
