@@ -16,32 +16,19 @@ TARGET = Tankoop
 SOURCES += \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
-    GamePlay.cpp \
     GameWindow.cpp \
     MainWindow.cpp \
     GameEntity/Tank.cpp \
     GameEntity/gameentity.cpp \
-    Player.cpp \
-    Tile.cpp \
-    dataLoader.cpp \
-    keyInput.cpp \
-    main.cpp \
-    view.cpp
+    main.cpp
 
 HEADERS += \
-    ../../../Downloads/SchoolboyBattle-master/schoolBoyBattle/GamePlay.h \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
-    GamePlay.h \
     GameWindow.h \
     MainWindow.h \
     GameEntity/Tank.h \
-    GameEntity/gameentity.h \
-    Player.h \
-    Tile.h \
-    dataLoader.h \
-    keyInput.h \
-    view.h
+    GameEntity/gameentity.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
