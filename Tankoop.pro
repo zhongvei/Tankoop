@@ -17,33 +17,24 @@ SOURCES += \
     GameEntity/Basic.cpp \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
-    GamePlay.cpp \
     GameWindow.cpp \
     MainWindow.cpp \
     GameEntity/Tank.cpp \
     GameEntity/gameentity.cpp \
-    Player.cpp \
-    Tile.cpp \
-    dataLoader.cpp \
-    keyInput.cpp \
-    main.cpp \
-    view.cpp
+    main.cpp
 
 HEADERS += \
+<<<<<<< HEAD
+=======
 
     GameEntity/Basic.h \
+>>>>>>> e9b7b9ab6d2fdad9ea8aae77bf6614e2f85f0f26
     GameEntity/Block.h \
     GameEntity/Bullet.h \
-    GamePlay.h \
     GameWindow.h \
     MainWindow.h \
     GameEntity/Tank.h \
-    GameEntity/gameentity.h \
-    Player.h \
-    Tile.h \
-    dataLoader.h \
-    keyInput.h \
-    view.h
+    GameEntity/gameentity.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
