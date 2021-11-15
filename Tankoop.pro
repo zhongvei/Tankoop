@@ -14,6 +14,7 @@ TEMPLATE = app
 TARGET = Tankoop
 
 SOURCES += \
+    GameEntity/Basic.cpp \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
     GamePlay.cpp \
@@ -29,7 +30,8 @@ SOURCES += \
     view.cpp
 
 HEADERS += \
-    ../../../Downloads/SchoolboyBattle-master/schoolBoyBattle/GamePlay.h \
+
+    GameEntity/Basic.h \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
     GamePlay.h \
