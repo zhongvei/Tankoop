@@ -17,6 +17,8 @@ SOURCES += \
     GameEntity/Basic.cpp \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
+    GameEntity/View.cpp \
+    GameEntity/myRect.cpp \
     GameWindow.cpp \
     MainWindow.cpp \
     GameEntity/Tank.cpp \
@@ -27,6 +29,8 @@ HEADERS += \
     GameEntity/Basic.h \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
+    GameEntity/View.h \
+    GameEntity/myRect.h \
     GameWindow.h \
     MainWindow.h \
     GameEntity/Tank.h \
