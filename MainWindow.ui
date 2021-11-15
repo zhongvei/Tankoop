@@ -17,10 +17,10 @@
    <widget class="QPushButton" name="start_button">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>170</y>
-      <width>361</width>
-      <height>111</height>
+      <x>280</x>
+      <y>340</y>
+      <width>251</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -30,27 +30,59 @@
    <widget class="QPushButton" name="load_button">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>170</y>
-      <width>361</width>
-      <height>111</height>
+      <x>280</x>
+      <y>390</y>
+      <width>251</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Load Game</string>
     </property>
    </widget>
-   <widget class="QLabel" name="title">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>70</y>
-      <width>131</width>
-      <height>51</height>
+      <x>210</x>
+      <y>30</y>
+      <width>411</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="text">
-     <string>TANKOOP</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/resource/brand/TANKOOP.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="quit_button">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>440</y>
+      <width>251</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Quit Game</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>120</y>
+      <width>181</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/resource/brand/diep_logo.png</pixmap>
     </property>
    </widget>
   </widget>
@@ -60,12 +92,14 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

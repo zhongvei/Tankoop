@@ -1,0 +1,2 @@
+Chaque image doit être au format .png
+Le chemin relatif à partir de ce dossier et le nom de l'image correspondent à son "identifiant" texte

@@ -1,9 +1,33 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include "GameWindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+#include <QGraphicsView>
+#include <QGraphicsScene>
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    /* Set the background color of the main window */
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, Qt::lightGray);
+    setAutoFillBackground(true);
+    setPalette(pal);
+
     ui->setupUi(this);
+
+    connect(ui->start_button, SIGNAL(clicked()), this, SLOT(start_button_clicked()));
+    connect(ui->quit_button, &QPushButton::clicked, QApplication::instance(), &QApplication::quit);
+}
+
+void MainWindow::startGame() {
+    //QGraphicsView gameWindow;
+    GameWindow* gameWindow = new GameWindow();
+    gameWindow->show();
+    gameWindow->setAttribute(Qt::WA_DeleteOnClose);
+
+    this->close();
+}
+
+void MainWindow::start_button_clicked() {
+    startGame();
 }
