@@ -24,7 +24,6 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-
     GameEntity/Basic.h \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
