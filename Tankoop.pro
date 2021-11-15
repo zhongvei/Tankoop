@@ -24,11 +24,8 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-<<<<<<< HEAD
-=======
 
     GameEntity/Basic.h \
->>>>>>> e9b7b9ab6d2fdad9ea8aae77bf6614e2f85f0f26
     GameEntity/Block.h \
     GameEntity/Bullet.h \
     GameWindow.h \
