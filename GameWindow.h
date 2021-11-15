@@ -4,9 +4,6 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
-#include "GamePlay.h"
-//#include "tcpclient.h"
-#include "view.h"
 #include <QBoxLayout>
 #include <QLabel>
 #include <QProgressBar>

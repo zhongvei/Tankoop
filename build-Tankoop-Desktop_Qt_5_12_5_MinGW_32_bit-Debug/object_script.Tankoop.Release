@@ -2,16 +2,10 @@ release/qrc_resources.o
 release/Basic.o
 release/Block.o
 release/Bullet.o
-release/GamePlay.o
 release/GameWindow.o
 release/MainWindow.o
 release/Tank.o
 release/gameentity.o
-release/Player.o
-release/Tile.o
-release/dataLoader.o
-release/keyInput.o
 release/main.o
-release/view.o
 release/moc_GameWindow.o
 release/moc_MainWindow.o
