@@ -6,12 +6,13 @@
 #include <cstdlib>
 #include <QIcon>
 #include <QPointF>
+#include <QDebug>
 
 Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
 {
     this->setWindowTitle("TankOOP");
-    this->setWindowIcon(QIcon(R"(C:\Users\zhong\Desktop\Uni\Academic Semester\Fall 2021\COMP 2012H\Tankoop\resource\gameIcon.jpeg)"));
+    //this->setWindowIcon(QIcon(R"(C:\Users\zhong\Desktop\Uni\Academic Semester\Fall 2021\COMP 2012H\Tankoop\resource\gameIcon.jpeg)"));
     scene = new QGraphicsScene();
 
     setScene(scene);
@@ -42,7 +43,8 @@ GameWindow::GameWindow(QWidget* parent)
 
     basic = new Basic();
     basic->setRect(0,0,basic->get_size(),basic->get_size());
-    basic->setPos(350,250);
+    basic->setPos(0,0);
+//    basic->setPos(350,250);
     scene->addItem(basic);
 
     centerOn(QPoint(100,100));
@@ -52,7 +54,7 @@ GameWindow::GameWindow(QWidget* parent)
     //mainloop
     loop_timer = new QTimer{this};
     connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
-    loop_timer->start();
+    loop_timer->start(25);
 
 
     health_bar->setRect(0,0,100,20);
@@ -71,10 +73,11 @@ void GameWindow::main_loop() {
     QPointF tankpos;
     tankpos.setX(basic->x());
     tankpos.setY(basic->y());
-    tankpos += QPointF(0,120);
-    health_bar->setPos(tankpos);
-//    QPointF pos = health_bar->mapToItem(basic, 0, 100);
-//    health_bar->setPos(pos);
+    QPointF healthpos;
+    healthpos.setX(health_bar->x());
+    healthpos.setY(health_bar->y());
+    //qDebug() << basic->mapFromScene(healthpos);
+    health_bar->setPos(healthpos + QPointF(0,120) - basic->mapFromScene(healthpos) );
 }
 
 void GameWindow::spawn_loop() {
