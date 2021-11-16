@@ -2,6 +2,9 @@
 #include <QGraphicsRectItem>
 #include "GameEntity/myRect.h"
 #include "GameEntity/View.h"
+#include "GameEntity/Block.h"
+#include <cstdlib>
+
 GameWindow::GameWindow(QWidget* parent)
 {
     scene = new QGraphicsScene();
@@ -12,11 +15,11 @@ GameWindow::GameWindow(QWidget* parent)
 
     setFixedSize(1200,600);
     setSceneRect(0,0,1000000,1000000);
-
-    MyRect* enemy = new MyRect();
-    enemy->setRect(0,0,100,100);
-    enemy->setPos(100,100);
-    scene->addItem(enemy);
+    spawn_loop();
+//    MyRect* enemy = new MyRect();
+//    enemy->setRect(0,0,100,100);
+//    enemy->setPos(100,100);
+//    scene->addItem(enemy);
 
     basic = new Basic();
     basic->setRect(0,0,basic->get_size(),basic->get_size());
@@ -26,13 +29,14 @@ GameWindow::GameWindow(QWidget* parent)
     centerOn(QPoint(100,100));
     basic->setFlag(QGraphicsItem::ItemIsFocusable);
     basic->setFocus();
-    show();
 
     //mainloop
     loop_timer = new QTimer{this};
     connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
     loop_timer->start();
-    // 50 updates per second
+
+
+    show();
 
 }
 
@@ -40,4 +44,13 @@ void GameWindow::main_loop() {
 //    float x = rect->x();
 //    float y = rect->y();
     centerOn(basic);
+}
+
+void GameWindow::spawn_loop() {
+    for(int i = 0; i < 10000; i++) {
+        Block* block = new Block(100,100,30,0,0,1,1,0);
+        block->setRect(0,0,block->get_size(),block->get_size());
+        block->setPos(rand()%1000000,rand()%1000000);
+        scene->addItem(block);
+    }
 }
