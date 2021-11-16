@@ -13,6 +13,7 @@
 
 #include "GameEntity/myRect.h"
 #include "GameEntity/Basic.h"
+#include "GameEntity/Block.h"
 
 class GameWindow : public QGraphicsView
 {
@@ -20,11 +21,14 @@ class GameWindow : public QGraphicsView
 public:
     GameWindow(QWidget* parent=0);
     void main_loop();
+    void spawn_loop();
 private:
     QTimer* loop_timer;
+    QTimer* single;
     QGraphicsScene* scene;
     MyRect* rect;
     Basic* basic;
+    Block* block_arr[10];
 };
 
 
