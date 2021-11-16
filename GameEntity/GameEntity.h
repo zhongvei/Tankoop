@@ -13,31 +13,31 @@ public:
 
     ~GameEntity() = default;
 
-    inline double get_max_health() const;
-    inline void set_max_health(double max_health);
+    double get_max_health() const;
+    void set_max_health(double max_health);
 
-    inline double get_health() const;
-    inline void set_health(double health);
+    double get_health() const;
+    void set_health(double health);
 
-    inline double get_health_regen() const;
-    inline void set_health_regen(double health_regen);
+    double get_health_regen() const;
+    void set_health_regen(double health_regen);
 
-    inline bool get_alive() const;
-    inline void set_alive(bool alive);
+    bool get_alive() const;
+    void set_alive(bool alive);
 
-    inline int get_size() const;
-    inline void set_size(int size);
+    int get_size() const;
+    void set_size(int size);
 
-    inline int get_vx() const;
-    inline int get_vy() const;
-    inline void set_vx(int vx);
-    inline void set_vy(int vy);
+    int get_vx() const;
+    int get_vy() const;
+    void set_vx(int vx);
+    void set_vy(int vy);
 
-    inline double get_xp() const;
-    inline void set_xp(double xp);
+    double get_xp() const;
+    void set_xp(double xp);
 
-    inline int get_level() const;
-    inline void set_level(int level);
+    int get_level() const;
+    void set_level(int level);
 
 private:
 

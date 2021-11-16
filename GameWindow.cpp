@@ -5,13 +5,12 @@
 GameWindow::GameWindow(QWidget* parent)
 {
     scene = new QGraphicsScene();
-    scene->setSceneRect(0,0,800,600);
 
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    setFixedSize(800,600);
+    setFixedSize(1200,600);
     setSceneRect(0,0,1000000,1000000);
 
     MyRect* enemy = new MyRect();
@@ -20,7 +19,7 @@ GameWindow::GameWindow(QWidget* parent)
     scene->addItem(enemy);
 
     basic = new Basic();
-    basic->setRect(0,0,100,100);
+    basic->setRect(0,0,basic->get_size(),basic->get_size());
     basic->setPos(350,250);
     scene->addItem(basic);
 
