@@ -64,6 +64,21 @@ void GameWindow::main_loop() {
     //center the screen based on the position of the tank
     centerOn(basic);
     //health bar as well
+    facing_cursor(basic);
+}
+
+void GameWindow::facing_cursor(Basic* basic) {
+    QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
+    double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
+    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
+
+    QTransform transform;
+    transform.translate(basic->get_size()/2,basic->get_size()/2);
+    transform.rotate(angle_in_degrees);
+    transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
+    //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
+    basic->setTransform(transform);
+
     QPointF tankpos;
     tankpos.setX(basic->x());
     tankpos.setY(basic->y());

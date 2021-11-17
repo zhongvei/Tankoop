@@ -2,10 +2,12 @@
 #define BASIC_H
 
 #include <QGraphicsRectItem>
+#include <QGraphicsRotation>
+#include <QTransform>
 
 #include "Tank.h"
 
-class Basic: public Tank, public QGraphicsRectItem
+class Basic: public Tank, public QGraphicsRectItem, public QGraphicsRotation, public QTransform
 {
 public:
     Basic(
