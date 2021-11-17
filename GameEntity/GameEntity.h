@@ -26,11 +26,7 @@ public:
     void set_alive(bool alive);
 
     int get_size() const;
-<<<<<<< HEAD
-    inline void set_size(int size);
-=======
     void set_size(int size);
->>>>>>> main
 
     int get_vx() const;
     int get_vy() const;

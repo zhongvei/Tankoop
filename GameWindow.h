@@ -25,11 +25,8 @@ class GameWindow : public QGraphicsView
 public:
     GameWindow(QWidget* parent=0);
     void main_loop();
-<<<<<<< HEAD
     void facing_cursor(Basic* basic);
-=======
     void spawn_loop();
->>>>>>> main
 private:
     QTimer* loop_timer;
     QTimer* single;

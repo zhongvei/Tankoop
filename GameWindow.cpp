@@ -67,7 +67,6 @@ void GameWindow::main_loop() {
 //    float x = rect->x();
 //    float y = rect->y();
     centerOn(basic);
-<<<<<<< HEAD
     facing_cursor(basic);
 }
 
@@ -82,7 +81,6 @@ void GameWindow::facing_cursor(Basic* basic) {
     transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
     //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
     basic->setTransform(transform);
-=======
 
     QPointF tankpos;
     tankpos.setX(basic->x());
@@ -100,5 +98,4 @@ void GameWindow::spawn_loop() {
         block->setPos(rand()%1000000,rand()%1000000);
         scene->addItem(block);
     }
->>>>>>> main
 }
