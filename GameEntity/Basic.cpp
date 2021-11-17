@@ -8,19 +8,23 @@ Basic::Basic(
         // const double& bullet_speed,
         // const double& damage,
         // const int& level
+<<<<<<< HEAD
         ): Tank(50,1,50,100,1,1,0,0.6,0.6,7,1,0) {}
+=======
+        ): Tank(50,1,50,50,10,10,0,0.6,0.6,7,1) {}
+>>>>>>> main
 
 void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Left){
-        setPos(x()-10,y());
+        setPos(x()-this->get_vx(),y());
     }
-    else if (event->key() == Qt::Key_Right){
-        setPos(x()+10,y());
+    if (event->key() == Qt::Key_Right){
+        setPos(x()+this->get_vx(),y());
     }
-    else if (event->key() == Qt::Key_Up){
-        setPos(x(),y()-10);
+    if (event->key() == Qt::Key_Up){
+        setPos(x(),y()-this->get_vy());
     }
-    else if (event->key() == Qt::Key_Down){
-        setPos(x(),y()+10);
+    if (event->key() == Qt::Key_Down){
+        setPos(x(),y()+this->get_vy());
     }
 }

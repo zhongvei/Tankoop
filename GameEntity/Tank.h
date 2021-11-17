@@ -6,14 +6,14 @@
 class Tank: public GameEntity {
 public:
 
-    inline double get_attack_speed() const;
-    inline void set_attack_speed(double attack_speed);
+    double get_attack_speed() const;
+    void set_attack_speed(double attack_speed);
 
-    inline double get_bullet_speed() const;
-    inline void set_bullet_speed(double bullet_speed);
+    double get_bullet_speed() const;
+    void set_bullet_speed(double bullet_speed);
 
-    inline double get_damage() const;
-    inline void set_damage(double damage); 
+    double get_damage() const;
+    void set_damage(double damage); 
     
 private:
     double attack_speed;
