@@ -2,8 +2,9 @@
 #define TANK_H
 
 #include "GameEntity.h"
+#include <QGraphicsRectItem>
 
-class Tank: public GameEntity {
+class Tank: public GameEntity, public QGraphicsRectItem {
 public:
 
     double get_attack_speed() const;
