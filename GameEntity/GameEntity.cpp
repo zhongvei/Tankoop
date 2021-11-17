@@ -1,20 +1,22 @@
 #include "GameEntity.h"
 
-GameEntity::GameEntity(const double& health, const double& health_regen, const double& max_health,const int& size,const int& vx, const int& vy,const double& xp,const int& level):
-health(health), health_regen(health_regen), max_health(max_health), alive(alive), size(size), vx(vx), vy(vy), xp(xp), level(level) {}
+GameEntity::GameEntity(const double& health, const double& health_regen, const double& max_health,
+                       const int& size,const int& vx, const int& vy,const double& xp,const int& level) :
+                       health(health), health_regen(health_regen), max_health(max_health), alive(alive),
+                       size(size), vx(vx), vy(vy), xp(xp), level(level) {}
 
-//accessor
-double GameEntity::get_max_health() const {return max_health;}
-double GameEntity::get_health() const {return health;}
-double GameEntity::get_health_regen() const {return health_regen;}
-bool GameEntity::get_alive() const {return alive;}
-int GameEntity::get_size() const {return size;}
-int GameEntity::get_vx() const {return vx;}
-int GameEntity::get_vy() const {return vy;}
-double GameEntity::get_xp() const {return xp;}
-int GameEntity::get_level() const {return level;}
+/* The Accessor of GameEntity Obeject */
+double GameEntity::get_max_health() const { return max_health; }
+double GameEntity::get_health() const { return health; }
+double GameEntity::get_health_regen() const { return health_regen; }
+double GameEntity::get_xp() const { return xp; }
+int GameEntity::get_size() const { return size; }
+int GameEntity::get_vx() const { return vx; }
+int GameEntity::get_vy() const { return vy; }
+int GameEntity::get_level() const { return level; }
+bool GameEntity::get_alive() const { return alive; }
 
-//mutator
+/* The Mutator of GameEntity Obeject */
 void GameEntity::set_max_health(double max_health){
     this->max_health = max_health;
 }

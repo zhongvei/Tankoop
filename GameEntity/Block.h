@@ -2,8 +2,7 @@
 #define BLOCK_H
 
 #include "GameEntity.h"
-
-#include "QGraphicsRectItem"
+#include <QGraphicsRectItem>
 
 class Block : public GameEntity, public QGraphicsRectItem
 {

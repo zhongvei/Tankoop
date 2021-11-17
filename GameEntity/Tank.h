@@ -2,8 +2,9 @@
 #define TANK_H
 
 #include "GameEntity.h"
+#include <QGraphicsRectItem>
 
-class Tank: public GameEntity {
+class Tank: public GameEntity, public QGraphicsRectItem {
 public:
 
     double get_attack_speed() const;
@@ -22,13 +23,11 @@ private:
 
 protected:
     Tank(
-        const double& health, const double& health_regen, const double& max_health, 
-        const int& size, const int& vx, const int& vy,const double& xp,
-        const double& attack_speed,
-        const double& bullet_speed,
-        const double& damage,
-        const int& level
-    );
+         const double& health, const double& health_regen, const double& max_health,
+         const int& size, const int& vx, const int& vy,const double& xp,
+         const double& attack_speed, const double& bullet_speed,
+         const double& damage,const int& level
+        );
 };
 
 //make all sub classes for the tank

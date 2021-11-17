@@ -4,14 +4,8 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
-#include <QBoxLayout>
-#include <QLabel>
-#include <QProgressBar>
-#include <QWidget>
 #include <QTimer>
-#include <QMediaPlayer>
 
-#include "GameEntity/myRect.h"
 #include "GameEntity/Basic.h"
 #include "GameEntity/Block.h"
 
@@ -26,7 +20,6 @@ private:
     QTimer* loop_timer;
     QTimer* single;
     QGraphicsScene* scene;
-    MyRect* rect;
     Basic* basic;
     Block* block_arr[10];
 };
