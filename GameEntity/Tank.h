@@ -19,6 +19,7 @@ private:
     double attack_speed;
     double bullet_speed;
     double damage;
+    int skill_point;
 
 protected:
     Tank(
@@ -27,7 +28,8 @@ protected:
         const double& attack_speed,
         const double& bullet_speed,
         const double& damage,
-        const int& level
+        const int& level,
+        const int& skill_point
     );
 };
 

@@ -25,7 +25,7 @@ public:
     inline bool get_alive() const;
     inline void set_alive(bool alive);
 
-    inline int get_size() const;
+    int get_size() const;
     inline void set_size(int size);
 
     inline int get_vx() const;
