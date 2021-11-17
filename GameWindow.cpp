@@ -34,17 +34,14 @@ GameWindow::GameWindow(QWidget* parent)
     // reduce size of view (game window) to appropriate size
     setFixedSize(1200,600);
 
+    //spawn the block
     spawn_loop();
-//    MyRect* enemy = new MyRect();
-//    enemy->setRect(0,0,100,100);
-//    enemy->setPos(100,100);
-//    scene->addItem(enemy);
 
+    //create and set up the tank
     basic = new Basic();
     basic->setRect(0,0,basic->get_size(),basic->get_size());
     basic->setPos(350,250);
     scene->addItem(basic);
-
     centerOn(QPoint(100,100));
     basic->setFlag(QGraphicsItem::ItemIsFocusable);
     basic->setFocus();
@@ -54,7 +51,7 @@ GameWindow::GameWindow(QWidget* parent)
     connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
     loop_timer->start();
 
-
+    //add health bar to the tank
     health_bar->setRect(0,0,100,20);
     health_bar->setPos(100,200);
     scene->addItem(health_bar);
@@ -64,9 +61,23 @@ GameWindow::GameWindow(QWidget* parent)
 }
 
 void GameWindow::main_loop() {
-//    float x = rect->x();
-//    float y = rect->y();
+    //center the screen based on the position of the tank
     centerOn(basic);
+    //health bar as well
+    facing_cursor(basic);
+}
+
+void GameWindow::facing_cursor(Basic* basic) {
+    QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
+    double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
+    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
+
+    QTransform transform;
+    transform.translate(basic->get_size()/2,basic->get_size()/2);
+    transform.rotate(angle_in_degrees);
+    transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
+    //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
+    basic->setTransform(transform);
 
     QPointF tankpos;
     tankpos.setX(basic->x());
