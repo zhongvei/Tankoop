@@ -7,8 +7,9 @@ Tank::Tank(
         const double& attack_speed,
         const double& bullet_speed,
         const double& damage,
-        const int& level)
-        : GameEntity(health,health_regen,max_health,size,vx,vy,xp,level), attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage) {};
+        const int& level,
+        const int& skill_point):
+        GameEntity(health,health_regen,max_health,size,vx,vy,xp,level), attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage) , skill_point(skill_point) {};
 
 /* The Accessor of Tank Object */
 double Tank::get_attack_speed() const { return attack_speed;}

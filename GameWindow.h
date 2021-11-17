@@ -6,6 +6,10 @@
 
 #include <QTimer>
 
+#include <QCursor>
+#include <QPoint>
+#include "math.h"
+
 #include "GameEntity/Basic.h"
 #include "GameEntity/Block.h"
 
@@ -15,13 +19,14 @@ class GameWindow : public QGraphicsView
 public:
     GameWindow(QWidget* parent=0);
     void main_loop();
+    void facing_cursor(Basic* basic);
     void spawn_loop();
 private:
     QTimer* loop_timer;
     QTimer* single;
     QGraphicsScene* scene;
     Basic* basic;
-    Block* block_arr[10];
+//    Block* block_arr[10];
 };
 
 

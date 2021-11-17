@@ -1,9 +1,12 @@
 #ifndef BASIC_H
 #define BASIC_H
 
+#include <QGraphicsRotation>
+#include <QTransform>
+
 #include "Tank.h"
 
-class Basic: public Tank
+class Basic: public Tank, public QGraphicsRotation, public QTransform
 {
     enum class KEY{
         NONE,

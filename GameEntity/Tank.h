@@ -20,14 +20,18 @@ private:
     double attack_speed;
     double bullet_speed;
     double damage;
+    int skill_point;
 
 protected:
     Tank(
-         const double& health, const double& health_regen, const double& max_health,
-         const int& size, const int& vx, const int& vy,const double& xp,
-         const double& attack_speed, const double& bullet_speed,
-         const double& damage,const int& level
-        );
+        const double& health, const double& health_regen, const double& max_health, 
+        const int& size, const int& vx, const int& vy,const double& xp,
+        const double& attack_speed,
+        const double& bullet_speed,
+        const double& damage,
+        const int& level,
+        const int& skill_point
+    );
 };
 
 //make all sub classes for the tank
