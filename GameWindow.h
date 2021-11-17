@@ -28,7 +28,7 @@ private:
     QGraphicsScene* scene;
     MyRect* rect;
     Basic* basic;
-    Block* block_arr[10];
+//    Block* block_arr[10];
 };
 
 
