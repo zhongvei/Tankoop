@@ -7,7 +7,9 @@
 #include <QIcon>
 #include <QPointF>
 #include <QDebug>
-
+#include <QPainter>
+#include <QDir>
+#include <QApplication>
 Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
 {
@@ -43,13 +45,16 @@ GameWindow::GameWindow(QWidget* parent)
 
     basic = new Basic();
     basic->setRect(0,0,basic->get_size(),basic->get_size());
-    basic->setPos(0,0);
-//    basic->setPos(350,250);
+//    basic->setPos(0,0);
+    basic->setPos(350,250);
     scene->addItem(basic);
 
     centerOn(QPoint(100,100));
     basic->setFlag(QGraphicsItem::ItemIsFocusable);
     basic->setFocus();
+
+
+
 
     //mainloop
     loop_timer = new QTimer{this};
@@ -64,6 +69,43 @@ GameWindow::GameWindow(QWidget* parent)
     show();
 
 }
+
+
+/*
+TODO
+Find out how to draw an image on QGraphicsView
+Can get inspiration from Spanish dude code
+*/
+//https://stackoverflow.com/questions/37981512/draw-a-line-with-qpainter-using-qgraphicsview-subclass
+//void GameWindow::paintEvent(QPaintEvent *event)
+//{
+//    qDebug() << "trying to draw";
+//    QPainter painter(viewport());
+//    painter.setPen(QPen(Qt::black, 12, Qt::DashDotLine, Qt::RoundCap));
+//    painter.drawLine(150, 150, 200, 200);
+
+////    painter.setPen(Qt::blue);
+////        painter.setFont(QFont("Arial", 30));
+////        painter.drawText(100,100, "Qt");
+
+//    QPointF tankpos;
+//    tankpos.setX(basic->x());
+//    tankpos.setY(basic->y());
+//    //QPainter painter(viewport());
+////    QRectF target(10.0, 20.0, 80.0, 60.0);
+////    //QImage image(R"(D:\Desktop Files\HKUST\2021Fall\COMP 2012H\Project_with_GIT\bruh\resource\gameIcon.jpeg)");
+
+//    QString path ="D:\\Desktop Files\\HKUST\\2021Fall\\COMP 2012H\\Project_with_GIT\\bruh\\resource\\gameIcon.jpeg";
+//    QImage image(path);
+//    qDebug() <<  path;
+//    qDebug() <<  image;
+//////    QRectF source(0.0, 0.0, 670.0, 670.0);
+////    QRectF source(0.0, 0.0, 70.0, 40.0);
+////    //painter.drawImage(target, image, source);
+////    // need to be QWidget class to paint
+////    painter.drawImage(tankpos, image);
+////    painter.fillRect(0,0,200,200,1);
+//}
 
 void GameWindow::main_loop() {
 //    float x = rect->x();

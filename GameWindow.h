@@ -14,14 +14,17 @@
 #include "GameEntity/myRect.h"
 #include "GameEntity/Basic.h"
 #include "GameEntity/Block.h"
-
+// class GameWindow : public QWidget, public QGraphicsView
 class GameWindow : public QGraphicsView
 {
     Q_OBJECT
+    //using  QObject :: event;
+    //using  QGraphicsView :: paintEvent;
 public:
     GameWindow(QWidget* parent=0);
     void main_loop();
     void spawn_loop();
+    //void paintEvent(QPaintEvent *event) override;
 private:
     QTimer* loop_timer;
     QTimer* single;
