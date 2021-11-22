@@ -21,8 +21,10 @@ public:
     void main_loop();
     void facing_cursor(Basic* basic);
     void spawn_loop();
+    void spawn_enemies();
 private:
     QTimer* loop_timer;
+    QTimer* enemy_timer;
     QTimer* single;
     QGraphicsScene* scene;
     Basic* basic;

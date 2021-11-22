@@ -8,25 +8,9 @@
 
 class Basic: public Tank, public QGraphicsRotation, public QTransform
 {
-    enum class KEY{
-        NONE,
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN
-    };
 
 private:
-    double changex = 0;
-    double changey = 0;
-    KEY pressed_key_x = KEY::NONE;
-    KEY released_key_x = KEY::NONE;
-    KEY pressed_key_y = KEY::NONE;
-    KEY released_key_y = KEY::NONE;
-    void set_pressed_key_x(KEY key){ pressed_key_x = key; }
-    void set_released_key_x(KEY key){ released_key_x = key; }
-    void set_pressed_key_y(KEY key){ pressed_key_y = key; }
-    void set_released_key_y(KEY key){ released_key_y = key; }
+    bool UP, DOWN, RIGHT, LEFT;
 
 public:
     Basic(
@@ -39,12 +23,9 @@ public:
     );
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
-    double get_changex() const{ return changex/100; }
-    double get_changey() const{ return changey/100; }
-    KEY get_pressed_key_x() const{ return pressed_key_x; }
-    KEY get_released_key_x() const{ return released_key_x; }
-    KEY get_pressed_key_y() const{ return pressed_key_y; }
-    KEY get_released_key_y() const{ return released_key_y; }
+    double get_changex() const{ return this->get_vx()*((double) RIGHT - (double) LEFT)/100; }
+    double get_changey() const{ return this->get_vy()*((double) DOWN - (double) UP)/100; }
+
 };
 
 #endif // BASIC_H

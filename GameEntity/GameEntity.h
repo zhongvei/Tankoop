@@ -27,8 +27,8 @@ public:
     int get_size() const;
     void set_size(int size);
 
-    int get_vx() const;
-    int get_vy() const;
+    double get_vx() const;
+    double get_vy() const;
     void set_vx(int vx);
     void set_vy(int vy);
 

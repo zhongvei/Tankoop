@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <QIcon>
 #include <QPointF>
+#include "GameEntity/Enemy.h"
+#include <QGraphicsEllipseItem>
 
 Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
@@ -57,15 +59,42 @@ GameWindow::GameWindow(QWidget* parent)
     health_bar->setPos(100,200);
     scene->addItem(health_bar);
 
+    spawn_enemies();
+
+//    /* Enemy Spawner */
+//    enemy_timer = new QTimer{this};
+//    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
+//    enemy_timer->start(1000); //adding new enemy every 5 seconds
+
     show();
 
 }
 
 void GameWindow::main_loop() {
-    QPointF tankpos;
+
+    if(!basic->hasFocus()){
+        basic->setFocus();
+    }
+    //QPointF tankpos;
     centerOn(basic);
     //health bar as well
     facing_cursor(basic);
+
+    basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
+
+}
+
+void GameWindow::spawn_enemies(){
+    qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
+    Enemy *enemy = new Enemy(300,50); // multiple of 50
+
+    enemy->setPos(600,250); //make it random
+    enemy->setRect(0,0,enemy->get_size(),enemy->get_size());
+    //double scale = enemy->get_size() / enemy->get_range();
+    enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_scale()-1)/2);
+
+    scene->addItem(enemy);
+    scene->addItem(enemy->get_attack_area());
 }
 
 void GameWindow::facing_cursor(Basic* basic) {
@@ -85,9 +114,9 @@ void GameWindow::facing_cursor(Basic* basic) {
     tankpos.setY(basic->y());
     tankpos += QPointF(0,120);
 
+
     health_bar->setPos(tankpos);
 
-    basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
 //    QPointF pos = health_bar->mapToItem(basic, 0, 100);
 //    health_bar->setPos(pos);
 }

@@ -11,8 +11,8 @@ double GameEntity::get_health() const { return health; }
 double GameEntity::get_health_regen() const { return health_regen; }
 double GameEntity::get_xp() const { return xp; }
 int GameEntity::get_size() const { return size; }
-int GameEntity::get_vx() const { return vx; }
-int GameEntity::get_vy() const { return vy; }
+double GameEntity::get_vx() const { return vx; }
+double GameEntity::get_vy() const { return vy; }
 int GameEntity::get_level() const { return level; }
 bool GameEntity::get_alive() const { return alive; }
 

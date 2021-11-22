@@ -1,15 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>resource/background/terrain.png</file>
-        <file>resource/brand/black.png</file>
         <file>resource/brand/diep_logo.png</file>
-        <file>resource/brand/logoJeu.PNG</file>
-        <file>resource/brand/Personnage.png</file>
-        <file>resource/brand/red.png</file>
-        <file>resource/brand/schoolboybattle-icon.ico</file>
         <file>resource/brand/TANKOOP.png</file>
-        <file>resource/sounds/mainTitle.wav</file>
-        <file>resource/sounds/menuTitle.wav</file>
         <file>resource/world/deco/barrier-1.png</file>
         <file>resource/world/deco/barrier-2.png</file>
         <file>resource/world/deco/barrier-3.png</file>
@@ -59,20 +51,6 @@
         <file>resource/world/deco/tree-5.png</file>
         <file>resource/world/deco/tree-6-shadow.png</file>
         <file>resource/world/deco/tree-6.png</file>
-        <file>resource/world/config/boss-black.png</file>
-        <file>resource/world/config/boss-red.png</file>
-        <file>resource/world/config/collision.png</file>
-        <file>resource/world/config/scene-rect-bottom-right.png</file>
-        <file>resource/world/config/scene-rect-top-left.png</file>
-        <file>resource/world/config/spawn-black.png</file>
-        <file>resource/world/config/spawn-player-black.png</file>
-        <file>resource/world/config/spawn-player-red.png</file>
-        <file>resource/world/config/spawn-red.png</file>
-        <file>resource/world/base/face-outside-1.png</file>
-        <file>resource/world/base/face-outside-2.png</file>
-        <file>resource/world/base/face.png</file>
-        <file>resource/world/base/planks.png</file>
-        <file>resource/world/base/snow.png</file>
         <file>resource/world/base/path/path1.png</file>
         <file>resource/world/base/path/path2.png</file>
         <file>resource/world/base/path/path3.png</file>
@@ -136,7 +114,5 @@
         <file>resource/world/base/walls/wall-14.png</file>
         <file>resource/world/base/walls/wall-15.png</file>
         <file>resource/world/base/walls/wall-16.png</file>
-        <file>resource/bigTerrain.tmx</file>
-        <file>resource/mediumTerrain.tmx</file>
     </qresource>
 </RCC>
