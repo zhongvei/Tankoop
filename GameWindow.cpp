@@ -69,15 +69,17 @@ void GameWindow::main_loop() {
 }
 
 void GameWindow::facing_cursor(Basic* basic) {
+    //calculate degrees
     QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
     double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
+    basic->set_degree(angle_in_degrees);
+    //change tank direction
     QTransform transform;
     transform.translate(basic->get_size()/2,basic->get_size()/2);
     transform.rotate(angle_in_degrees);
     transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
-    //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
     basic->setTransform(transform);
 
     QPointF tankpos;
