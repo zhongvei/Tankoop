@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>221</width>
-    <height>249</height>
+    <height>303</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -208,6 +208,54 @@
        <string>+</string>
       </property>
      </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_9">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>201</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="level_exp_layout">
+    <item>
+     <layout class="QHBoxLayout" name="exp_layout">
+      <item>
+       <widget class="QLabel" name="exp_label">
+        <property name="text">
+         <string>exp:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="exp_value">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="level_layout">
+      <item>
+       <widget class="QLabel" name="level_label">
+        <property name="text">
+         <string>level:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="level_value">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

@@ -1,0 +1,13 @@
+release/Basic.o
+release/Block.o
+release/Bullet.o
+release/GameWindow.o
+release/Hud.o
+release/MainWindow.o
+release/Tank.o
+release/gameentity.o
+release/main.o
+release/moc_Bullet.o
+release/moc_GameWindow.o
+release/moc_Hud.o
+release/moc_MainWindow.o

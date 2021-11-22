@@ -15,7 +15,7 @@ class Hud : public QWidget
 public:
     explicit Hud(QWidget *parent = nullptr,Tank* tank = nullptr);
     ~Hud();
-    void initialize_value();
+    void update_value();
 public slots:
     void increase_max_health_clicked();
     void increase_health_regen_clicked();
