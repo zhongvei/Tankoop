@@ -72,10 +72,10 @@ GameWindow::GameWindow(QWidget* parent)
 
 void GameWindow::main_loop() {
 
-    if(!basic->hasFocus()){
-        basic->setFocus();
-    }
-    //QPointF tankpos;
+//    if(!basic->hasFocus()){
+//        basic->setFocus();
+//    }
+    //QPointF ta    nkpos;
     centerOn(basic);
     //health bar as well
     facing_cursor(basic);
