@@ -6,7 +6,7 @@
 #include <QGraphicsRotation>
 #include <QTransform>
 #include <QGraphicsEllipseItem>
-#include  <QPointF>n
+#include  <QPointF>
 
 class Enemy: public QObject, public QTransform, public Tank
 {
