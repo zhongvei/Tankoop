@@ -8,7 +8,7 @@
 #include <QGraphicsEllipseItem>
 #include "Hud.h"
 
-Basic* health_bar = new Basic();
+//Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
 {
     this->setWindowTitle("TankOOP");
@@ -56,9 +56,9 @@ GameWindow::GameWindow(QWidget* parent)
     loop_timer->start();
 
     /* Health Bar Settings */
-    health_bar->setRect(0,0,100,20);
-    health_bar->setPos(100,200);
-    scene->addItem(health_bar);
+//    health_bar->setRect(0,0,100,20);
+//    health_bar->setPos(100,200);
+//    scene->addItem(health_bar);
 
     spawn_enemies();
 
@@ -99,10 +99,11 @@ void GameWindow::spawn_enemies(){
 void GameWindow::facing_cursor(Basic* basic) {
     //calculate degrees
     QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
-    double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
+    double angle_in_radians = std::atan2((cursor_position.y()-(basic->y()+basic->get_size()/2)),(cursor_position.x()-(basic->x()+basic->get_size()/2)));
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
     basic->set_degree(angle_in_degrees);
+    basic->setFocus();
     //change tank direction
     QTransform transform;
     transform.translate(basic->get_size()/2,basic->get_size()/2);
@@ -116,7 +117,7 @@ void GameWindow::facing_cursor(Basic* basic) {
     tankpos += QPointF(0,120);
 
 
-    health_bar->setPos(tankpos);
+    //health_bar->setPos(tankpos);
 
 //    QPointF pos = health_bar->mapToItem(basic, 0, 100);
 //    health_bar->setPos(pos);

@@ -7,7 +7,7 @@
 #include "Basic.h"
 
 
-Enemy::Enemy(double attack_range, const int& size): Tank(50,1,50,size,10,10,0,0.6,0.6,7,1,0), attack_range(attack_range)
+Enemy::Enemy(double attack_range, const int& size): Tank(50,1,50,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
 {
     // const double& health, const double& health_regen, const double& max_health,
     // const int& size, const int& vx, const int& vy,const double& xp,
@@ -40,7 +40,7 @@ void Enemy::move(){
         /* Enemies spotted */
         if (typeid(*(spotted_items[i])) == typeid(Block) || typeid(*(spotted_items[i])) == typeid(Basic)){
             qDebug() << "ENEMY GOES PEW-PEW";
-            Bullet * bullet = new Bullet(*this,50,0,0,0);
+            Bullet * bullet = new Bullet(this,50,0,10,0,0);
             bullet->setPos(x()+20,y()-10);
             scene()->addItem(bullet);
             has_target = false;

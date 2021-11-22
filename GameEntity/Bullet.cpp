@@ -49,13 +49,7 @@ void Bullet::move(){
                 delete this;
                 return;
             }
-        }
 
-        /* Set The Movement of the Bullet */
-        setPos(x(),y()-10);
-        if (pos().y() + rect().height() < 0){
-            scene()->removeItem(this);
-            qDebug() << "DELETED A BULLET";
-            delete this;
-        }
+
+
 }
