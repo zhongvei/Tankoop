@@ -49,4 +49,7 @@ void Bullet::move(){
                 delete this;
                 return;
             }
+
+
+
 }

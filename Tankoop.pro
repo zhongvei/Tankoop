@@ -10,6 +10,7 @@ SOURCES += \
     GameEntity/Basic.cpp \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
+    GameEntity/Enemy.cpp \
     GameWindow.cpp \
     Hud.cpp \
     MainWindow.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     GameEntity/Basic.h \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
+    GameEntity/Enemy.h \
     GameWindow.h \
     Hud.h \
     MainWindow.h \
