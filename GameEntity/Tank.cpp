@@ -20,6 +20,6 @@ double Tank::get_degree() const { return degree; }
 
 /* The Mutator of Tank Object */
 void Tank::set_attack_speed(double attack_speed) { this->attack_speed = attack_speed; }
-void Tank::set_bullet_speed(double speed) { this->bullet_speed = bullet_speed; }
+void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
 void Tank::set_damage(double damage) { this->damage = damage; }
 void Tank::set_degree(double degree) { this->degree = degree; }

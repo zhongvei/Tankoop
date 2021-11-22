@@ -11,6 +11,7 @@ SOURCES += \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
     GameWindow.cpp \
+    Hud.cpp \
     MainWindow.cpp \
     GameEntity/Tank.cpp \
     GameEntity/gameentity.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
     GameWindow.h \
+    Hud.h \
     MainWindow.h \
     GameEntity/Tank.h \
     GameEntity/gameentity.h
@@ -34,4 +36,5 @@ HEADERS += \
 #    resources.qrc
 
 FORMS += \
+    Hud.ui \
     MainWindow.ui

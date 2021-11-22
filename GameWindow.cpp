@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <QIcon>
 #include <QPointF>
+#include "Hud.h"
 
 Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
@@ -57,6 +58,9 @@ GameWindow::GameWindow(QWidget* parent)
     health_bar->setPos(100,200);
     scene->addItem(health_bar);
 
+    Hud* hud = new Hud(nullptr,basic);
+    scene->addWidget(hud);
+
     show();
 
 }
@@ -64,6 +68,7 @@ GameWindow::GameWindow(QWidget* parent)
 void GameWindow::main_loop() {
     QPointF tankpos;
     centerOn(basic);
+//    basic->setFocus();
     //health bar as well
     facing_cursor(basic);
 }

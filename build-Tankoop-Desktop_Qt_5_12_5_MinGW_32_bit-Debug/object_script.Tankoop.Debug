@@ -1,14 +1,13 @@
-debug/qrc_resources.o
 debug/Basic.o
 debug/Block.o
 debug/Bullet.o
-debug/View.o
-debug/myRect.o
 debug/GameWindow.o
+debug/Hud.o
 debug/MainWindow.o
 debug/Tank.o
 debug/gameentity.o
 debug/main.o
-debug/moc_View.o
+debug/moc_Bullet.o
 debug/moc_GameWindow.o
+debug/moc_Hud.o
 debug/moc_MainWindow.o
