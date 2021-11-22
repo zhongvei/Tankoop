@@ -3,11 +3,12 @@
 #include <QGraphicsScene>
 #include <QList>
 #include "Block.h"
+#include <QDebug>
 
 //bullet has no health, max health, health_regen and xp
-Bullet::Bullet(Tank& tank, const double& damage, const double& degree, const int& size, const int& vx, const int& vy): tank(tank), damage(damage),degree(degree), GameEntity(0,0,0,size,vx,vy,0,0)
+Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const int& vx, const int& vy): tank(tank), damage(damage),degree(degree), GameEntity(0,0,0,size,vx,vy,0,0)
 {
-    setRect(0,0,10,10);
+    setRect(0,0,size,size);
     //this->degree = tank.get_degree();
     //setPos(x()+(tank.get_size()/2*cos(this->degree/57)),y()+(tank.get_size()/2*sin(this->degree/57)));
     QTimer * timer = new QTimer();
@@ -30,6 +31,7 @@ void Bullet::move(){
                     /* Delete the Block if the heath is less than or equal to zero */
                     if(the_block->get_health() <= 0){
                        scene()->removeItem(colliding_items[i]);
+                       tank->set_xp(tank->get_xp()+the_block->get_xp());
                        delete colliding_items[i];
                     }
 
