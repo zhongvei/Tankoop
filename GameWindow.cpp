@@ -6,6 +6,7 @@
 #include <QPointF>
 #include "GameEntity/Enemy.h"
 #include <QGraphicsEllipseItem>
+#include "Hud.h"
 
 Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
@@ -65,18 +66,16 @@ GameWindow::GameWindow(QWidget* parent)
 //    enemy_timer = new QTimer{this};
 //    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
 //    enemy_timer->start(1000); //adding new enemy every 5 seconds
+    hud = new Hud(nullptr,basic);
+    scene->addWidget(hud);
 
     show();
 
 }
 
 void GameWindow::main_loop() {
-
-//    if(!basic->hasFocus()){
-//        basic->setFocus();
-//    }
-    //QPointF ta    nkpos;
     centerOn(basic);
+//    basic->setFocus();
     //health bar as well
     facing_cursor(basic);
 
@@ -98,15 +97,17 @@ void GameWindow::spawn_enemies(){
 }
 
 void GameWindow::facing_cursor(Basic* basic) {
+    //calculate degrees
     QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
     double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
+    basic->set_degree(angle_in_degrees);
+    //change tank direction
     QTransform transform;
     transform.translate(basic->get_size()/2,basic->get_size()/2);
     transform.rotate(angle_in_degrees);
     transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
-    //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
     basic->setTransform(transform);
 
     QPointF tankpos;
@@ -119,11 +120,12 @@ void GameWindow::facing_cursor(Basic* basic) {
 
 //    QPointF pos = health_bar->mapToItem(basic, 0, 100);
 //    health_bar->setPos(pos);
+    hud->update_value();
 }
 
 void GameWindow::spawn_loop() {
     for(int i = 0; i < 10000; i++) {
-        Block* block = new Block(100,100,30,0,0,1,1,0);
+        Block* block = new Block(100,100,30,0,0,10,1,0);
 
         block->setRect(0,0,block->get_size(),block->get_size());
         block->setPos(rand()%30000,rand()%30000);

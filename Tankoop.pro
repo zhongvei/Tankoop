@@ -12,6 +12,7 @@ SOURCES += \
     GameEntity/Bullet.cpp \
     GameEntity/Enemy.cpp \
     GameWindow.cpp \
+    Hud.cpp \
     MainWindow.cpp \
     GameEntity/Tank.cpp \
     GameEntity/gameentity.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     GameEntity/Bullet.h \
     GameEntity/Enemy.h \
     GameWindow.h \
+    Hud.h \
     MainWindow.h \
     GameEntity/Tank.h \
     GameEntity/gameentity.h
@@ -32,8 +34,9 @@ HEADERS += \
 #else: unix:!android: target.path = /opt/$${TARGET}/bin
 #!isEmpty(target.path): INSTALLS += target
 
-RESOURCES += \
-    resources.qrc
+#RESOURCES += \
+#    resources.qrc
 
 FORMS += \
+    Hud.ui \
     MainWindow.ui

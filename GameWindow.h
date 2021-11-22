@@ -12,6 +12,7 @@
 
 #include "GameEntity/Basic.h"
 #include "GameEntity/Block.h"
+#include "Hud.h"
 
 class GameWindow : public QGraphicsView
 {
@@ -28,7 +29,7 @@ private:
     QTimer* single;
     QGraphicsScene* scene;
     Basic* basic;
-//    Block* block_arr[10];
+    Hud* hud;
 };
 
 
