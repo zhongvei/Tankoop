@@ -10,8 +10,10 @@ Basic::Basic(
         // const double& attack_speed,
         // const double& bullet_speed,
         // const double& damage,
-        // const int& level
-        ): Tank(50,1,50,100,10,10,0,0.6,0.6,7,1,0) {}
+        // const int& level,
+        // const int& skill_point,
+        // const double& degree
+        ): Tank(50,1,50,100,100,100,0,0.6,0.6,7,1,0,0) {}
 
 void Basic::keyPressEvent(QKeyEvent *event){
 
@@ -53,8 +55,11 @@ void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
         qDebug() << "ASJHBDHKBJASDJKHBBHKJ";
-        Bullet * bullet = new Bullet(*this,50,0,0,0);
-        bullet->setPos(x()+20,y()-10);
+        Bullet * bullet = new Bullet(*this,50,0,0,0,0);
+        bullet->set_degree(this->get_degree());
+        //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
+        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+
         scene()->addItem(bullet);
     }
 

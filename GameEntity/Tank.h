@@ -4,6 +4,8 @@
 #include "GameEntity.h"
 #include <QGraphicsRectItem>
 
+#include "math.h"
+
 class Tank: public GameEntity, public QGraphicsRectItem {
 public:
 
@@ -15,12 +17,16 @@ public:
 
     double get_damage() const;
     void set_damage(double damage); 
+
+    double get_degree() const;
+    void set_degree(double degree);
     
 private:
     double attack_speed;
     double bullet_speed;
     double damage;
     int skill_point;
+    double degree;
 
 protected:
     Tank(
@@ -30,7 +36,8 @@ protected:
         const double& bullet_speed,
         const double& damage,
         const int& level,
-        const int& skill_point
+        const int& skill_point,
+        const int& degree
     );
 };
 

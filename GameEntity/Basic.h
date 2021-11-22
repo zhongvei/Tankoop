@@ -35,7 +35,9 @@ public:
         // const double& attack_speed,
         // const double& bullet_speed,
         // const double& damage,
-        // const int& level
+        // const int& level,
+        // const int& skill_point,
+        // const double& degree
     );
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
