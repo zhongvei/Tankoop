@@ -50,6 +50,4 @@ void Bullet::move(){
                 return;
             }
 
-
-
 }

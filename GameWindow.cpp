@@ -59,7 +59,7 @@ GameWindow::GameWindow(QWidget* parent)
 //    health_bar->setPos(100,200);
 //    scene->addItem(health_bar);
 
-//    spawn_enemies();
+    spawn_enemies();
 
 //    /* Enemy Spawner */
 //    enemy_timer = new QTimer{this};
@@ -68,6 +68,8 @@ GameWindow::GameWindow(QWidget* parent)
 
     //make a new hud
     hud = new Hud(this,basic);
+//    scene->addWidget(hud);
+
 
     show();
 
@@ -98,7 +100,7 @@ void GameWindow::spawn_enemies(){
 
 void GameWindow::facing_cursor(Basic* basic) {
     //calculate degrees
-    QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
+    QPointF cursor_position = this->mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
     double angle_in_radians = std::atan2((cursor_position.y()-(basic->y()+basic->get_size()/2)),(cursor_position.x()-(basic->x()+basic->get_size()/2)));
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
