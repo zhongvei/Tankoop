@@ -12,7 +12,7 @@ public:
     Block(const double& health, const double& max_health, const int& size, const int& vx, const int& vy, const double& xp, const int&level, const double& collision_damage);
 
 private:
-    double collision_damage {};
+    double collision_damage {}; // TODO
 };
 
 #endif // BLOCK_H

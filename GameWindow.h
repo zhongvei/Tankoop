@@ -1,24 +1,18 @@
 #ifndef GAMEWINDOW_H
 #define GAMEWINDOW_H
 
-#include <QGraphicsView>
-#include <QGraphicsScene>
-
-#include <QTimer>
-
-#include <QCursor>
-//#include <QPoint>
-#include "math.h"
-
 #include "GameEntity/Basic.h"
 #include "GameEntity/Block.h"
 #include "Hud.h"
 
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QTimer>
+#include <QCursor>
+
 class GameWindow : public QGraphicsView
 {
     Q_OBJECT
-    //using  QObject :: event;
-    //using  QGraphicsView :: paintEvent;
 public:
 
     const int WINDOW_WIDTH = 2000;
@@ -39,7 +33,5 @@ private:
     Basic* basic;
     Hud* hud;
 };
-
-
 
 #endif // GAMEWINDOW_H

@@ -1,4 +1,5 @@
 #include "Tank.h"
+
 #include <QDebug>
 
 /* The Constructor of Tank Object */
@@ -11,10 +12,10 @@ Tank::Tank(
         const int& level,
         const int& skill_point,
         const int& degree):
-        GameEntity(health,health_regen,max_health,size,vx,vy,xp,level), attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
-         color(QRandomGenerator::global()->bounded(256),
-                                           QRandomGenerator::global()->bounded(256),
-                                           QRandomGenerator::global()->bounded(256))    {};
+        GameEntity(health,health_regen,max_health,size,vx,vy,xp,level),
+        attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
+        color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
+        QRandomGenerator::global()->bounded(256)) {};
 
 /* The Accessor of Tank Object */
 double Tank::get_attack_speed() const { return attack_speed;}
@@ -28,11 +29,10 @@ void Tank::advance(int step)
 {
     if (!step)
         return;
-    //qDebug("Tank Advance");
+
     QPointF healthpos;
     healthpos.setX(this->x());
     healthpos.setY(this->y());
-    //qDebug() << healthpos;
 }
 
 
@@ -50,14 +50,14 @@ void Tank::advance(int step)
 QRectF Tank::boundingRect() const
 {
 
-//    return QRectF(-40, -40, 130, 130);
+    //    return QRectF(-40, -40, 130, 130);
     return QRectF(-65, -65, 130, 130);
 }
 
 // overriding QGraphicsItem::paint(). Draws Tank instead of a Rectangle.
 void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawRect(-12.5,-12.5,60,25);
+    painter->drawRect(-12,-12,60,25);
     painter->setBrush(color);
     painter->drawEllipse(-25, -25, 50, 50);
 }

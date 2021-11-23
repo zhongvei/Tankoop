@@ -1,6 +1,7 @@
 #include "HealthBar.h"
-#include <QPointF>
 #include "Tank.h"
+
+#include <QPointF>
 #include <QDebug>
 
 HealthBar::HealthBar(Tank* tank) : tank(tank)
@@ -13,8 +14,6 @@ void HealthBar::advance(int step)
 {
     if (!step)
         return;
-
-    // qDebug("HealthBar advance");
 
     QPointF healthpos;
     healthpos.setX(this->x());

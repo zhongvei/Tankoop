@@ -19,7 +19,6 @@ private:
 signals:
     void startLocalGame(int nbPlayers, int nbViews);
     void setVisibleWidget(int i);
-
 };
 
 #endif // MAINWINDOW_H

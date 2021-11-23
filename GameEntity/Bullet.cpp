@@ -1,22 +1,17 @@
 #include "Bullet.h"
+#include "Block.h"
+#include "Enemy.h"
+
+#include <QDebug>
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QList>
-#include "Block.h"
-#include <QDebug>
-#include "Enemy.h"
 
 //bullet has no health, max health, health_regen and xp
-Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const int& vx, const int& vy): tank(tank), damage(damage),degree(degree), GameEntity(0,0,0,size,vx,vy,0,0)
+Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const int& vx, const int& vy):
+    GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank)
 {
     setRect(0,0,size,size);
-    //this->degree = tank.get_degree();
-    //setPos(x()+(tank.get_size()/2*cos(this->degree/57)),y()+(tank.get_size()/2*sin(this->degree/57)));
-//    QTimer * timer = new QTimer();
-//    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-
-//    timer->start(50);
-    //move(degree);
 }
 
 void Bullet::advance(int step)
@@ -25,7 +20,6 @@ void Bullet::advance(int step)
         return;
 
     move();
-
 }
 
 double Bullet::get_damage() const { return damage; }
@@ -79,5 +73,4 @@ void Bullet::move(){
                 delete this;
                 return;
             }
-
 }

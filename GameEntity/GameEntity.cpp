@@ -2,7 +2,7 @@
 
 GameEntity::GameEntity(const double& health, const double& health_regen, const double& max_health,
                        const int& size,const int& vx, const int& vy,const double& xp,const int& level) :
-                       health(health), health_regen(health_regen), max_health(max_health), alive(alive),
+                       max_health(max_health), health(health), health_regen(health_regen),
                        size(size), vx(vx), vy(vy), xp(xp), level(level) {}
 
 /* The Accessor of GameEntity Obeject */
@@ -14,7 +14,6 @@ int GameEntity::get_size() const { return size; }
 double GameEntity::get_vx() const { return vx; }
 double GameEntity::get_vy() const { return vy; }
 int GameEntity::get_level() const { return level; }
-bool GameEntity::get_alive() const { return alive; }
 
 /* The Mutator of GameEntity Obeject */
 void GameEntity::set_max_health(double max_health){
@@ -25,9 +24,6 @@ void GameEntity::set_health(double health) {
 }
 void GameEntity::set_health_regen(double health_regen) {
     this->health_regen = health_regen;
-}
-void GameEntity::set_alive(bool alive) {
-    this->alive = alive;
 }
 void GameEntity::set_size(int size) {
     this->size = size;

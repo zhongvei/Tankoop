@@ -2,8 +2,8 @@
 #define BULLET_H
 
 #include "Tank.h"
-#include <QObject>
 #include "GameEntity.h"
+#include <QObject>
 #include <QGraphicsRectItem>
 
 class Bullet : public QObject, public QGraphicsRectItem, public GameEntity
@@ -26,7 +26,5 @@ public slots:
 protected:
     void advance(int step) override;
 };
-
-
 
 #endif // BULLET_H

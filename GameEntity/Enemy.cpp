@@ -1,21 +1,14 @@
 #include "Enemy.h"
 #include "Bullet.h"
-#include <QGraphicsScene>
-#include <QDebug>
-#include <QTimer>
 #include "Block.h"
 #include "Basic.h"
 
+#include <QGraphicsScene>
+#include <QDebug>
+#include <QTimer>
 
 Enemy::Enemy(double attack_range, const int& size): Tank(100,1,50,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
 {
-    // const double& health, const double& health_regen, const double& max_health,
-    // const int& size, const int& vx, const int& vy,const double& xp,
-    // const double& attack_speed,
-    // const double& bullet_speed,
-    // const double& damage,
-    // const int& level
-
     scale = attack_range/size;
 
     attack_area = new QGraphicsEllipseItem(0,0,attack_range,attack_range);
@@ -33,8 +26,10 @@ double Enemy::distanceTo(QGraphicsItem * item){
     QLineF ln(pos(),item->pos());
     return ln.length();
 }
+
 int reload_finish = 0;
 bool reload = true;
+
 void Enemy::fire(){
     qDebug() << "ENEMY GOES PEW-PEW";
     reload = true;

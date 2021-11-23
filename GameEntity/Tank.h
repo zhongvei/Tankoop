@@ -1,14 +1,13 @@
 #ifndef TANK_H
 #define TANK_H
-#include <QGraphicsRectItem>
+
 #include "GameEntity.h"
+#include <QGraphicsRectItem>
 #include <QRandomGenerator>
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOption>
 #include <QtMath>
-
-#include "math.h"
 
 class Tank: public GameEntity, public QGraphicsRectItem {
 public:
@@ -60,7 +59,5 @@ protected:
     void advance(int step) override;
 
 };
-
-//make all sub classes for the tank
 
 #endif // TANK_H

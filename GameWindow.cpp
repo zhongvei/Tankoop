@@ -1,30 +1,23 @@
 #include "GameWindow.h"
-#include <QGraphicsRectItem>
 #include "GameEntity/Block.h"
+#include "GameEntity/tankgraphic.h"
+#include "GameEntity/HealthBar.h"
+#include "GameEntity/Enemy.h"
+#include "GameEntity/Bullet.h"
+#include "Hud.h"
+
 #include <cstdlib>
+
 #include <QIcon>
 #include <QPointF>
 #include <QList>
 #include <QDebug>
 #include <QPainter>
 #include <QDir>
-#include <QApplication>
-#include "GameEntity/tankgraphic.h"
-#include "GameEntity/HealthBar.h"
-
-#include <QtMath>
 #include <QtWidgets>
-//static constexpr int MouseCount = 7;
-
-//Basic* health_bar = new Basic();
-
-#include "GameEntity/Enemy.h"
+#include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
-#include "Hud.h"
-#include "GameEntity/Bullet.h"
 
-
-//Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
 {
     this->setWindowTitle("TankOOP");
@@ -57,14 +50,7 @@ GameWindow::GameWindow(QWidget* parent)
     //spawn the block
     spawn_loop();
 
-//    QOpenGLWidget *mGlWidget = new QOpenGLWidget();//QGLFormat(QGL::SampleBuffers));
-//        QSurfaceFormat format;
-//        format.setRenderableType(QSurfaceFormat::OpenGL);
-//        format.setVersion(4, 5);
-//        format.setSamples(8);
-//        mGlWidget->setFormat(format);
-//        setViewport(mGlWidget);
-
+    // Create player Tank (basic)
     basic = new Basic(this);
     basic->setRect(0,0,basic->get_size(),basic->get_size());
     basic->setPos(350,250);
@@ -73,44 +59,32 @@ GameWindow::GameWindow(QWidget* parent)
 
     /* Main Loop */
     loop_timer = new QTimer{this};
-    //connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
+    connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
     connect(loop_timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
-    //loop_timer->start();
-    loop_timer->start(1000/60);
+    loop_timer->start(1000/60); // 60 fps
+
+    /* Enemy Spawner */
+    enemy_timer = new QTimer{this};
+    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
+    enemy_timer->start(5000); //adding new enemy every 5 seconds
     spawn_enemies();
-//    /* Enemy Spawner */
-//    enemy_timer = new QTimer{this};
-//    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
-//    enemy_timer->start(5000); //adding new enemy every 5 seconds
 
-
-//    spawn_enemies();
-
+    /* Create Health Bar */
     HealthBar* health_bar = new HealthBar(basic);
     scene->addItem(health_bar);
 
-    // Tank Graphic Test
-    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-
     /* The HUD */
-    hud = new Hud(this,basic);
+    hud = new Hud(this, basic);
 
     show();
-
 }
 
 void GameWindow::main_loop() {
-    //centerOn(basic);
-//    basic->setFocus();
-    //health bar as well
-    //facing_cursor(basic);
-
-    //basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
-
+    hud->update_value();
 }
 
 void GameWindow::spawn_enemies(){
-    qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
+    //qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
     Enemy *enemy = new Enemy(300,50); // multiple of 50
 
     enemy->setPos(rand()%2000,rand()%100); //make it random

@@ -1,8 +1,8 @@
 #ifndef HEALTHBAR_H
 #define HEALTHBAR_H
 
-#include <QGraphicsRectItem>
 #include "Basic.h"
+#include <QGraphicsRectItem>
 
 class HealthBar : public QGraphicsRectItem
 {

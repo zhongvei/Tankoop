@@ -21,9 +21,6 @@ public:
     double get_health_regen() const;
     void set_health_regen(double health_regen);
 
-    bool get_alive() const;
-    void set_alive(bool alive);
-
     int get_size() const;
     void set_size(int size);
 
@@ -44,7 +41,6 @@ private:
     double health {};
     double health_regen {};
 
-    bool alive = 1;
     int size {};
     int vx{}, vy{};
     double xp{};

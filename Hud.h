@@ -1,8 +1,8 @@
 #ifndef HUD_H
 #define HUD_H
 
-#include <QWidget>
 #include "GameEntity/Tank.h"
+#include <QWidget>
 
 namespace Ui {
 class Hud;
