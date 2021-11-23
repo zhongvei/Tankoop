@@ -25,6 +25,8 @@ public:
     void facing_cursor(Basic* basic);
     void spawn_loop();
     void spawn_enemies();
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
 private:
     QTimer* loop_timer;
     QTimer* enemy_timer;

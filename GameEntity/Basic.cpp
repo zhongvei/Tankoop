@@ -34,9 +34,6 @@ void Basic::keyPressEvent(QKeyEvent *event){
     }
 
 
-
-
-
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
         qDebug() << "PEW-PEW";
@@ -58,7 +55,6 @@ double Basic::get_changex() {
          (double) LEFT - (double) DOWN||
          (double) DOWN - (double) RIGHT
          ) {
-        //return sqrt(this->get_vx() * this->get_vx() + this->get_vy() * this->get_vy())/2;
         return (this->get_vx()*((double) RIGHT - (double) LEFT)/sqrt(2))/2;
     }
     return this->get_vx()*((double) RIGHT - (double) LEFT)/2;
@@ -71,7 +67,6 @@ double Basic::get_changey() {
          (double) DOWN - (double) RIGHT
          ) {
         return (this->get_vy()*((double) DOWN - (double) UP)/sqrt(2))/2;
-        //return sqrt(this->get_vx() * this->get_vx() + this->get_vy() * this->get_vy())/2;
     }
     return this->get_vy()*((double) DOWN - (double) UP)/2;
 }
