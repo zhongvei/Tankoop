@@ -21,6 +21,8 @@
 #include "GameEntity/Enemy.h"
 #include <QGraphicsEllipseItem>
 #include "Hud.h"
+#include "GameEntity/Bullet.h"
+
 
 //Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
@@ -54,6 +56,14 @@ GameWindow::GameWindow(QWidget* parent)
 
     //spawn the block
     spawn_loop();
+
+//    QOpenGLWidget *mGlWidget = new QOpenGLWidget();//QGLFormat(QGL::SampleBuffers));
+//        QSurfaceFormat format;
+//        format.setRenderableType(QSurfaceFormat::OpenGL);
+//        format.setVersion(4, 5);
+//        format.setSamples(8);
+//        mGlWidget->setFormat(format);
+//        setViewport(mGlWidget);
 
     basic = new Basic(this);
     basic->setRect(0,0,basic->get_size(),basic->get_size());

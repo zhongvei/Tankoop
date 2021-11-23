@@ -1,6 +1,7 @@
 release/Basic.o
 release/Block.o
 release/Bullet.o
+release/HealthBar.o
 release/Enemy.o
 release/GameWindow.o
 release/Hud.o

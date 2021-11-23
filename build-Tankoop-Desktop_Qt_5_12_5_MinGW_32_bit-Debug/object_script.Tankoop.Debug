@@ -1,6 +1,7 @@
 debug/Basic.o
 debug/Block.o
 debug/Bullet.o
+debug/HealthBar.o
 debug/Enemy.o
 debug/GameWindow.o
 debug/Hud.o
