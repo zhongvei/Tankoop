@@ -59,7 +59,7 @@ GameWindow::GameWindow(QWidget* parent)
 //    health_bar->setPos(100,200);
 //    scene->addItem(health_bar);
 
-    spawn_enemies();
+//    spawn_enemies();
 
 //    /* Enemy Spawner */
 //    enemy_timer = new QTimer{this};
