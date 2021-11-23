@@ -7,7 +7,7 @@
 #include <QTimer>
 
 #include <QCursor>
-#include <QPoint>
+//#include <QPoint>
 #include "math.h"
 
 #include "GameEntity/Basic.h"

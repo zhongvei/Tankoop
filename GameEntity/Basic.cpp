@@ -39,8 +39,6 @@ void Basic::keyPressEvent(QKeyEvent *event){
         //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
         bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
-        
-
 
         scene()->addItem(bullet);
     }

@@ -60,12 +60,14 @@ GameWindow::GameWindow(QWidget* parent)
 //    health_bar->setPos(100,200);
 //    scene->addItem(health_bar);
 
-    spawn_enemies();
+    //spawn_enemies();
 
-//    /* Enemy Spawner */
-//    enemy_timer = new QTimer{this};
-//    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
-//    enemy_timer->start(1000); //adding new enemy every 5 seconds
+    /* Enemy Spawner */
+    enemy_timer = new QTimer{this};
+    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
+    enemy_timer->start(5000); //adding new enemy every 5 seconds
+
+    /* The HUD */
     hud = new Hud(nullptr,basic);
     scene->addWidget(hud);
 
@@ -87,7 +89,7 @@ void GameWindow::spawn_enemies(){
     qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
     Enemy *enemy = new Enemy(300,50); // multiple of 50
 
-    enemy->setPos(600,250); //make it random
+    enemy->setPos(rand()%2000,rand()%100); //make it random
     enemy->setRect(0,0,enemy->get_size(),enemy->get_size());
     //double scale = enemy->get_size() / enemy->get_range();
     enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_scale()-1)/2);
@@ -111,16 +113,6 @@ void GameWindow::facing_cursor(Basic* basic) {
     transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
     basic->setTransform(transform);
 
-    QPointF tankpos;
-    tankpos.setX(basic->x());
-    tankpos.setY(basic->y());
-    tankpos += QPointF(0,120);
-
-
-    //health_bar->setPos(tankpos);
-
-//    QPointF pos = health_bar->mapToItem(basic, 0, 100);
-//    health_bar->setPos(pos);
     hud->update_value();
 }
 
@@ -129,7 +121,7 @@ void GameWindow::spawn_loop() {
         Block* block = new Block(100,100,30,0,0,10,1,0);
 
         block->setRect(0,0,block->get_size(),block->get_size());
-        block->setPos(rand()%30000,rand()%30000);
+        block->setPos(rand()%9000,rand()%9000);
 
         scene->addItem(block);
     }

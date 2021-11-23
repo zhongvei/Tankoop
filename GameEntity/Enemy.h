@@ -6,7 +6,9 @@
 #include <QGraphicsRotation>
 #include <QTransform>
 #include <QGraphicsEllipseItem>
-#include  <QPointF>n
+#include <QGraphicsItem>
+#include  <QPointF>
+#include <QLineF>
 
 class Enemy: public QObject, public QTransform, public Tank
 {
@@ -23,12 +25,14 @@ public:
     QGraphicsEllipseItem* get_attack_area(){ return attack_area; }
     int get_range() const { return attack_range; }
     double get_scale() const { return scale; }
+    void fire();
+    double distanceTo(QGraphicsItem * item);
 
 public slots:
     void move();
 
 private:
-    bool has_target;
+    int num_target;
     double attack_range;
     double scale;
     QGraphicsEllipseItem *attack_area;
