@@ -33,12 +33,24 @@ double Enemy::distanceTo(QGraphicsItem * item){
     QLineF ln(pos(),item->pos());
     return ln.length();
 }
-
+int reload_finish = 0;
+bool reload = true;
 void Enemy::fire(){
     qDebug() << "ENEMY GOES PEW-PEW";
+    reload = true;
     Bullet * bullet = new Bullet(this,50,0,10,0,0);
     bullet->set_degree(this->get_degree());
     bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+
+    QTransform transform;
+    double dx = 0; double dy = 0;
+    transform.translate(dx,dy);
+    //transform.translate(basic->get_size()/2,basic->get_size()/2);
+    transform.rotate(get_degree());
+    //transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
+    transform.translate(-dx,-dy);
+    this->setTransform(transform);
+
     scene()->addItem(bullet);
 
 }
@@ -69,11 +81,19 @@ void Enemy::move(){
 
     set_degree(angle_in_degrees);
 
-    if(num_target){
+    //basic->setTransformOriginPoint(QPoi
+    if(reload){
+        reload_finish += 1;
+        if (reload_finish == 10){
+            reload = false;
+            reload_finish = 0;
+        }
+    }
+    if(num_target & !reload){
         fire();
         num_target = 0;
     }
-    else{
+    else if(!reload){
         setPos(x(),y()+5);
     }
 

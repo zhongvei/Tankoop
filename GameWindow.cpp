@@ -67,7 +67,7 @@ GameWindow::GameWindow(QWidget* parent)
     connect(loop_timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
     //loop_timer->start();
     loop_timer->start(1000/60);
-
+    spawn_enemies();
 //    /* Enemy Spawner */
 //    enemy_timer = new QTimer{this};
 //    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);

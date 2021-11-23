@@ -57,7 +57,7 @@ QRectF Tank::boundingRect() const
 // overriding QGraphicsItem::paint(). Draws Tank instead of a Rectangle.
 void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawRect(-12.5,-12.5,25,60);
+    painter->drawRect(-12.5,-12.5,60,25);
     painter->setBrush(color);
     painter->drawEllipse(-25, -25, 50, 50);
 }

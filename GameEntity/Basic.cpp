@@ -40,7 +40,7 @@ void Basic::keyPressEvent(QKeyEvent *event){
         Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
         bullet->set_degree(this->get_degree());
         //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
-        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+        bullet->setPos(x()-60+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()-60+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
 
         scene()->addItem(bullet);
@@ -100,6 +100,7 @@ void Basic::advance(int step)
     healthpos.setX(this->x());
     healthpos.setY(this->y());
     //qDebug() << healthpos;
+    setFocus();
 
 //    QPainter painter(QPaintDevice);
 //    //painter.setPen(QPen(Qt::black), 1);
@@ -116,7 +117,8 @@ void Basic::facing_cursor(Basic* basic) {
     QPointF cursor_position = parent->mapToScene(parent->mapFromGlobal(QCursor::pos()));
     double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
-    angle_in_degrees = angle_in_degrees - 90; // adjusted by -90
+    //angle_in_degrees = angle_in_degrees - 90; // adjusted by -90
+    set_degree(angle_in_degrees);
 //    qDebug() << basic->y();
 //    qDebug() << basic->x();
 //    qDebug() << cursor_position.y();
