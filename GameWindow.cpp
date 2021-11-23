@@ -74,7 +74,7 @@ GameWindow::GameWindow(QWidget* parent)
 //    health_bar->setPos(100,200);
 //    scene->addItem(health_bar);
 
-    spawn_enemies();
+//    spawn_enemies();
 
 //    health_bar->setRect(0,0,100,20);
 //    health_bar->setPos(100,200);
@@ -86,7 +86,7 @@ GameWindow::GameWindow(QWidget* parent)
 //        healthpos.setY(health_bar->y());
 //    qDebug() << basic->mapFromScene(healthpos);
 
-    health_bar->setPos(healthpos + QPointF(0,70) - basic->mapFromScene(healthpos) );
+    //health_bar->setPos(healthpos + QPointF(0,70) - basic->mapFromScene(healthpos) );
     // Tank Graphic Test
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
@@ -145,12 +145,12 @@ Can get inspiration from Spanish dude code
 //}
 
 void GameWindow::main_loop() {
-    centerOn(basic);
+    //centerOn(basic);
 //    basic->setFocus();
     //health bar as well
-    facing_cursor(basic);
+    //facing_cursor(basic);
 
-    basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
+    //basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
 
 }
 
@@ -167,33 +167,33 @@ void GameWindow::spawn_enemies(){
     scene->addItem(enemy->get_attack_area());
 }
 
-void GameWindow::facing_cursor(Basic* basic) {
-    //calculate degrees
-    QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
-    double angle_in_radians = std::atan2((cursor_position.y()-(basic->y()+basic->get_size()/2)),(cursor_position.x()-(basic->x()+basic->get_size()/2)));
-    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
+//void GameWindow::facing_cursor(Basic* basic) {
+//    //calculate degrees
+//    QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
+//    double angle_in_radians = std::atan2((cursor_position.y()-(basic->y()+basic->get_size()/2)),(cursor_position.x()-(basic->x()+basic->get_size()/2)));
+//    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
-    basic->set_degree(angle_in_degrees);
-    basic->setFocus();
-    //change tank direction
-    QTransform transform;
-    transform.translate(basic->get_size()/2,basic->get_size()/2);
-    transform.rotate(angle_in_degrees);
-    transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
-    basic->setTransform(transform);
+//    basic->set_degree(angle_in_degrees);
+//    basic->setFocus();
+//    //change tank direction
+//    QTransform transform;
+//    transform.translate(basic->get_size()/2,basic->get_size()/2);
+//    transform.rotate(angle_in_degrees);
+//    transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
+//    basic->setTransform(transform);
 
-    QPointF tankpos;
-    tankpos.setX(basic->x());
-    tankpos.setY(basic->y());
-    tankpos += QPointF(0,120);
+//    QPointF tankpos;
+//    tankpos.setX(basic->x());
+//    tankpos.setY(basic->y());
+//    tankpos += QPointF(0,120);
 
 
-    //health_bar->setPos(tankpos);
+//    //health_bar->setPos(tankpos);
 
-//    QPointF pos = health_bar->mapToItem(basic, 0, 100);
-//    health_bar->setPos(pos);
-    hud->update_value();
-}
+////    QPointF pos = health_bar->mapToItem(basic, 0, 100);
+////    health_bar->setPos(pos);
+//    hud->update_value();
+//}
 
 void GameWindow::spawn_loop() {
     for(int i = 0; i < 10000; i++) {

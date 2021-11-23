@@ -11,34 +11,8 @@
 #include "Bullet.h"
 #include <QGraphicsScene>
 
-Basic::Basic(QGraphicsView* parent
-        // const double& health, const double& health_regen, const double& max_health, 
-        // const int& size, const int& vx, const int& vy,const double& xp,
-        // const double& attack_speed,
-        // const double& bullet_speed,
-        // const double& damage,
-        // const int& level
-        
-
-
-
-
-//void Basic::keyPressEvent(QKeyEvent *event){
-//    if (event->key() == Qt::Key_Left){
-//        setPos(x()-this->get_vx(),y());
-//    }
-//    if (event->key() == Qt::Key_Right){
-//        setPos(x()+this->get_vx(),y());
-//    }
-//    if (event->key() == Qt::Key_Up){
-//        setPos(x(),y()-this->get_vy());
-//    }
-//    if (event->key() == Qt::Key_Down){
-//        setPos(x(),y()+this->get_vy());
-//    }
-//}
-        ): Tank(50,1,50,100,10,10,0,0.6,0.6,50,1,0,0), UP(false), DOWN(false), RIGHT(false), LEFT(false),
-        parent(parent) {
+Basic::Basic(QGraphicsView* parent): Tank(50,1,50,100,10,10,0,0.6,0.6,50,1,0,0),
+    UP(false), DOWN(false), RIGHT(false), LEFT(false), parent(parent) {
 }
 
 // WILSON CODE TEST : KEY PRESS AND KEY RELEASE
@@ -101,6 +75,8 @@ double Basic::get_changey() {
         return (this->get_vy()*((double) DOWN - (double) UP)/sqrt(2))/2;
         //return sqrt(this->get_vx() * this->get_vx() + this->get_vy() * this->get_vy())/2;
     }
+    return this->get_vy()*((double) DOWN - (double) UP)/2;
+}
 
 void Basic::keyReleaseEvent(QKeyEvent *event){
     switch(event->key()){
@@ -118,7 +94,7 @@ void Basic::keyReleaseEvent(QKeyEvent *event){
             break;
 
     }
-    return this->get_vy()*((double) DOWN - (double) UP)/2;
+
 }
 void Basic::advance(int step)
 {

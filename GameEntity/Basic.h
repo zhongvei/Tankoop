@@ -32,8 +32,8 @@ public:
         // const int& skill_point,
         // const double& degree
     );
-    void keyPressEvent(QKeyEvent * event);
-    void keyReleaseEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent * event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
     void facing_cursor(Basic* basic);
 //    double get_changex() const{ return changex/100; }
 //    double get_changey() const{ return changey/100; }
