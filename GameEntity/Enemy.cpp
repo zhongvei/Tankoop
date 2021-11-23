@@ -7,7 +7,7 @@
 #include "Basic.h"
 
 
-Enemy::Enemy(double attack_range, const int& size): Tank(50,1,50,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
+Enemy::Enemy(double attack_range, const int& size): Tank(100,1,50,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
 {
     // const double& health, const double& health_regen, const double& max_health,
     // const int& size, const int& vx, const int& vy,const double& xp,
@@ -28,6 +28,18 @@ Enemy::Enemy(double attack_range, const int& size): Tank(50,1,50,size,10,10,0,0.
 
     timer->start(50);
 
+}
+double Enemy::distanceTo(QGraphicsItem * item){
+    QLineF ln(pos(),item->pos());
+    return ln.length();
+}
+
+void Enemy::fire(){
+    qDebug() << "ENEMY GOES PEW-PEW";
+    Bullet * bullet = new Bullet(this,50,0,10,0,0);
+    bullet->set_degree(this->get_degree());
+    bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+    scene()->addItem(bullet);
 
 }
 
@@ -36,22 +48,32 @@ void Enemy::move(){
 
     /* Detecting the enemies */
     QList<QGraphicsItem *> spotted_items = attack_area->collidingItems();
+    double closest_dist = 300;
+    QPointF closest_pt = QPointF(0,0);
+
     for (int i = 0, n = spotted_items.size(); i < n; ++i){
         /* Enemies spotted */
         if (typeid(*(spotted_items[i])) == typeid(Block) || typeid(*(spotted_items[i])) == typeid(Basic)){
-            qDebug() << "ENEMY GOES PEW-PEW";
-            Bullet * bullet = new Bullet(this,50,0,10,0,0);
-            bullet->setPos(x()+20,y()-10);
-            scene()->addItem(bullet);
-            has_target = false;
-            break;
+            double this_dist = distanceTo(spotted_items[i]);
+            if (this_dist < closest_dist){
+                closest_dist = this_dist;
+                closest_pt = spotted_items[i]->pos();
+            }
+            num_target += 1;
         }
-        else{
-            has_target = true;
-        }
-    }
 
-    if(has_target){
+    }
+    attack_dest = closest_pt;
+    double angle_in_radians = std::atan2((attack_dest.y()-(y()+get_size()/2)),(attack_dest.x()-(x()+get_size()/2)));
+    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
+
+    set_degree(angle_in_degrees);
+
+    if(num_target){
+        fire();
+        num_target = 0;
+    }
+    else{
         setPos(x(),y()+5);
     }
 

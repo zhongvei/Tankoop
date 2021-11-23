@@ -5,6 +5,19 @@
 #include <QIcon>
 #include <QPointF>
 #include <QList>
+#include <QDebug>
+#include <QPainter>
+#include <QDir>
+#include <QApplication>
+#include "GameEntity/tankgraphic.h"
+#include "GameEntity/HealthBar.h"
+
+#include <QtMath>
+#include <QtWidgets>
+//static constexpr int MouseCount = 7;
+
+//Basic* health_bar = new Basic();
+
 #include "GameEntity/Enemy.h"
 #include <QGraphicsEllipseItem>
 #include "Hud.h"
@@ -42,8 +55,7 @@ GameWindow::GameWindow(QWidget* parent)
     //spawn the block
     spawn_loop();
 
-    //create and set up the tank
-    basic = new Basic();
+    basic = new Basic(this);
     basic->setRect(0,0,basic->get_size(),basic->get_size());
     basic->setPos(350,250);
     scene->addItem(basic);
@@ -51,37 +63,39 @@ GameWindow::GameWindow(QWidget* parent)
 
     /* Main Loop */
     loop_timer = new QTimer{this};
-    connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
-    loop_timer->start();
-
-    /* Health Bar Settings */
-//    health_bar->setRect(0,0,100,20);
-//    health_bar->setPos(100,200);
-//    scene->addItem(health_bar);
-
-//    spawn_enemies();
+    //connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
+    connect(loop_timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
+    //loop_timer->start();
+    loop_timer->start(1000/60);
 
 //    /* Enemy Spawner */
 //    enemy_timer = new QTimer{this};
 //    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
-//    enemy_timer->start(1000); //adding new enemy every 5 seconds
+//    enemy_timer->start(5000); //adding new enemy every 5 seconds
 
-    //make a new hud
+
+//    spawn_enemies();
+
+    HealthBar* health_bar = new HealthBar(basic);
+    scene->addItem(health_bar);
+
+    // Tank Graphic Test
+    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+
+    /* The HUD */
     hud = new Hud(this,basic);
-//    scene->addWidget(hud);
-
 
     show();
 
 }
 
 void GameWindow::main_loop() {
-    centerOn(basic);
+    //centerOn(basic);
+//    basic->setFocus();
     //health bar as well
-    facing_cursor(basic);
+    //facing_cursor(basic);
 
-    basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
-//    hud->check_upgrade();
+    //basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
 
 }
 
@@ -89,42 +103,13 @@ void GameWindow::spawn_enemies(){
     qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
     Enemy *enemy = new Enemy(300,50); // multiple of 50
 
-    enemy->setPos(600,250); //make it random
+    enemy->setPos(rand()%2000,rand()%100); //make it random
     enemy->setRect(0,0,enemy->get_size(),enemy->get_size());
     //double scale = enemy->get_size() / enemy->get_range();
     enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_scale()-1)/2);
 
     scene->addItem(enemy);
     scene->addItem(enemy->get_attack_area());
-}
-
-void GameWindow::facing_cursor(Basic* basic) {
-    //calculate degrees
-    QPointF cursor_position = this->mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
-    double angle_in_radians = std::atan2((cursor_position.y()-(basic->y()+basic->get_size()/2)),(cursor_position.x()-(basic->x()+basic->get_size()/2)));
-    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
-
-    basic->set_degree(angle_in_degrees);
-    //change tank direction
-    QTransform transform;
-    transform.translate(basic->get_size()/2,basic->get_size()/2);
-    transform.rotate(angle_in_degrees);
-    transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
-    basic->setTransform(transform);
-
-    QPointF tankpos;
-    tankpos.setX(basic->x());
-    tankpos.setY(basic->y());
-    tankpos += QPointF(0,120);
-
-
-    //health_bar->setPos(tankpos);
-
-//    QPointF pos = health_bar->mapToItem(basic, 0, 100);
-//    health_bar->setPos(pos);
-        hud->update_value();
-//    QPoint pos = QPoint(100,100);
-
 }
 
 void GameWindow::spawn_loop() {
@@ -151,6 +136,6 @@ void GameWindow::spawn_loop() {
     }
 }
 
-void GameWindow::mousePressEvent(QMouseEvent *event) {
+void GameWindow::mousePressEvent(QMouseEvent *event){
     basic->setFocus();
 }

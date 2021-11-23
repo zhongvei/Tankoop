@@ -4,13 +4,12 @@
 #include <QList>
 #include "Block.h"
 #include <QDebug>
+#include "Enemy.h"
 
 //bullet has no health, max health, health_regen and xp
 Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const int& vx, const int& vy): tank(tank), damage(damage),degree(degree), GameEntity(0,0,0,size,vx,vy,0,0)
 {
     setRect(0,0,size,size);
-    //this->degree = tank.get_degree();
-    //setPos(x()+(tank.get_size()/2*cos(this->degree/57)),y()+(tank.get_size()/2*sin(this->degree/57)));
     QTimer * timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
 
@@ -40,11 +39,31 @@ void Bullet::move(){
                     delete this;
                     return;
                 }
+
             }
 
             /* Set The Movement of the Bullet */
             setPos(x()+(10*cos(this->degree/57)),y()+(10*sin(this->degree/57)));
             if (pos().y() + rect().height() < 0){
+                qDebug() << "DELETED A BULLET";
+                scene()->removeItem(this);
+                delete this;
+                return;
+            }
+            if (pos().x() + rect().height() < 0){
+                qDebug() << "DELETED A BULLET";
+                scene()->removeItem(this);
+                delete this;
+                return;
+            }
+            if (pos().y() + rect().height() > 2000){
+                qDebug() << "DELETED A BULLET";
+                scene()->removeItem(this);
+                delete this;
+                return;
+            }
+            if (pos().x() + rect().height() > 2000){
+                qDebug() << "DELETED A BULLET";
                 scene()->removeItem(this);
                 delete this;
                 return;
