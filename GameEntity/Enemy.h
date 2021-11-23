@@ -7,7 +7,7 @@
 #include <QTransform>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsItem>
-#include  <QPointF>
+#include <QPointF>
 #include <QLineF>
 
 class Enemy: public QObject, public QTransform, public Tank

@@ -1,8 +1,12 @@
 #ifndef TANK_H
 #define TANK_H
-
-#include "GameEntity.h"
 #include <QGraphicsRectItem>
+#include "GameEntity.h"
+#include <QRandomGenerator>
+#include <QGraphicsScene>
+#include <QPainter>
+#include <QStyleOption>
+#include <QtMath>
 
 #include "math.h"
 
@@ -18,6 +22,10 @@ public:
     double get_damage() const;
     void set_damage(double damage); 
 
+    QRectF boundingRect() const override;
+    QPainterPath shape() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget) override;
     double get_degree() const;
     void set_degree(double degree);
     
@@ -27,6 +35,11 @@ private:
     double damage;
     int skill_point;
     double degree;
+
+    qreal angle = 0;
+    qreal speed = 0;
+    qreal mouseEyeDirection = 0;
+    QColor color;
 
 protected:
     Tank(
@@ -39,6 +52,9 @@ protected:
         const int& skill_point,
         const int& degree
     );
+
+    void advance(int step) override;
+
 };
 
 //make all sub classes for the tank

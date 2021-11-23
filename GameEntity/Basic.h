@@ -1,19 +1,28 @@
 #ifndef BASIC_H
 #define BASIC_H
 
+#include <QGraphicsRectItem>
+#include <QGraphicsScene>
 #include <QGraphicsRotation>
 #include <QTransform>
 
 #include "Tank.h"
+#include "tankgraphic.h"
+
+
+
 
 class Basic: public Tank, public QGraphicsRotation, public QTransform
 {
-
 private:
+    double changex = 0;
+    double changey = 0;
+    QGraphicsView* parent = nullptr;
+
     bool UP, DOWN, RIGHT, LEFT;
 
 public:
-    Basic(
+    Basic(QGraphicsView* parent=nullptr
         // const double& health, const double& health_regen, const double& max_health, 
         // const int& size, const int& vx, const int& vy,const double& xp,
         // const double& attack_speed,
@@ -23,11 +32,18 @@ public:
         // const int& skill_point,
         // const double& degree
     );
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
-    double get_changex() const{ return this->get_vx()*((double) RIGHT - (double) LEFT)/100; }
-    double get_changey() const{ return this->get_vy()*((double) DOWN - (double) UP)/100; }
+    void keyPressEvent(QKeyEvent * event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+    void facing_cursor(Basic* basic);
+//    double get_changex() const{ return changex/100; }
+//    double get_changey() const{ return changey/100; }
+//    double get_changex() const{ return this->get_vx()*((double) RIGHT - (double) LEFT)/2; }
+//    double get_changey() const{ return this->get_vy()*((double) DOWN - (double) UP)/2; }
+    double get_changex();
+    double get_changey();
 
+protected:
+    void advance(int step) override;
 };
 
 #endif // BASIC_H

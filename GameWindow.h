@@ -17,6 +17,8 @@
 class GameWindow : public QGraphicsView
 {
     Q_OBJECT
+    //using  QObject :: event;
+    //using  QGraphicsView :: paintEvent;
 public:
     GameWindow(QWidget* parent=0);
     void main_loop();
