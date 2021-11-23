@@ -29,8 +29,10 @@ public:
     void facing_cursor(Basic* basic);
 //    double get_changex() const{ return changex/100; }
 //    double get_changey() const{ return changey/100; }
-    double get_changex() const{ return this->get_vx()*((double) RIGHT - (double) LEFT)/2; }
-    double get_changey() const{ return this->get_vy()*((double) DOWN - (double) UP)/2; }
+//    double get_changex() const{ return this->get_vx()*((double) RIGHT - (double) LEFT)/2; }
+//    double get_changey() const{ return this->get_vy()*((double) DOWN - (double) UP)/2; }
+    double get_changex();
+    double get_changey();
 
 protected:
     void advance(int step) override;
