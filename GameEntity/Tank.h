@@ -20,13 +20,17 @@ public:
 
     double get_degree() const;
     void set_degree(double degree);
+
+    int get_skill_point() const;
+    void increase_skill_point();
+    void decrease_skill_point();
     
 private:
-    double attack_speed;
-    double bullet_speed;
-    double damage;
-    int skill_point;
-    double degree;
+    double attack_speed{};
+    double bullet_speed{};
+    double damage{};
+    int skill_point{};
+    double degree{};
 
 protected:
     Tank(

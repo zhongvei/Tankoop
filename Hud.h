@@ -24,6 +24,9 @@ public slots:
     void increase_attack_speed_clicked();
     void increase_bullet_speed_clicked();
 
+    void increase_level();
+    void update_btn_color();
+    bool check_upgrade();
 
 private:
     Ui::Hud *ui;

@@ -11,7 +11,7 @@ Basic::Basic(
         // const double& bullet_speed,
         // const double& damage,
         // const int& level
-        ): Tank(50,1,50,100,10,10,0,0.6,0.6,50,1,0,0), UP(false), DOWN(false), RIGHT(false), LEFT(false){
+        ): Tank(50,1,50,100,10,10,0,0.6,0.6,50,0,0,0), UP(false), DOWN(false), RIGHT(false), LEFT(false){
 }
 
 void Basic::keyPressEvent(QKeyEvent *event){

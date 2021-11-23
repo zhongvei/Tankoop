@@ -17,9 +17,12 @@ double Tank::get_attack_speed() const { return attack_speed;}
 double Tank::get_bullet_speed() const { return bullet_speed; }
 double Tank::get_damage() const { return damage; }
 double Tank::get_degree() const { return degree; }
+int Tank::get_skill_point() const {return skill_point;}
 
 /* The Mutator of Tank Object */
 void Tank::set_attack_speed(double attack_speed) { this->attack_speed = attack_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
 void Tank::set_damage(double damage) { this->damage = damage; }
 void Tank::set_degree(double degree) { this->degree = degree; }
+void Tank::increase_skill_point() {this->skill_point++; }
+void Tank::decrease_skill_point() {this->skill_point--; }
