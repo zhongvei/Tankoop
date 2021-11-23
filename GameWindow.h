@@ -7,7 +7,7 @@
 #include <QTimer>
 
 #include <QCursor>
-#include <QPoint>
+//#include <QPoint>
 #include "math.h"
 
 #include "GameEntity/Basic.h"
@@ -17,12 +17,20 @@
 class GameWindow : public QGraphicsView
 {
     Q_OBJECT
+    //using  QObject :: event;
+    //using  QGraphicsView :: paintEvent;
 public:
+
+    const int WINDOW_WIDTH = 2000;
+    const int WINDOW_HEIGHT = 2000;
+
     GameWindow(QWidget* parent=0);
     void main_loop();
     void facing_cursor(Basic* basic);
     void spawn_loop();
     void spawn_enemies();
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
 private:
     QTimer* loop_timer;
     QTimer* enemy_timer;
