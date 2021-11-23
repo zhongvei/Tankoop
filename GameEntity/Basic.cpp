@@ -1,14 +1,24 @@
 #include "Basic.h"
 #include <QKeyEvent>
-
-Basic::Basic(
+#include <cstdlib>
+#include <cmath>
+#include <QIcon>
+#include <QPointF>
+#include <QCursor>
+#include <QGraphicsView>
+#include <QDebug>
+#include <QWidget>
+Basic::Basic(QGraphicsView* parent
         // const double& health, const double& health_regen, const double& max_health, 
         // const int& size, const int& vx, const int& vy,const double& xp,
         // const double& attack_speed,
         // const double& bullet_speed,
         // const double& damage,
         // const int& level
-        ): Tank(50,1,50,50,10,10,0,0.6,0.6,7,1) {}
+        ): Tank(50,1,50,50,10,10,0,0.6,0.6,7,1), parent(parent) {
+
+
+}
 
 void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Left){
@@ -23,4 +33,62 @@ void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Down){
         setPos(x(),y()+this->get_vy());
     }
+}
+
+void Basic::advance(int step)
+{
+    if (!step)
+        return;
+    //qDebug("hi");
+    facing_cursor(this);
+    //qDebug("Tank Advance");
+    QPointF healthpos;
+    healthpos.setX(this->x());
+    healthpos.setY(this->y());
+    //qDebug() << healthpos;
+
+//    QPainter painter(QPaintDevice);
+//    //painter.setPen(QPen(Qt::black), 1);
+//    painter.drawRect(this->x(), this->y(), 200,200);
+
+    // IF THIS BASIC IS THE USER: THEN CENTER ON. ELSE, DONT CENTER ON
+    parent->centerOn(this);
+
+}
+
+void Basic::facing_cursor(Basic* basic) {
+    //qDebug() << parent->mapFromGlobal(QCursor::pos());
+    //qDebug() << parent->mapToScene(parent->mapFromGlobal(QCursor::pos()));
+    QPointF cursor_position = parent->mapToScene(parent->mapFromGlobal(QCursor::pos()));
+    double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
+    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
+    angle_in_degrees = angle_in_degrees - 90; // adjusted by -90
+//    qDebug() << basic->y();
+//    qDebug() << basic->x();
+//    qDebug() << cursor_position.y();
+//    qDebug() << cursor_position.x();
+//    qDebug( "angle in degrees");
+//    qDebug() << angle_in_degrees;
+
+    QTransform transform;
+    double dx = 0; double dy = 0;
+    transform.translate(dx,dy);
+    //transform.translate(basic->get_size()/2,basic->get_size()/2);
+    transform.rotate(angle_in_degrees);
+    //transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
+    transform.translate(-dx,-dy);
+    //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
+    basic->setTransform(transform);
+    //qDebug() << transform;
+
+    QPointF tankpos;
+    tankpos.setX(basic->x());
+    tankpos.setY(basic->y());
+    tankpos += QPointF(0,120);
+
+    //health_bar->setPos(tankpos);
+
+    basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
+//    QPointF pos = health_bar->mapToItem(basic, 0, 100);
+//    health_bar->setPos(pos);
 }

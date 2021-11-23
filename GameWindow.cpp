@@ -10,7 +10,15 @@
 #include <QPainter>
 #include <QDir>
 #include <QApplication>
-Basic* health_bar = new Basic();
+#include "GameEntity/tankgraphic.h"
+#include "GameEntity/HealthBar.h"
+
+#include <QtMath>
+#include <QtWidgets>
+//static constexpr int MouseCount = 7;
+
+//Basic* health_bar = new Basic();
+
 GameWindow::GameWindow(QWidget* parent)
 {
     this->setWindowTitle("TankOOP");
@@ -43,28 +51,56 @@ GameWindow::GameWindow(QWidget* parent)
 //    enemy->setPos(100,100);
 //    scene->addItem(enemy);
 
-    basic = new Basic();
+    basic = new Basic(this);
     basic->setRect(0,0,basic->get_size(),basic->get_size());
 //    basic->setPos(0,0);
     basic->setPos(350,250);
     scene->addItem(basic);
 
-    centerOn(QPoint(100,100));
+        QPoint healthpos;
+            healthpos.setX(basic->x());
+            healthpos.setY(basic->y());
+    QPointF basic_viewport_coords = mapToScene(healthpos);
+
+    //scene->addRect(basic_viewport_coords.x()-40,basic_viewport_coords.y()-40,130,130);
+//    scene->addRect(basic->shape());
+
+
+
+//    centerOn(QPoint(100,100));
     basic->setFlag(QGraphicsItem::ItemIsFocusable);
     basic->setFocus();
 
-
+    //https://doc.qt.io/qt-5/qtwidgets-graphicsview-collidingmice-example.html
 
 
     //mainloop
     loop_timer = new QTimer{this};
-    connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
-    loop_timer->start(25);
+    //connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
+    connect(loop_timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
+    loop_timer->start(1000/30);
 
 
-    health_bar->setRect(0,0,100,20);
-    health_bar->setPos(100,200);
+//    health_bar->setRect(0,0,100,20);
+//    health_bar->setPos(100,200);
+    HealthBar* health_bar = new HealthBar(basic);
+//    health_bar->setRect(0,0,100,20);
     scene->addItem(health_bar);
+//    QPointF healthpos;
+//        healthpos.setX(health_bar->x());
+//        healthpos.setY(health_bar->y());
+//    qDebug() << basic->mapFromScene(healthpos);
+
+    health_bar->setPos(healthpos + QPointF(0,70) - basic->mapFromScene(healthpos) );
+    // Tank Graphic Test
+    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+
+//    for (int i = 0; i < MouseCount; ++i) {
+//        TankGraphic *mouse = new TankGraphic;
+//        mouse->setPos(::sin((i * 6.28) / MouseCount) * 200,
+//                      ::cos((i * 6.28) / MouseCount) * 200);
+//        scene->addItem(mouse);
+//    }
 
     show();
 
@@ -110,16 +146,19 @@ Can get inspiration from Spanish dude code
 void GameWindow::main_loop() {
 //    float x = rect->x();
 //    float y = rect->y();
-    centerOn(basic);
+//    centerOn(basic); // moved to Basic.cpp
 
     QPointF tankpos;
     tankpos.setX(basic->x());
     tankpos.setY(basic->y());
-    QPointF healthpos;
-    healthpos.setX(health_bar->x());
-    healthpos.setY(health_bar->y());
-    //qDebug() << basic->mapFromScene(healthpos);
-    health_bar->setPos(healthpos + QPointF(0,120) - basic->mapFromScene(healthpos) );
+
+    // testing spinning tank
+//    QPoint healthpos;
+//    healthpos.setX(basic->x());
+//    healthpos.setY(basic->y());
+//    QPointF basic_viewport_coords = mapToScene(healthpos);
+
+//    scene->addRect(basic_viewport_coords.x()-40,basic_viewport_coords.y()-40,130,130);
 }
 
 void GameWindow::spawn_loop() {
