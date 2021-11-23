@@ -11,11 +11,20 @@ Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int
     setRect(0,0,size,size);
     //this->degree = tank.get_degree();
     //setPos(x()+(tank.get_size()/2*cos(this->degree/57)),y()+(tank.get_size()/2*sin(this->degree/57)));
-    QTimer * timer = new QTimer();
-    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+//    QTimer * timer = new QTimer();
+//    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
 
-    timer->start(50);
+//    timer->start(50);
     //move(degree);
+}
+
+void Bullet::advance(int step)
+{
+    if (!step)
+        return;
+
+    move();
+
 }
 
 double Bullet::get_damage() const { return damage; }
@@ -50,6 +59,19 @@ void Bullet::move(){
                 return;
             }
 
-
-
+            if (pos().y() - rect().height() > 2000) {
+                            scene()->removeItem(this);
+                            delete this;
+                            return;
+                        }
+                        if (pos().x() - rect().width() < 0) {
+                            scene()->removeItem(this);
+                            delete this;
+                            return;
+                        }
+                        if (pos().x() + rect().width()> 2000) {
+                            scene()->removeItem(this);
+                            delete this;
+                            return;
+                        }
 }

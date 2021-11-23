@@ -20,6 +20,8 @@
 #include "GameEntity/Enemy.h"
 #include <QGraphicsEllipseItem>
 #include "Hud.h"
+#include "GameEntity/Bullet.h"
+
 
 //Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
@@ -54,6 +56,14 @@ GameWindow::GameWindow(QWidget* parent)
     //spawn the block
     spawn_loop();
 
+//    QOpenGLWidget *mGlWidget = new QOpenGLWidget();//QGLFormat(QGL::SampleBuffers));
+//        QSurfaceFormat format;
+//        format.setRenderableType(QSurfaceFormat::OpenGL);
+//        format.setVersion(4, 5);
+//        format.setSamples(8);
+//        mGlWidget->setFormat(format);
+//        setViewport(mGlWidget);
+
     basic = new Basic(this);
     basic->setRect(0,0,basic->get_size(),basic->get_size());
 //    basic->setPos(0,0);
@@ -68,6 +78,16 @@ GameWindow::GameWindow(QWidget* parent)
     connect(loop_timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
     //loop_timer->start();
     loop_timer->start(1000/60);
+
+//    QTimer * timer = new QTimer();
+//    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+//    timer->start(50);
+////    Bullet* bullet_test = new Bullet;
+//    Bullet * bullet = new Bullet(basic,basic->get_damage(),0,10,basic->get_bullet_speed(),basic->get_bullet_speed());
+//    bullet->set_degree(basic->get_degree());
+//    //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
+//    bullet->setPos(basic->x()+(basic->get_size()/2*(1+cos(bullet->get_degree()/57))),basic->y()+(basic->get_size()/2*(1+sin(bullet->get_degree()/57))));
+//    scene->addItem(bullet);
 
     /* Health Bar Settings */
 //    health_bar->setRect(0,0,100,20);
@@ -88,7 +108,8 @@ GameWindow::GameWindow(QWidget* parent)
 
     //health_bar->setPos(healthpos + QPointF(0,70) - basic->mapFromScene(healthpos) );
     // Tank Graphic Test
-    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+    //scene->setItemIndexMethod();
+//    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
 //    for (int i = 0; i < MouseCount; ++i) {
 //        TankGraphic *mouse = new TankGraphic;
@@ -96,10 +117,10 @@ GameWindow::GameWindow(QWidget* parent)
 //                      ::cos((i * 6.28) / MouseCount) * 200);
 //        scene->addItem(mouse);
 //    }
-//    /* Enemy Spawner */
-//    enemy_timer = new QTimer{this};
-//    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
-//    enemy_timer->start(1000); //adding new enemy every 5 seconds
+    /* Enemy Spawner */
+    enemy_timer = new QTimer{this};
+    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
+    enemy_timer->start(5000); //adding new enemy every 5 seconds
     hud = new Hud(nullptr,basic);
     scene->addWidget(hud);
 
@@ -196,11 +217,11 @@ void GameWindow::spawn_enemies(){
 //}
 
 void GameWindow::spawn_loop() {
-    for(int i = 0; i < 10000; i++) {
+    for(int i = 0; i < 300; i++) {
         Block* block = new Block(100,100,30,0,0,10,1,0);
 
         block->setRect(0,0,block->get_size(),block->get_size());
-        block->setPos(rand()%30000,rand()%30000);
+        block->setPos(rand()%2000,rand()%2000);
 
         scene->addItem(block);
     }

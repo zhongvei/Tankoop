@@ -76,6 +76,20 @@ double Basic::get_changey() {
         //return sqrt(this->get_vx() * this->get_vx() + this->get_vy() * this->get_vy())/2;
     }
     return this->get_vy()*((double) DOWN - (double) UP)/2;
+
+
+//    double result = 0 ;
+//        if (this->y() > 0 && this->y() < 2000-(this->get_size())) {
+//            result = this->get_vy()*((double) DOWN - (double) UP)/100;
+//        }
+//        else if (this->y() > 0) {
+//            result = this->get_vy()*(-(double) UP)/100;
+
+//        }
+//        else {
+//            result = this->get_vy()*((double) DOWN)/100;
+//        }
+//        return result;
 }
 
 void Basic::keyReleaseEvent(QKeyEvent *event){
