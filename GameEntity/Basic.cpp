@@ -15,25 +15,66 @@ Basic::Basic(QGraphicsView* parent
         // const double& bullet_speed,
         // const double& damage,
         // const int& level
-        ): Tank(50,1,50,50,10,10,0,0.6,0.6,7,1), parent(parent) {
+        ): Tank(50,1,50,50,10,10,0,0.6,0.6,7,1),
+        UP(false), DOWN(false), RIGHT(false), LEFT(false),
+        parent(parent) {
 
 
 }
 
+//void Basic::keyPressEvent(QKeyEvent *event){
+//    if (event->key() == Qt::Key_Left){
+//        setPos(x()-this->get_vx(),y());
+//    }
+//    if (event->key() == Qt::Key_Right){
+//        setPos(x()+this->get_vx(),y());
+//    }
+//    if (event->key() == Qt::Key_Up){
+//        setPos(x(),y()-this->get_vy());
+//    }
+//    if (event->key() == Qt::Key_Down){
+//        setPos(x(),y()+this->get_vy());
+//    }
+//}
+
+// WILSON CODE TEST : KEY PRESS AND KEY RELEASE
 void Basic::keyPressEvent(QKeyEvent *event){
-    if (event->key() == Qt::Key_Left){
-        setPos(x()-this->get_vx(),y());
-    }
-    if (event->key() == Qt::Key_Right){
-        setPos(x()+this->get_vx(),y());
-    }
-    if (event->key() == Qt::Key_Up){
-        setPos(x(),y()-this->get_vy());
-    }
-    if (event->key() == Qt::Key_Down){
-        setPos(x(),y()+this->get_vy());
+    switch(event->key()){
+        case Qt::Key::Key_Up:
+            UP = true;
+            break;
+        case Qt::Key::Key_Down:
+            DOWN = true;
+            break;
+        case Qt::Key::Key_Right:
+            RIGHT = true;
+            break;
+        case Qt::Key::Key_Left:
+            LEFT = true;
+            break;
+
     }
 }
+
+void Basic::keyReleaseEvent(QKeyEvent *event){
+    switch(event->key()){
+        case Qt::Key::Key_Up:
+            UP = false;
+            break;
+        case Qt::Key::Key_Down:
+            DOWN = false;
+            break;
+        case Qt::Key::Key_Right:
+            RIGHT = false;
+            break;
+        case Qt::Key::Key_Left:
+            LEFT = false;
+            break;
+
+    }
+}
+// WILSON CODE TEST : KEY PRESS AND KEY RELEASE
+
 
 void Basic::advance(int step)
 {

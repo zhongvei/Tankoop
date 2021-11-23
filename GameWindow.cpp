@@ -78,7 +78,8 @@ GameWindow::GameWindow(QWidget* parent)
     loop_timer = new QTimer{this};
     //connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
     connect(loop_timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
-    loop_timer->start(1000/30);
+    //loop_timer->start();
+    loop_timer->start(1000/60);
 
 
 //    health_bar->setRect(0,0,100,20);
@@ -148,9 +149,9 @@ void GameWindow::main_loop() {
 //    float y = rect->y();
 //    centerOn(basic); // moved to Basic.cpp
 
-    QPointF tankpos;
-    tankpos.setX(basic->x());
-    tankpos.setY(basic->y());
+//    QPointF tankpos;
+//    tankpos.setX(basic->x());
+//    tankpos.setY(basic->y());
 
     // testing spinning tank
 //    QPoint healthpos;

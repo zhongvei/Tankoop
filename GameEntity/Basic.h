@@ -13,6 +13,8 @@ class Basic: public Tank
     double changex = 0;
     double changey = 0;
     QGraphicsView* parent = nullptr;
+
+    bool UP, DOWN, RIGHT, LEFT;
 public:
     Basic(QGraphicsView* parent=nullptr
         // const double& health, const double& health_regen, const double& max_health, 
@@ -23,9 +25,13 @@ public:
         // const int& level
     );
     void keyPressEvent(QKeyEvent * event);
+    void keyReleaseEvent(QKeyEvent *event);
     void facing_cursor(Basic* basic);
-    double get_changex() const{ return changex/100; }
-    double get_changey() const{ return changey/100; }
+//    double get_changex() const{ return changex/100; }
+//    double get_changey() const{ return changey/100; }
+    double get_changex() const{ return this->get_vx()*((double) RIGHT - (double) LEFT)/2; }
+    double get_changey() const{ return this->get_vy()*((double) DOWN - (double) UP)/2; }
+
 protected:
     void advance(int step) override;
 };
