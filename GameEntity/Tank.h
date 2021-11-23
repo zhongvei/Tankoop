@@ -8,6 +8,8 @@
 #include <QStyleOption>
 #include <QtMath>
 
+#include "math.h"
+
 class Tank: public GameEntity, public QGraphicsRectItem {
 public:
 
@@ -24,11 +26,15 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
+    double get_degree() const;
+    void set_degree(double degree);
     
 private:
     double attack_speed;
     double bullet_speed;
     double damage;
+    int skill_point;
+    double degree;
 
     qreal angle = 0;
     qreal speed = 0;
@@ -38,11 +44,13 @@ private:
 protected:
     Tank(
         const double& health, const double& health_regen, const double& max_health, 
-        const int& size, const int& vx, const int& vy,const double& xp,
+        const int& size, const double& vx, const double& vy,const double& xp,
         const double& attack_speed,
         const double& bullet_speed,
         const double& damage,
-        const int& level
+        const int& level,
+        const int& skill_point,
+        const int& degree
     );
 
     void advance(int step) override;

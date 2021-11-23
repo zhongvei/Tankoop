@@ -1,7 +1,5 @@
 #include "GameWindow.h"
 #include <QGraphicsRectItem>
-#include "GameEntity/myRect.h"
-#include "GameEntity/View.h"
 #include "GameEntity/Block.h"
 #include <cstdlib>
 #include <QIcon>
@@ -19,6 +17,11 @@
 
 //Basic* health_bar = new Basic();
 
+#include "GameEntity/Enemy.h"
+#include <QGraphicsEllipseItem>
+#include "Hud.h"
+
+//Basic* health_bar = new Basic();
 GameWindow::GameWindow(QWidget* parent)
 {
     this->setWindowTitle("TankOOP");
@@ -29,11 +32,13 @@ GameWindow::GameWindow(QWidget* parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    // set size of view (game window) and scene (entire map) as maximum to draw background
+    /* Set size of view (game window) and scene (entire map) as maximum to draw the background */
+
     setFixedSize(2000,2000);
     setSceneRect(0,0,2000,2000);
 
-    // set background color and draw background grid
+    /* Set the background color and draw the background grid */
+
     this->setStyleSheet("background:rgb(204,204,204)");
     QPen lineColor(QColor(196, 196, 196));
     for(int x = -1; x <= this->width(); x += 28){
@@ -42,45 +47,34 @@ GameWindow::GameWindow(QWidget* parent)
     for(int y = -2; y <= this->height(); y += 28){
         scene->addLine(0,y,this->width(),y,lineColor);
     }
-    // reduce size of view (game window) to appropriate size
+
+    /* reduce size of view (game window) to appropriate size */
     setFixedSize(1200,600);
 
+    //spawn the block
     spawn_loop();
-//    MyRect* enemy = new MyRect();
-//    enemy->setRect(0,0,100,100);
-//    enemy->setPos(100,100);
-//    scene->addItem(enemy);
 
     basic = new Basic(this);
     basic->setRect(0,0,basic->get_size(),basic->get_size());
 //    basic->setPos(0,0);
     basic->setPos(350,250);
     scene->addItem(basic);
-
-        QPoint healthpos;
-            healthpos.setX(basic->x());
-            healthpos.setY(basic->y());
-    QPointF basic_viewport_coords = mapToScene(healthpos);
-
-    //scene->addRect(basic_viewport_coords.x()-40,basic_viewport_coords.y()-40,130,130);
-//    scene->addRect(basic->shape());
-
-
-
-//    centerOn(QPoint(100,100));
     basic->setFlag(QGraphicsItem::ItemIsFocusable);
     basic->setFocus();
 
-    //https://doc.qt.io/qt-5/qtwidgets-graphicsview-collidingmice-example.html
-
-
-    //mainloop
+    /* Main Loop */
     loop_timer = new QTimer{this};
     //connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
     connect(loop_timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
     //loop_timer->start();
     loop_timer->start(1000/60);
 
+    /* Health Bar Settings */
+//    health_bar->setRect(0,0,100,20);
+//    health_bar->setPos(100,200);
+//    scene->addItem(health_bar);
+
+    spawn_enemies();
 
 //    health_bar->setRect(0,0,100,20);
 //    health_bar->setPos(100,200);
@@ -102,6 +96,12 @@ GameWindow::GameWindow(QWidget* parent)
 //                      ::cos((i * 6.28) / MouseCount) * 200);
 //        scene->addItem(mouse);
 //    }
+//    /* Enemy Spawner */
+//    enemy_timer = new QTimer{this};
+//    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
+//    enemy_timer->start(1000); //adding new enemy every 5 seconds
+    hud = new Hud(nullptr,basic);
+    scene->addWidget(hud);
 
     show();
 
@@ -145,28 +145,63 @@ Can get inspiration from Spanish dude code
 //}
 
 void GameWindow::main_loop() {
-//    float x = rect->x();
-//    float y = rect->y();
-//    centerOn(basic); // moved to Basic.cpp
+    centerOn(basic);
+//    basic->setFocus();
+    //health bar as well
+    facing_cursor(basic);
 
-//    QPointF tankpos;
-//    tankpos.setX(basic->x());
-//    tankpos.setY(basic->y());
+    basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
 
-    // testing spinning tank
-//    QPoint healthpos;
-//    healthpos.setX(basic->x());
-//    healthpos.setY(basic->y());
-//    QPointF basic_viewport_coords = mapToScene(healthpos);
+}
 
-//    scene->addRect(basic_viewport_coords.x()-40,basic_viewport_coords.y()-40,130,130);
+void GameWindow::spawn_enemies(){
+    qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
+    Enemy *enemy = new Enemy(300,50); // multiple of 50
+
+    enemy->setPos(600,250); //make it random
+    enemy->setRect(0,0,enemy->get_size(),enemy->get_size());
+    //double scale = enemy->get_size() / enemy->get_range();
+    enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_scale()-1)/2);
+
+    scene->addItem(enemy);
+    scene->addItem(enemy->get_attack_area());
+}
+
+void GameWindow::facing_cursor(Basic* basic) {
+    //calculate degrees
+    QPointF cursor_position = mapToScene(QWidget::mapFromGlobal(QCursor::pos()));
+    double angle_in_radians = std::atan2((cursor_position.y()-(basic->y()+basic->get_size()/2)),(cursor_position.x()-(basic->x()+basic->get_size()/2)));
+    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
+
+    basic->set_degree(angle_in_degrees);
+    basic->setFocus();
+    //change tank direction
+    QTransform transform;
+    transform.translate(basic->get_size()/2,basic->get_size()/2);
+    transform.rotate(angle_in_degrees);
+    transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
+    basic->setTransform(transform);
+
+    QPointF tankpos;
+    tankpos.setX(basic->x());
+    tankpos.setY(basic->y());
+    tankpos += QPointF(0,120);
+
+
+    //health_bar->setPos(tankpos);
+
+//    QPointF pos = health_bar->mapToItem(basic, 0, 100);
+//    health_bar->setPos(pos);
+    hud->update_value();
 }
 
 void GameWindow::spawn_loop() {
     for(int i = 0; i < 10000; i++) {
-        Block* block = new Block(100,100,30,0,0,1,1,0);
+        Block* block = new Block(100,100,30,0,0,10,1,0);
+
         block->setRect(0,0,block->get_size(),block->get_size());
-        block->setPos(rand()%1000000,rand()%1000000);
+        block->setPos(rand()%30000,rand()%30000);
+
         scene->addItem(block);
     }
 }

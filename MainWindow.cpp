@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 }
 
 void MainWindow::startGame() {
-    //QGraphicsView gameWindow;
     GameWindow* gameWindow = new GameWindow();
     gameWindow->setAttribute(Qt::WA_DeleteOnClose);
 

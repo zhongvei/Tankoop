@@ -3,18 +3,24 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
+#include <QGraphicsRotation>
+#include <QTransform>
 
 #include "Tank.h"
 #include "tankgraphic.h"
-class Basic: public Tank
-//class Basic: public Tank, public TankGraphic
-//class Basic: public TankGraphic
+
+
+
+
+class Basic: public Tank, public QGraphicsRotation, public QTransform
 {
+private:
     double changex = 0;
     double changey = 0;
     QGraphicsView* parent = nullptr;
 
     bool UP, DOWN, RIGHT, LEFT;
+
 public:
     Basic(QGraphicsView* parent=nullptr
         // const double& health, const double& health_regen, const double& max_health, 
@@ -22,7 +28,9 @@ public:
         // const double& attack_speed,
         // const double& bullet_speed,
         // const double& damage,
-        // const int& level
+        // const int& level,
+        // const int& skill_point,
+        // const double& degree
     );
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent *event);

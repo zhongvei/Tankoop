@@ -53,7 +53,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/resource/brand/TANKOOP.png</pixmap>
+     <pixmap resource="../../TankOOP/Resources.qrc">:/resource/brand/TANKOOP.png</pixmap>
     </property>
    </widget>
    <widget class="QPushButton" name="quit_button">
@@ -82,7 +82,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/resource/brand/diep_logo.png</pixmap>
+     <pixmap resource="../../TankOOP/Resources.qrc">:/resource/brand/diep_logo.png</pixmap>
     </property>
    </widget>
   </widget>
@@ -98,8 +98,6 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

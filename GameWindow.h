@@ -4,17 +4,16 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
-#include <QBoxLayout>
-#include <QLabel>
-#include <QProgressBar>
-#include <QWidget>
 #include <QTimer>
-#include <QMediaPlayer>
 
-#include "GameEntity/myRect.h"
+#include <QCursor>
+#include <QPoint>
+#include "math.h"
+
 #include "GameEntity/Basic.h"
 #include "GameEntity/Block.h"
-// class GameWindow : public QWidget, public QGraphicsView
+#include "Hud.h"
+
 class GameWindow : public QGraphicsView
 {
     Q_OBJECT
@@ -23,15 +22,16 @@ class GameWindow : public QGraphicsView
 public:
     GameWindow(QWidget* parent=0);
     void main_loop();
+    void facing_cursor(Basic* basic);
     void spawn_loop();
-    //void paintEvent(QPaintEvent *event) override;
+    void spawn_enemies();
 private:
     QTimer* loop_timer;
+    QTimer* enemy_timer;
     QTimer* single;
     QGraphicsScene* scene;
-    MyRect* rect;
     Basic* basic;
-    Block* block_arr[10];
+    Hud* hud;
 };
 
 

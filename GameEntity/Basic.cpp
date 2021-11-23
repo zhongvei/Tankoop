@@ -8,6 +8,9 @@
 #include <QGraphicsView>
 #include <QDebug>
 #include <QWidget>
+#include "Bullet.h"
+#include <QGraphicsScene>
+
 Basic::Basic(QGraphicsView* parent
         // const double& health, const double& health_regen, const double& max_health, 
         // const int& size, const int& vx, const int& vy,const double& xp,
@@ -15,12 +18,10 @@ Basic::Basic(QGraphicsView* parent
         // const double& bullet_speed,
         // const double& damage,
         // const int& level
-        ): Tank(50,1,50,50,10,10,0,0.6,0.6,7,1),
-        UP(false), DOWN(false), RIGHT(false), LEFT(false),
-        parent(parent) {
+        
 
 
-}
+
 
 //void Basic::keyPressEvent(QKeyEvent *event){
 //    if (event->key() == Qt::Key_Left){
@@ -36,6 +37,9 @@ Basic::Basic(QGraphicsView* parent
 //        setPos(x(),y()+this->get_vy());
 //    }
 //}
+        ): Tank(50,1,50,100,10,10,0,0.6,0.6,50,1,0,0), UP(false), DOWN(false), RIGHT(false), LEFT(false),
+        parent(parent) {
+}
 
 // WILSON CODE TEST : KEY PRESS AND KEY RELEASE
 void Basic::keyPressEvent(QKeyEvent *event){
@@ -54,26 +58,27 @@ void Basic::keyPressEvent(QKeyEvent *event){
             break;
 
     }
-}
 
-void Basic::keyReleaseEvent(QKeyEvent *event){
-    switch(event->key()){
-        case Qt::Key::Key_Up:
-            UP = false;
-            break;
-        case Qt::Key::Key_Down:
-            DOWN = false;
-            break;
-        case Qt::Key::Key_Right:
-            RIGHT = false;
-            break;
-        case Qt::Key::Key_Left:
-            LEFT = false;
-            break;
 
+
+
+
+    if (event->key() == Qt::Key_Space){
+        /* Create a bullet */
+        qDebug() << "PEW-PEW";
+        Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+        bullet->set_degree(this->get_degree());
+        //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
+        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+
+        
+
+
+        scene()->addItem(bullet);
     }
+
 }
-// WILSON CODE TEST : KEY PRESS AND KEY RELEASE
+
 
 double Basic::get_changex() {
     if ( (double) RIGHT - (double) UP ||
@@ -95,6 +100,23 @@ double Basic::get_changey() {
          ) {
         return (this->get_vy()*((double) DOWN - (double) UP)/sqrt(2))/2;
         //return sqrt(this->get_vx() * this->get_vx() + this->get_vy() * this->get_vy())/2;
+    }
+
+void Basic::keyReleaseEvent(QKeyEvent *event){
+    switch(event->key()){
+        case Qt::Key::Key_Up:
+            UP = false;
+            break;
+        case Qt::Key::Key_Down:
+            DOWN = false;
+            break;
+        case Qt::Key::Key_Right:
+            RIGHT = false;
+            break;
+        case Qt::Key::Key_Left:
+            LEFT = false;
+            break;
+
     }
     return this->get_vy()*((double) DOWN - (double) UP)/2;
 }
