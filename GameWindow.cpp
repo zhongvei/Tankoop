@@ -75,7 +75,7 @@ GameWindow::GameWindow(QWidget* parent)
     spawn_loop();
 
     // Tank Graphic Test
-    //scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+//    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
     /* The HUD */
     hud = new Hud(this, basic);
