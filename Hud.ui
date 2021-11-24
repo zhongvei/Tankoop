@@ -9,13 +9,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>224</width>
-    <height>389</height>
+    <width>374</width>
+    <height>370</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <family>MV Boli</family>
+    <family>Arial</family>
    </font>
   </property>
   <property name="focusPolicy">
@@ -135,7 +135,7 @@
      <x>10</x>
      <y>130</y>
      <width>201</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="movement_speed_layout">
@@ -307,12 +307,38 @@
     <rect>
      <x>0</x>
      <y>250</y>
-     <width>231</width>
+     <width>211</width>
      <height>21</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>0</y>
+     <width>20</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="show_hud_btn">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>10</y>
+     <width>75</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;&lt;&lt;</string>
    </property>
   </widget>
  </widget>

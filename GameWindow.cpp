@@ -55,9 +55,6 @@ GameWindow::GameWindow(QWidget* parent)
     scene->addItem(basic);
     basic->setFlag(QGraphicsItem::ItemIsFocusable);
 
-    //spawn the block
-    spawn_loop();
-
     /* Main Loop */
     loop_timer = new QTimer{this};
     connect(loop_timer, &QTimer::timeout, this, &GameWindow::main_loop);
@@ -74,6 +71,9 @@ GameWindow::GameWindow(QWidget* parent)
     HealthBar* health_bar = new HealthBar(basic);
     scene->addItem(health_bar);
 
+    //spawn the block
+    spawn_loop();
+
     // Tank Graphic Test
     //scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
@@ -85,7 +85,7 @@ GameWindow::GameWindow(QWidget* parent)
 
 void GameWindow::main_loop() {            
     if(!game_over()){
-//        basic->check_collision();
+        basic->check_collision();
         hud->update_value();
     } else {
         hud->hide();
@@ -139,9 +139,6 @@ void GameWindow::spawn_loop() {
     }
 }
 
-void GameWindow::mousePressEvent(QMouseEvent *event){
-    basic->setFocus();
-}
 
 bool GameWindow::game_over() {
     if(basic->get_health() <= 0) {
