@@ -10,7 +10,7 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-Basic::Basic(QGraphicsView* parent): Tank(300,1,50,100,10,10,0,0.6,0.6,50,1,0,0),
+Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.6,0.6,50,1,0,0),
     parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
 }
 
