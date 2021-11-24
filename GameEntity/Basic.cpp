@@ -36,7 +36,7 @@ void Basic::keyPressEvent(QKeyEvent *event){
         Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
         bullet->set_degree(this->get_degree());
         //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
-        bullet->setPos(x()-60+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()-60+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
         scene()->addItem(bullet);
     }
@@ -49,6 +49,23 @@ double Basic::get_changex() {
          (double) UP - (double) LEFT  ||
          (double) LEFT - (double) DOWN||
          (double) DOWN - (double) RIGHT;
+
+    double result = 0 ;
+    if (this->x() > 0 && this->x() < 2000-(this->get_size())) {
+        if (diagonalMovement) {
+            return (this->get_vx() * ((double)RIGHT - (double)LEFT) / sqrt(2)) / 2;
+        }
+        else {
+            return this->get_vx() * ((double)RIGHT - (double)LEFT) / 2;
+        }
+    }
+    else if (this->x() > 0) {
+        result = this->get_vx()*(-(double) LEFT)/2;
+    }
+    else {
+        result = this->get_vx()*((double) RIGHT)/2;
+    }
+    return result;
 
     double result = 0 ;
     if (this->x() > 0 && this->x() < 2000-(this->get_size())) {
@@ -131,17 +148,18 @@ void Basic::advance(int step)
 
 void Basic::facing_cursor(Basic* basic) {
     QPointF cursor_position = parent->mapToScene(parent->mapFromGlobal(QCursor::pos()));
-    double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
+
+    double angle_in_radians = std::atan2((cursor_position.y()-(basic->y()+basic->get_size()/2)),(cursor_position.x()-(basic->x()+basic->get_size()/2)));
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
     set_degree(angle_in_degrees);
 
     QTransform transform;
-    double dx = 0; double dy = 0;
-    transform.translate(dx,dy);
-    //transform.translate(basic->get_size()/2,basic->get_size()/2);
+//    double dx = 0; double dy = 0;
+//    transform.translate(dx,dy);
+    transform.translate(basic->get_size()/2,basic->get_size()/2);
     transform.rotate(angle_in_degrees);
-    //transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
-    transform.translate(-dx,-dy);
+    transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
+//    transform.translate(-dx,-dy);
     //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
     basic->setTransform(transform);
 

@@ -7,11 +7,11 @@
 #include <QDebug>
 #include <QTimer>
 
-Enemy::Enemy(double attack_range, const int& size): Tank(100,1,50,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
+Enemy::Enemy(double attack_range, const int& size): Tank(100,1,50,100,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
 {
     scale = attack_range/size;
 
-    attack_area = new QGraphicsEllipseItem(0,0,attack_range,attack_range);
+    attack_area = new QGraphicsEllipseItem(attack_range/2, attack_range/2,attack_range,attack_range);
     attack_area->setStartAngle(90*16);
     attack_area->setPos(x() - get_size() * (get_scale()-1)/2, y() - get_size() * (get_scale()-1)/2);
 
@@ -38,12 +38,12 @@ void Enemy::fire(){
     bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
     QTransform transform;
-    double dx = 0; double dy = 0;
-    transform.translate(dx,dy);
-    //transform.translate(basic->get_size()/2,basic->get_size()/2);
+    //double dx = 0; double dy = 0;
+    //transform.translate(dx,dy);
+    transform.translate(this->get_size()/2,this->get_size()/2);
     transform.rotate(get_degree());
-    //transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
-    transform.translate(-dx,-dy);
+    transform.translate(-(this->get_size()/2),-(this->get_size()/2));
+    //transform.translate(-dx,-dy);
     this->setTransform(transform);
 
     scene()->addItem(bullet);
@@ -71,6 +71,7 @@ void Enemy::move(){
 
     }
     attack_dest = closest_pt;
+    //not accurate shots
     double angle_in_radians = std::atan2((attack_dest.y()-(y()+get_size()/2)),(attack_dest.x()-(x()+get_size()/2)));
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
