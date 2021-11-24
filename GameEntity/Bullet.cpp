@@ -9,7 +9,7 @@
 #include <QList>
 
 //bullet has no health, max health, health_regen and xp
-Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const int& vx, const int& vy):
+Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy):
     GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank)
 {
     setRect(0,0,size,size);
@@ -62,7 +62,7 @@ void Bullet::move(){
             }
 
             /* Set The Movement of the Bullet */
-            setPos(x()+(10*cos(this->degree/57)),y()+(10*sin(this->degree/57)));
+            setPos(x()+(this->get_vx()*10*cos(this->degree/57)),y()+(this->get_vy()*10*sin(this->degree/57)));
             if (pos().y() + rect().height() < 0){
                 qDebug() << "DELETED A BULLET";
                 scene()->removeItem(this);
