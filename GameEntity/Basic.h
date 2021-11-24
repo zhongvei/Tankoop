@@ -1,4 +1,4 @@
-#ifndef BASIC_H
+ #ifndef BASIC_H
 #define BASIC_H
 
 #include "Tank.h"
@@ -19,6 +19,7 @@ private:
     bool UP, DOWN, RIGHT, LEFT;
 
 public:
+
     Basic(QGraphicsView* parent=nullptr);
     void keyPressEvent(QKeyEvent * event) override;
     void keyReleaseEvent(QKeyEvent *event) override;

@@ -1,4 +1,5 @@
 #include "Tank.h"
+#include "Block.h"
 
 #include <QDebug>
 
@@ -27,7 +28,7 @@ int Tank::get_skill_point() const {return skill_point;}
 
 void Tank::advance(int step)
 {
-    if (!step)
+    if (!step)      
         return;
 
     QPointF healthpos;
@@ -50,16 +51,18 @@ void Tank::advance(int step)
 QRectF Tank::boundingRect() const
 {
 
-    //    return QRectF(-40, -40, 130, 130);
-    return QRectF(-65, -65, 130, 130);
+//    return QRectF(-40, -40, 130, 130);
+    return QRectF(0, 0, this->get_size(), this->get_size());
 }
 
 // overriding QGraphicsItem::paint(). Draws Tank instead of a Rectangle.
 void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawRect(-12,-12,60,25);
+    //painter->drawRect(-12.5,-12.5,60,25);
+    painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
     painter->setBrush(color);
-    painter->drawEllipse(-25, -25, 50, 50);
+    //painter->drawEllipse(-25, -25, 50, 50);
+    painter->drawEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
 }
 
 /* Reimplementing ::shape()
@@ -70,10 +73,33 @@ QPainterPath Tank::shape() const
 {
     QPainterPath path;
     // Currently shape is just a small square. Change code if necessary for better collision detection.
-    path.addRect(-40, -40, 80, 80);
+    path.addEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
 //    path.addRect(-40, -40, 130, 130);
     return path;
 }
+
+//implementing the collision function
+void Tank::check_collision() {
+    QList<QGraphicsItem *> list = this->collidingItems();
+    for(int i = 0; i < list.size();i++) {
+        if((typeid(*list[i]) == typeid(Block))){
+            qDebug()<<"HIT A BLOCK";
+            delete list[i];
+            this->set_health(this->get_health()-7);
+            this->set_xp(this->get_xp() + 7);
+        }
+    }
+}
+
+void Tank::increase_level() {
+    if((this->get_xp()/100 > this->get_level())) {
+       this->set_level(this->get_level() + 1);
+       this->increase_total_skill_point();
+       this->increase_skill_point();
+       qDebug()<<"INCREASED LEVEL BY 1";
+    }
+}
+
 /* The Mutator of Tank Object */
 void Tank::set_attack_speed(double attack_speed) { this->attack_speed = attack_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
@@ -81,3 +107,6 @@ void Tank::set_damage(double damage) { this->damage = damage; }
 void Tank::set_degree(double degree) { this->degree = degree; }
 void Tank::increase_skill_point() {this->skill_point++; }
 void Tank::decrease_skill_point() {this->skill_point--; }
+int Tank::get_total_skill_point() const {return this->total_skill_point;}
+void Tank::increase_total_skill_point() {this->total_skill_point++;}
+

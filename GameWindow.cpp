@@ -17,6 +17,7 @@
 #include <QtWidgets>
 #include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
+#include <QMessageBox>
 
 GameWindow::GameWindow(QWidget* parent)
 {
@@ -64,14 +65,17 @@ GameWindow::GameWindow(QWidget* parent)
     loop_timer->start(1000/60); // 60 fps
 
     /* Enemy Spawner */
-    enemy_timer = new QTimer{this};
-    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
-    enemy_timer->start(5000); //adding new enemy every 5 seconds
+//    enemy_timer = new QTimer{this};
+//    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
+//    enemy_timer->start(5000); //adding new enemy every 5 seconds
     spawn_enemies();
 
     /* Create Health Bar */
     HealthBar* health_bar = new HealthBar(basic);
     scene->addItem(health_bar);
+
+    // Tank Graphic Test
+    //scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
     /* The HUD */
     hud = new Hud(this, basic);
@@ -79,29 +83,48 @@ GameWindow::GameWindow(QWidget* parent)
     show();
 }
 
-void GameWindow::main_loop() {
-    hud->update_value();
+void GameWindow::main_loop() {            
+    if(!game_over()){
+        basic->check_collision();
+        hud->update_value();
+    } else {
+        hud->hide();
+        loop_timer->stop();
+        QMessageBox* msg_box = new QMessageBox(this);
+        msg_box->setText("GAMEOVER!");
+        msg_box->show();
+    }
 }
 
 void GameWindow::spawn_enemies(){
-    //qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
-    Enemy *enemy = new Enemy(300,50); // multiple of 50
+    qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
+    Enemy *enemy = new Enemy(500,100); // multiple of 50
 
-    enemy->setPos(rand()%2000,rand()%100); //make it random
+    enemy->setPos(600,250); //make it random
     enemy->setRect(0,0,enemy->get_size(),enemy->get_size());
     //double scale = enemy->get_size() / enemy->get_range();
-    enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_scale()-1)/2);
+    enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_attack_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_attack_scale()-1)/2);
+    enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
 
     scene->addItem(enemy);
     scene->addItem(enemy->get_attack_area());
+    scene->addItem(enemy->get_sight_area());
 }
 
 void GameWindow::spawn_loop() {
     for(int number = 0; number < 300; number++) {
         Block* block = new Block(100,100,30,0,0,10,1,0);
         block->setRect(0,0,block->get_size(),block->get_size());
+        //block->setPos(rand()%GameWindow::WINDOW_WIDTH,rand()%GameWindow::WINDOW_HEIGHT);
         block->setPos(rand()%GameWindow::WINDOW_WIDTH,rand()%GameWindow::WINDOW_HEIGHT);
-        block->setRotation(rand()%360);
+        //block->setRotation(rand()%360);
+        //
+        QTransform transform;
+        transform.translate(block->get_size()/2,block->get_size()/2);
+        transform.rotate(rand()%360);
+        transform.translate(-(block->get_size()/2),-(block->get_size()/2));
+        block->setTransform(transform);
+        //
         block->setBrush(Qt::red);
         scene->addItem(block);
         QList<QGraphicsItem *> list = block->collidingItems();
@@ -122,4 +145,12 @@ void GameWindow::spawn_loop() {
 
 void GameWindow::mousePressEvent(QMouseEvent *event){
     basic->setFocus();
+}
+
+bool GameWindow::game_over() {
+    if(basic->get_health() <= 0) {
+        qDebug()<<"gameover";
+        return true;
+    }
+    return false;
 }

@@ -18,6 +18,9 @@
     <family>MV Boli</family>
    </font>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::ClickFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -25,7 +28,7 @@
    <double>0.500000000000000</double>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
