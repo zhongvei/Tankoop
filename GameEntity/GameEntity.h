@@ -26,8 +26,8 @@ public:
 
     double get_vx() const;
     double get_vy() const;
-    void set_vx(int vx);
-    void set_vy(int vy);
+    void set_vx(double vx);
+    void set_vy(double vy);
 
     double get_xp() const;
     void set_xp(double xp);
@@ -42,14 +42,14 @@ private:
     double health_regen {};
 
     int size {};
-    int vx{}, vy{};
+    double vx{}, vy{};
     double xp{};
     int level{};
 
 
 protected:
     GameEntity(const double& health, const double& health_regen, const double& max_health, const int& size,
-               const int& vx, const int& vy,const double& xp,const int& level);
+               const double& vx, const double& vy,const double& xp,const int& level);
 
 };
 

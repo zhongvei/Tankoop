@@ -9,13 +9,13 @@
 #include <QList>
 
 //bullet has no health, max health, health_regen and xp
-Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const int& vx, const int& vy):
+Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy):
     GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank)
 {
     setRect(0,0,size,size);
     QTimer* timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-    timer->start(50);
+    timer->start(1000/60);
 }
 
 
@@ -58,11 +58,21 @@ void Bullet::move(){
                     delete this;
                     return;
                 }
+                else if (typeid(*(colliding_items[i])) == typeid(Basic) && typeid(*tank) == typeid(Enemy)){
+                    /* Removing both the bullet and the block from the screen when colliding */
+                    Basic *player = dynamic_cast<Basic*>(colliding_items[i]);
+                    player->set_health(player->get_health()-get_damage());
+                    qDebug()<<"HIT THE PLAYER";
+                    /* Deleting both the Bullet */
+                    scene()->removeItem(this);
+                    delete this;
+                    return;
+                }
 
             }
 
             /* Set The Movement of the Bullet */
-            setPos(x()+(10*cos(this->degree/57)),y()+(10*sin(this->degree/57)));
+            setPos(x()+(this->get_vx()*10*cos(this->degree/57)),y()+(this->get_vy()*10*sin(this->degree/57)));
             if (pos().y() + rect().height() < 0){
                 qDebug() << "DELETED A BULLET";
                 scene()->removeItem(this);

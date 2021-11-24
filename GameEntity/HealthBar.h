@@ -7,9 +7,11 @@
 class HealthBar : public QGraphicsRectItem
 {
 Tank* tank = nullptr;
+QGraphicsRectItem* healthPercentageRect;
+QGraphicsScene* scene;
 
 public:
-    HealthBar(Tank* tank);
+    HealthBar(Tank* tank, QGraphicsScene* scene);
 protected:
     void advance(int step) override;
 };

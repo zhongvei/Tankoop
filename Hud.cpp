@@ -17,8 +17,10 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     tank(tank)
 {
     ui->setupUi(this);
-//    this->setStyleSheet("background:rgba(52, 41, 255, 0.8)");
+    shown = true;
     update_value();
+
+    this->setStyleSheet("background-color:white;");
 
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
     connect(ui->increase_health_regen_btn,SIGNAL(clicked()),this,SLOT(increase_health_regen_clicked()));
@@ -26,7 +28,7 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     connect(ui->increase_attack_speed_btn,SIGNAL(clicked()),this,SLOT(increase_attack_speed_clicked()));
     connect(ui->increase_movement_speed_btn,SIGNAL(clicked()),this,SLOT(increase_movement_speed_clicked()));
     connect(ui->increase_bullet_speed_btn,SIGNAL(clicked()),this,SLOT(increase_bullet_speed_clicked()));
-
+    connect(ui->show_hud_btn,SIGNAL(clicked()),this,SLOT(show_hud_cicked()));
 
 }
 
@@ -120,6 +122,20 @@ void Hud::update_btn_color(){
         ui->increase_health_regen_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_max_health_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_movement_speed_btn->setStyleSheet(UPGRADE_DISABLE);
+    }
+}
+
+void Hud::show_hud_cicked() {
+    if(shown) {
+        ui->show_hud_btn->setText(">>>");
+        this->move(-220,0);
+        tank->setFocus();
+        shown = false;
+    } else {
+        ui->show_hud_btn->setText("<<<");
+        this->move(0,0);
+        tank->setFocus();
+        shown = true;
     }
 }
 

@@ -23,11 +23,12 @@ public slots:
     void increase_movement_speed_clicked();
     void increase_attack_speed_clicked();
     void increase_bullet_speed_clicked();
-
     void update_btn_color();
     bool check_upgrade();
+    void show_hud_cicked();
 
 private:
+    bool shown;
     Ui::Hud *ui;
     Tank* tank;
 };

@@ -10,7 +10,7 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-Basic::Basic(QGraphicsView* parent): Tank(50,1,50,100,10,10,0,0.6,0.6,50,1,0,0),
+Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.6,0.6,50,1,0,0),
     parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
 }
 
@@ -33,6 +33,7 @@ void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
         qDebug() << "PEW-PEW";
+        qDebug() << get_bullet_speed();
         Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
         bullet->set_degree(this->get_degree());
         //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));

@@ -18,7 +18,6 @@ SOURCES += \
     GameEntity/Tank.cpp \
     GameEntity/gameentity.cpp \
     main.cpp \
-    #GameEntity/tankgraphic.cpp
 
 HEADERS += \
     GameEntity/Basic.h \
@@ -31,16 +30,14 @@ HEADERS += \
     MainWindow.h \
     GameEntity/Tank.h \
     GameEntity/gameentity.h \
-    #GameEntity/tankgraphic.h
 
 ## Default rules for deployment.
 #qnx: target.path = /tmp/$${TARGET}/bin
 #else: unix:!android: target.path = /opt/$${TARGET}/bin
 #!isEmpty(target.path): INSTALLS += target
 
-#RESOURCES += \
-#    resources.qrc
 
 FORMS += \
     Hud.ui \
     MainWindow.ui
+
