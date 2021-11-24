@@ -32,6 +32,8 @@ public:
     int get_skill_point() const;
     void increase_skill_point();
     void decrease_skill_point();
+
+    virtual void dummy(){}
     
 private:
     double attack_speed{};
