@@ -32,13 +32,18 @@ public:
     void increase_skill_point();
     void decrease_skill_point();
 
+    int get_total_skill_point() const;
+    void increase_total_skill_point();
+
     void check_collision();
+    void increase_level();
     virtual void dummy(){}
     
 private:
     double attack_speed{};
     double bullet_speed{};
     double damage{};
+    int total_skill_point{};
     int skill_point{};
     double degree{};
 

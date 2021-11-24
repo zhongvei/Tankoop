@@ -94,18 +94,8 @@ void Hud::update_value() {
     ui->attack_speed_value->setText(QString::number(tank->get_attack_speed()));
     ui->bullet_speed_value->setText(QString::number(tank->get_bullet_speed()));
     ui->skill_point_value->setText(QString::number(tank->get_skill_point()));
-
-    increase_level();
     ui->exp_value->setText(QString::number(tank->get_xp()));
     ui->level_value->setText(QString::number(tank->get_level()));
-}
-
-void Hud::increase_level() {
-    if((tank->get_level()*100 - tank->get_xp())/100 > 1) {
-       tank->set_level(tank->get_level() + 1);
-       tank->increase_skill_point();
-       qDebug()<<"INCREASED LEVEL BY 1";
-    }
 }
 
 bool Hud::check_upgrade() {

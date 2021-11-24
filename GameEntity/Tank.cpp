@@ -91,6 +91,15 @@ void Tank::check_collision() {
     }
 }
 
+void Tank::increase_level() {
+    if((this->get_xp()/100 > this->get_level())) {
+       this->set_level(this->get_level() + 1);
+       this->increase_total_skill_point();
+       this->increase_skill_point();
+       qDebug()<<"INCREASED LEVEL BY 1";
+    }
+}
+
 /* The Mutator of Tank Object */
 void Tank::set_attack_speed(double attack_speed) { this->attack_speed = attack_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
@@ -98,3 +107,6 @@ void Tank::set_damage(double damage) { this->damage = damage; }
 void Tank::set_degree(double degree) { this->degree = degree; }
 void Tank::increase_skill_point() {this->skill_point++; }
 void Tank::decrease_skill_point() {this->skill_point--; }
+int Tank::get_total_skill_point() const {return this->total_skill_point;}
+void Tank::increase_total_skill_point() {this->total_skill_point++;}
+

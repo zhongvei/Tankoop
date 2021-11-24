@@ -117,6 +117,7 @@ void Basic::advance(int step)
         return;
     facing_cursor(this);
     check_collision();
+    increase_level();
     setFocus();
 
     // dont delete
