@@ -36,10 +36,6 @@ void Basic::keyPressEvent(QKeyEvent *event){
         Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
         bullet->set_degree(this->get_degree());
         //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
-<<<<<<< HEAD
-=======
-        //bullet->setPos(x()-60+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()-60+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
->>>>>>> 8394f157e26294c6c0139b8b0c7f088babf8351f
         bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
         scene()->addItem(bullet);
