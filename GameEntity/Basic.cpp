@@ -16,16 +16,16 @@ Basic::Basic(QGraphicsView* parent): Tank(50,1,50,100,10,10,0,0.6,0.6,50,1,0,0),
 
 void Basic::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
-        case Qt::Key::Key_Up:
+        case Qt::Key::Key_W:
             UP = true;
             break;
-        case Qt::Key::Key_Down:
+        case Qt::Key::Key_S:
             DOWN = true;
             break;
-        case Qt::Key::Key_Right:
+        case Qt::Key::Key_D:
             RIGHT = true;
             break;
-        case Qt::Key::Key_Left:
+        case Qt::Key::Key_A:
             LEFT = true;
             break;
     }
@@ -36,7 +36,8 @@ void Basic::keyPressEvent(QKeyEvent *event){
         Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
         bullet->set_degree(this->get_degree());
         //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
-        bullet->setPos(x()-60+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()-60+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+        //bullet->setPos(x()-60+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()-60+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
         scene()->addItem(bullet);
     }
@@ -95,16 +96,16 @@ double Basic::get_changey() {
 
 void Basic::keyReleaseEvent(QKeyEvent *event){
     switch(event->key()){
-        case Qt::Key::Key_Up:
+        case Qt::Key::Key_W:
             UP = false;
             break;
-        case Qt::Key::Key_Down:
+        case Qt::Key::Key_S:
             DOWN = false;
             break;
-        case Qt::Key::Key_Right:
+        case Qt::Key::Key_D:
             RIGHT = false;
             break;
-        case Qt::Key::Key_Left:
+        case Qt::Key::Key_A:
             LEFT = false;
             break;
 
@@ -131,18 +132,14 @@ void Basic::advance(int step)
 
 void Basic::facing_cursor(Basic* basic) {
     QPointF cursor_position = parent->mapToScene(parent->mapFromGlobal(QCursor::pos()));
-    double angle_in_radians = std::atan2((cursor_position.y()-basic->y()),(cursor_position.x()-basic->x()));
+    double angle_in_radians = std::atan2((cursor_position.y()-(basic->y()+basic->get_size()/2)),(cursor_position.x()-(basic->x()+basic->get_size()/2)));
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
     set_degree(angle_in_degrees);
 
     QTransform transform;
-    double dx = 0; double dy = 0;
-    transform.translate(dx,dy);
-    //transform.translate(basic->get_size()/2,basic->get_size()/2);
+    transform.translate(basic->get_size()/2,basic->get_size()/2);
     transform.rotate(angle_in_degrees);
-    //transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
-    transform.translate(-dx,-dy);
-    //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
+    transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
     basic->setTransform(transform);
 
     QPointF tankpos;

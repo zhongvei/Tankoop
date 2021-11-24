@@ -2,21 +2,33 @@
 #define ENEMY_H
 
 #include "Tank.h"
+#include "Block.h"
+#include "Basic.h"
+
+#include <QObject>
+#include <QGraphicsRotation>
+#include <QTransform>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsItem>
-#include <QPointF>
-#include <QObject>
+
 
 class Enemy: public QObject, public QTransform, public Tank
 {
     Q_OBJECT
+    enum class STATE{FARMING, CHASING, RUNNING};
 public:
     Enemy(double attack_range,const int& size);
     QGraphicsEllipseItem* get_attack_area(){ return attack_area; }
+    QGraphicsEllipseItem* get_sight_area(){ return sight_area; }
     int get_range() const { return attack_range; }
-    double get_scale() const { return scale; }
-    void fire();
-    double distanceTo(QGraphicsItem * item);
+    double get_attack_scale() const { return attack_scale; }
+    double get_sight_scale() const { return sight_scale; }
+
+    void fire(bool &reload);
+
+    double distanceTo(Block * item);
+    double distanceTo(Basic * basic);
+    ~Enemy();
 
 public slots:
     void move();
@@ -24,9 +36,14 @@ public slots:
 private:
     int num_target;
     double attack_range;
-    double scale;
+    double attack_scale;
+    double sight_scale;
+    STATE current_state = STATE::FARMING;
     QGraphicsEllipseItem *attack_area;
-    QPointF attack_dest;
+    QGraphicsEllipseItem *sight_area;
+
+    void stateFarming();
+
 };
 
 #endif // ENEMY_H

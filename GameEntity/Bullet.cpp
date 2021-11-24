@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include "Block.h"
 #include "Enemy.h"
+#include "Basic.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -36,6 +37,23 @@ void Bullet::move(){
                     if(the_block->get_health() <= 0){
                        scene()->removeItem(colliding_items[i]);
                        tank->set_xp(tank->get_xp()+the_block->get_xp());
+                       delete colliding_items[i];
+                    }
+
+                    /* Deleting both the Bullet */
+                    scene()->removeItem(this);
+                    delete this;
+                    return;
+                }
+                else if (typeid(*(colliding_items[i])) == typeid(Enemy) && typeid(*tank) == typeid(Basic)){
+                    /* Removing both the bullet and the block from the screen when colliding */
+                    Enemy *the_enemy = dynamic_cast<Enemy*>(colliding_items[i]);
+                    the_enemy->set_health(the_enemy->get_health()-get_damage());
+
+                    /* Delete the Block if the heath is less than or equal to zero */
+                    if(the_enemy->get_health() <= 0){
+                       scene()->removeItem(colliding_items[i]);
+                       tank->set_xp(tank->get_xp()+the_enemy->get_xp());
                        delete colliding_items[i];
                     }
 
