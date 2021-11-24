@@ -33,8 +33,8 @@ public:
     void decrease_skill_point();
 
     void check_collision();
-
-
+    virtual void dummy(){}
+    
 private:
     double attack_speed{};
     double bullet_speed{};

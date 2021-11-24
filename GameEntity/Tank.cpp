@@ -52,15 +52,17 @@ QRectF Tank::boundingRect() const
 {
 
 //    return QRectF(-40, -40, 130, 130);
-    return QRectF(-this->get_size(), -this->get_size(), this->get_size()*2, this->get_size()*2);
+    return QRectF(0, 0, this->get_size(), this->get_size());
 }
 
 // overriding QGraphicsItem::paint(). Draws Tank instead of a Rectangle.
 void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawRect(this->get_size()/2,this->get_size()/4,this->get_size()/2,this->get_size()/2);
+    //painter->drawRect(-12.5,-12.5,60,25);
+    painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
     painter->setBrush(color);
-    painter->drawEllipse(this->get_size()*0.15, this->get_size()*0.15, this->get_size()*0.7, this->get_size()*0.7);
+    //painter->drawEllipse(-25, -25, 50, 50);
+    painter->drawEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
 }
 
 /* Reimplementing ::shape()
@@ -71,7 +73,7 @@ QPainterPath Tank::shape() const
 {
     QPainterPath path;
     // Currently shape is just a small square. Change code if necessary for better collision detection.
-    path.addRect(-40, -40, 80, 80);
+    path.addEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
 //    path.addRect(-40, -40, 130, 130);
     return path;
 }

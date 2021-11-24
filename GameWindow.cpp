@@ -74,6 +74,9 @@ GameWindow::GameWindow(QWidget* parent)
     HealthBar* health_bar = new HealthBar(basic);
     scene->addItem(health_bar);
 
+    // Tank Graphic Test
+    //scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+
     /* The HUD */
     hud = new Hud(this, basic);
 
@@ -93,24 +96,34 @@ void GameWindow::main_loop() {
 }
 
 void GameWindow::spawn_enemies(){
-    //qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
-    Enemy *enemy = new Enemy(300,50); // multiple of 50
+    qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
+    Enemy *enemy = new Enemy(500,100); // multiple of 50
 
-    enemy->setPos(rand()%2000,rand()%100); //make it random
+    enemy->setPos(600,250); //make it random
     enemy->setRect(0,0,enemy->get_size(),enemy->get_size());
     //double scale = enemy->get_size() / enemy->get_range();
-    enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_scale()-1)/2);
+    enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_attack_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_attack_scale()-1)/2);
+    enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
 
     scene->addItem(enemy);
     scene->addItem(enemy->get_attack_area());
+    scene->addItem(enemy->get_sight_area());
 }
 
 void GameWindow::spawn_loop() {
     for(int number = 0; number < 300; number++) {
         Block* block = new Block(100,100,30,0,0,10,1,0);
         block->setRect(0,0,block->get_size(),block->get_size());
+        //block->setPos(rand()%GameWindow::WINDOW_WIDTH,rand()%GameWindow::WINDOW_HEIGHT);
         block->setPos(rand()%GameWindow::WINDOW_WIDTH,rand()%GameWindow::WINDOW_HEIGHT);
-        block->setRotation(rand()%360);
+        //block->setRotation(rand()%360);
+        //
+        QTransform transform;
+        transform.translate(block->get_size()/2,block->get_size()/2);
+        transform.rotate(rand()%360);
+        transform.translate(-(block->get_size()/2),-(block->get_size()/2));
+        block->setTransform(transform);
+        //
         block->setBrush(Qt::red);
         scene->addItem(block);
         QList<QGraphicsItem *> list = block->collidingItems();
