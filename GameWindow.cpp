@@ -71,7 +71,7 @@ GameWindow::GameWindow(QWidget* parent)
     spawn_enemies();
 
     /* Create Health Bar */
-    HealthBar* health_bar = new HealthBar(basic);
+    HealthBar* health_bar = new HealthBar(basic, scene);
     scene->addItem(health_bar);
 
     // Tank Graphic Test

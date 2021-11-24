@@ -15,7 +15,7 @@ Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int
     setRect(0,0,size,size);
     QTimer* timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-    timer->start(50);
+    timer->start(1000/60);
 }
 
 
