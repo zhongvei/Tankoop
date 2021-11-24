@@ -15,7 +15,7 @@
 class Enemy: public QObject, public QTransform, public Tank
 {
     Q_OBJECT
-    enum class STATE{FARMING, CHASING, RUNNING};
+    enum class STATE{HUNTING, RUNNING};
 public:
     Enemy(double attack_range,const int& size);
     QGraphicsEllipseItem* get_attack_area(){ return attack_area; }
@@ -25,6 +25,7 @@ public:
     double get_sight_scale() const { return sight_scale; }
 
     void fire(bool &reload);
+    void detecting();
 
     double distanceTo(Block * item);
     double distanceTo(Basic * basic);
@@ -38,11 +39,14 @@ private:
     double attack_range;
     double attack_scale;
     double sight_scale;
-    STATE current_state = STATE::FARMING;
+    bool player_detected {false};
+
+    STATE current_state = STATE::HUNTING;
     QGraphicsEllipseItem *attack_area;
     QGraphicsEllipseItem *sight_area;
 
-    void stateFarming();
+    void stateHunting();
+    void stateRunning();
 
 };
 

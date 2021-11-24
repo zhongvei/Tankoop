@@ -7,7 +7,7 @@
 #include <QTimer>
 
 
-Enemy::Enemy(double attack_range, const int& size): Tank(200,1,50,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
+Enemy::Enemy(double attack_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
 {
     attack_scale = attack_range/size;
     sight_scale = 800/size; // change 800 to variable later
@@ -74,10 +74,6 @@ void Enemy::fire(bool &reload){
 
 }
 
-void Enemy::stateFarming(){
-
-}
-
 template <typename T>
 void findClosestDistance(T a, QList<QGraphicsItem *> item, double this_dist, double &closest_dist, int i, QPointF &closest_pt, double &closest_size){
     if (this_dist < closest_dist){
@@ -87,46 +83,74 @@ void findClosestDistance(T a, QList<QGraphicsItem *> item, double this_dist, dou
     }
 }
 
-void Enemy::move(){
 
-    /* Detecting the enemies */
-
+void Enemy::detecting(){
+    QList<QGraphicsItem *> spotted_items = sight_area->collidingItems();
     QList<QGraphicsItem *> shootable_items = attack_area->collidingItems();
-//    switch(current_state){
-//        case STATE::FARMING:
-//            stateFarming(); break;
-//    }
 
-    double closest_dist = 300;
+    double closest_dist = 800;
     QPointF closest_pt = QPointF(0,0);
-
-    double closest_dist2 = 300;
-    QPointF closest_pt2 = QPointF(0,0);
-
     double closest_size = 0;
 
-    for (int i = 0, n = shootable_items.size(); i < n; ++i){
+    for (int i = 0, n = spotted_items.size(); i < n; ++i){
         /* Enemies spotted */
-        if (typeid(*(shootable_items[i])) == typeid(Block)){
-            Block *the_target = dynamic_cast<Block*>(shootable_items[i]);
-            double this_dist = distanceTo(the_target);
-            findClosestDistance(the_target,shootable_items,this_dist,closest_dist, i,closest_pt,closest_size);
-            num_target += 1;
+        if(!player_detected){
+            if (typeid(*(spotted_items[i])) == typeid(Block)){
+                bool in_shooting_range = false;
+                for (int j = 0, n = shootable_items.size(); j < n; ++j){
+                    if (spotted_items[i] == shootable_items[j]){
+                        in_shooting_range = true;
+                        break;
+                    }
+                }
+                if(in_shooting_range){
+                    num_target += 1;
+                    //qDebug() << "BLOCK DETECTED INSIDE SHOOTING RANGE";
+                }
+                else{
+                    qDebug() << "BLOCK DETECTED";
+                }
+
+                Block *the_target = dynamic_cast<Block*>(spotted_items[i]);
+                double this_dist = distanceTo(the_target);
+                findClosestDistance(the_target,spotted_items,this_dist,closest_dist, i,closest_pt,closest_size);
+
+            }
         }
-        else if (typeid(*(shootable_items[i])) == typeid(Basic)){
-            Basic *the_target = dynamic_cast<Basic*>(shootable_items[i]);
+
+        if (typeid(*(spotted_items[i])) == typeid(Basic)){
+            bool in_shooting_range = false;
+            for (int j = 0, n = shootable_items.size(); j < n; ++j){
+                if (spotted_items[i] == shootable_items[j]){
+                    in_shooting_range = true;
+                    break;
+                }
+            }
+            if(in_shooting_range){
+                num_target += 1;
+            }
+            qDebug() << "PLAYER DETECTED";
+            Basic *the_target = dynamic_cast<Basic*>(spotted_items[i]);
             double this_dist = distanceTo(the_target);
-            findClosestDistance(the_target,shootable_items,this_dist,closest_dist, i,closest_pt,closest_size);
-            num_target += 1;
+            findClosestDistance(the_target,spotted_items,this_dist,closest_dist, i,closest_pt,closest_size);
+            player_detected = true;
+            break;
+        }
+        else if(i == n-1){
+            player_detected = false;
         }
 
     }
+
     double angle_in_radians = std::atan2((closest_pt.y() + closest_size/2 -(y()+get_size()/2)),(closest_pt.x() + closest_size/2 -(x()+get_size()/2))); //ricat
     double angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
-    // change to use only one circle
     set_degree(angle_in_degrees);
 
+}
+
+
+void Enemy::stateHunting(){
     if(reload){
         reload_finish += 1;
         if (reload_finish == 10){
@@ -139,34 +163,37 @@ void Enemy::move(){
         fire(reload);
         num_target = 0;
     }
-
     else{
-        QList<QGraphicsItem *> spotted_items = sight_area->collidingItems();
-        for (int i = 0, n = spotted_items.size(); i < n; ++i){
-            /* Enemies spotted */
-            if (typeid(*(spotted_items[i])) == typeid(Block)){
-                Block *the_target = dynamic_cast<Block*>(spotted_items[i]);
-                double this_dist = distanceTo(the_target);
-                findClosestDistance(the_target,shootable_items,this_dist,closest_dist, i,closest_pt,closest_size);
-                num_target += 1;
-            }
-            if (typeid(*(spotted_items[i])) == typeid(Basic)){
-                Basic *the_target = dynamic_cast<Basic*>(spotted_items[i]);
-                double this_dist = distanceTo(the_target);
-                findClosestDistance(the_target,shootable_items,this_dist,closest_dist, i,closest_pt,closest_size);
-                num_target += 1;
-            }
-        }
-        double angle_in_radians2 = std::atan2((closest_pt2.y()-(this->y()+this->get_size()/2)),(closest_pt2.x()-(this->x()+this->get_size()/2)));
-        double angle_in_degrees2 = (angle_in_radians2 / M_PI) * 180;
-        qDebug() << closest_pt2;
-        // change to use only one circle
-//        set_degree(angle_in_degrees2);
-        setPos(x()+(10*cos(angle_in_degrees2/57)),y()+(10*sin(angle_in_degrees2/57)));
-
-        //this->setPos(x(),y()+5);
-
+        setPos(x()+(10*cos(get_degree()/57)),y()+(10*sin(get_degree()/57)));
     }
+
+}
+
+void Enemy::stateRunning(){
+    setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
+}
+
+void Enemy::move(){
+
+    /* Detecting the enemies */
+    detecting();
+    if(get_health() >= get_max_health()*0.4){
+        current_state = STATE::HUNTING;
+    }
+    else if(player_detected && get_health() < get_max_health() * 0.4){
+        current_state = STATE::RUNNING;
+    }
+    else if(!player_detected && get_health() < get_max_health() * 0.4){
+        current_state = STATE::HUNTING;
+    }
+
+    switch(current_state){
+        case STATE::HUNTING:
+            stateHunting(); break;
+        case STATE::RUNNING:
+            stateRunning(); break;
+    }
+
 
     attack_area->setPos(x() - get_size() * (get_attack_scale()-1)/2, y() - get_size() * (get_attack_scale()-1)/2);
     sight_area->setPos(x() - get_size() * (get_sight_scale()-1)/2, y() - get_size() * (get_sight_scale()-1)/2);
