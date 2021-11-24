@@ -22,8 +22,6 @@ private:
 
 public slots:
     void move();
-protected:
-    void advance(int step) override;
 };
 
 #endif // BULLET_H

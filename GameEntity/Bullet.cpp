@@ -13,15 +13,11 @@ Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int
     GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank)
 {
     setRect(0,0,size,size);
+    QTimer* timer = new QTimer();
+    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+    timer->start(50);
 }
 
-void Bullet::advance(int step)
-{
-    if (!step)
-        return;
-
-    move();
-}
 
 double Bullet::get_damage() const { return damage; }
 
