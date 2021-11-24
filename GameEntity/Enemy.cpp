@@ -12,8 +12,6 @@ Enemy::Enemy(double attack_range, const int& size): Tank(200,1,50,size,10,10,0,0
     attack_scale = attack_range/size;
     sight_scale = 800/size; // change 800 to variable later
 
-
-
     attack_area = new QGraphicsEllipseItem(0,0,attack_range,attack_range);
     //attack_area->setStartAngle(90*16);
     attack_area->setPos(x() - get_size() * (get_attack_scale()-1)/2, y() - get_size() * (get_attack_scale()-1)/2);

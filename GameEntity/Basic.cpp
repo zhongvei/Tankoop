@@ -32,7 +32,7 @@ void Basic::keyPressEvent(QKeyEvent *event){
 
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
-        //qDebug() << "PEW-PEW";
+        qDebug() << "PEW-PEW";
         Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
         bullet->set_degree(this->get_degree());
         //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
@@ -141,11 +141,6 @@ void Basic::facing_cursor(Basic* basic) {
     transform.rotate(angle_in_degrees);
     transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
     basic->setTransform(transform);
-
-    QPointF tankpos;
-    tankpos.setX(basic->x());
-    tankpos.setY(basic->y());
-    tankpos += QPointF(0,120);
 
     basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
 }

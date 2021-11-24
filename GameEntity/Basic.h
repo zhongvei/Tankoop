@@ -1,4 +1,4 @@
-#ifndef BASIC_H
+ #ifndef BASIC_H
 #define BASIC_H
 
 #include "Tank.h"
