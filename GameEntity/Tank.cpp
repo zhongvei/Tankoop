@@ -1,4 +1,5 @@
 #include "Tank.h"
+#include "Block.h"
 
 #include <QDebug>
 
@@ -74,6 +75,20 @@ QPainterPath Tank::shape() const
 //    path.addRect(-40, -40, 130, 130);
     return path;
 }
+
+//implementing the collision function
+void Tank::check_collision() {
+    QList<QGraphicsItem *> list = this->collidingItems();
+    for(int i = 0; i < list.size();i++) {
+        if((typeid(*list[i]) == typeid(Block))){
+            qDebug()<<"HIT A BLOCK";
+            delete list[i];
+            this->set_health(this->get_health()-7);
+            this->set_xp(this->get_xp() + 7);
+        }
+    }
+}
+
 /* The Mutator of Tank Object */
 void Tank::set_attack_speed(double attack_speed) { this->attack_speed = attack_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }

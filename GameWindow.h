@@ -23,6 +23,7 @@ public:
     void facing_cursor(Basic* basic);
     void spawn_loop();
     void spawn_enemies();
+    bool game_over();
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 private:

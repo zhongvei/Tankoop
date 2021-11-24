@@ -17,6 +17,7 @@
 #include <QtWidgets>
 #include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
+#include <QMessageBox>
 
 GameWindow::GameWindow(QWidget* parent)
 {
@@ -64,10 +65,10 @@ GameWindow::GameWindow(QWidget* parent)
     loop_timer->start(1000/60); // 60 fps
 
     /* Enemy Spawner */
-    enemy_timer = new QTimer{this};
-    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
-    enemy_timer->start(5000); //adding new enemy every 5 seconds
-    spawn_enemies();
+//    enemy_timer = new QTimer{this};
+//    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
+//    enemy_timer->start(5000); //adding new enemy every 5 seconds
+//    spawn_enemies();
 
     /* Create Health Bar */
     HealthBar* health_bar = new HealthBar(basic);
@@ -79,8 +80,17 @@ GameWindow::GameWindow(QWidget* parent)
     show();
 }
 
-void GameWindow::main_loop() {
-    hud->update_value();
+void GameWindow::main_loop() {            
+    if(!game_over()){
+        qDebug()<<"continue";
+        hud->update_value();
+    } else {
+        hud->hide();
+        loop_timer->stop();
+        QMessageBox* msg_box = new QMessageBox(this);
+        msg_box->setText("GAMEOVER!");
+        msg_box->show();
+    }
 }
 
 void GameWindow::spawn_enemies(){
@@ -122,4 +132,12 @@ void GameWindow::spawn_loop() {
 
 void GameWindow::mousePressEvent(QMouseEvent *event){
     basic->setFocus();
+}
+
+bool GameWindow::game_over() {
+    if(basic->get_health() <= 0) {
+        qDebug()<<"gameover";
+        return true;
+    }
+    return false;
 }

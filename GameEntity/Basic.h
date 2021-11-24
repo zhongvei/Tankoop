@@ -19,6 +19,7 @@ private:
     bool UP, DOWN, RIGHT, LEFT;
 
 public:
+
     Basic(QGraphicsView* parent=nullptr);
     void keyPressEvent(QKeyEvent * event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
