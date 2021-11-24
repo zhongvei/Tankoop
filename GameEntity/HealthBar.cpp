@@ -3,11 +3,16 @@
 
 #include <QPointF>
 #include <QDebug>
+#include <QGraphicsRectItem>
 
-HealthBar::HealthBar(Tank* tank) : tank(tank)
+HealthBar::HealthBar(Tank* tank, QGraphicsScene* scene) : tank(tank), scene(scene)
 {
 
-    this->setRect(0,0,100,20);
+    this->setRect(0,0,80,18);
+    healthPercentageRect = new QGraphicsRectItem(this);
+    healthPercentageRect->setRect(0,0,100,20);
+    healthPercentageRect->setBrush(Qt::green);
+    scene->addItem(healthPercentageRect);
 }
 
 void HealthBar::advance(int step)
@@ -21,11 +26,16 @@ void HealthBar::advance(int step)
 
 
     QPointF tankPos;
-    tankPos.setX(tank->x()-25);
-    tankPos.setY(tank->y()+60);
+    tankPos.setX(tank->x()+20);
+    tankPos.setY(tank->y()+100);
     this->setPos(tankPos);
 
     // TODO: Update health bar's health
+    double health = tank->get_health();
+    double max_health = tank->get_max_health();
+    double health_percentage = health/max_health;
+
+    healthPercentageRect->setRect(this->x(),this->y(),80*health_percentage,18); // change 80 if health_bar width is changed
 
 
 

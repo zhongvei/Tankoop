@@ -1,7 +1,7 @@
 #include "GameEntity.h"
 
 GameEntity::GameEntity(const double& health, const double& health_regen, const double& max_health,
-                       const int& size,const int& vx, const int& vy,const double& xp,const int& level) :
+                       const int& size,const double& vx, const double& vy,const double& xp,const int& level) :
                        max_health(max_health), health(health), health_regen(health_regen),
                        size(size), vx(vx), vy(vy), xp(xp), level(level) {}
 
@@ -28,10 +28,10 @@ void GameEntity::set_health_regen(double health_regen) {
 void GameEntity::set_size(int size) {
     this->size = size;
 }
-void GameEntity::set_vx(int vx) {
+void GameEntity::set_vx(double vx) {
     this->vx = vx;
 }
-void GameEntity::set_vy(int vy) {
+void GameEntity::set_vy(double vy) {
     this->vy = vy;
 }
 void GameEntity::set_xp(double xp) {
