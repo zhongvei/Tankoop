@@ -101,7 +101,7 @@ GameWindow::GameWindow(QWidget* parent)
 
 void GameWindow::main_loop() {
     //centerOn(basic);
-//    basic->setFocus();
+    basic->setFocus();
     //health bar as well
     //facing_cursor(basic);
 
