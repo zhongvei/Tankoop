@@ -58,6 +58,16 @@ void Bullet::move(){
                     delete this;
                     return;
                 }
+                else if (typeid(*(colliding_items[i])) == typeid(Basic) && typeid(*tank) == typeid(Enemy)){
+                    /* Removing both the bullet and the block from the screen when colliding */
+                    Basic *player = dynamic_cast<Basic*>(colliding_items[i]);
+                    player->set_health(player->get_health()-get_damage());
+                    qDebug()<<"HIT THE PLAYER";
+                    /* Deleting both the Bullet */
+                    scene()->removeItem(this);
+                    delete this;
+                    return;
+                }
 
             }
 

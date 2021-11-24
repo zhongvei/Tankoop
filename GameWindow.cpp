@@ -48,15 +48,15 @@ GameWindow::GameWindow(QWidget* parent)
     /* reduce size of view (game window) to appropriate size */
     setFixedSize(1200,600);
 
-    //spawn the block
-    spawn_loop();
-
     // Create player Tank (basic)
     basic = new Basic(this);
     basic->setRect(0,0,basic->get_size(),basic->get_size());
     basic->setPos(350,250);
     scene->addItem(basic);
     basic->setFlag(QGraphicsItem::ItemIsFocusable);
+
+    //spawn the block
+    spawn_loop();
 
     /* Main Loop */
     loop_timer = new QTimer{this};
@@ -68,7 +68,7 @@ GameWindow::GameWindow(QWidget* parent)
 //    enemy_timer = new QTimer{this};
 //    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
 //    enemy_timer->start(5000); //adding new enemy every 5 seconds
-    spawn_enemies();
+//    spawn_enemies();
 
     /* Create Health Bar */
     HealthBar* health_bar = new HealthBar(basic);
@@ -85,7 +85,7 @@ GameWindow::GameWindow(QWidget* parent)
 
 void GameWindow::main_loop() {            
     if(!game_over()){
-        basic->check_collision();
+//        basic->check_collision();
         hud->update_value();
     } else {
         hud->hide();
@@ -115,16 +115,12 @@ void GameWindow::spawn_loop() {
     for(int number = 0; number < 300; number++) {
         Block* block = new Block(100,100,30,0,0,10,1,0);
         block->setRect(0,0,block->get_size(),block->get_size());
-        //block->setPos(rand()%GameWindow::WINDOW_WIDTH,rand()%GameWindow::WINDOW_HEIGHT);
         block->setPos(rand()%GameWindow::WINDOW_WIDTH,rand()%GameWindow::WINDOW_HEIGHT);
-        //block->setRotation(rand()%360);
-        //
         QTransform transform;
         transform.translate(block->get_size()/2,block->get_size()/2);
         transform.rotate(rand()%360);
         transform.translate(-(block->get_size()/2),-(block->get_size()/2));
         block->setTransform(transform);
-        //
         block->setBrush(Qt::red);
         scene->addItem(block);
         QList<QGraphicsItem *> list = block->collidingItems();
