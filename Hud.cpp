@@ -101,7 +101,7 @@ void Hud::update_value() {
 }
 
 void Hud::increase_level() {
-    if(tank->get_level()*100 - tank->get_xp() == 0) {
+    if((tank->get_level()*100 - tank->get_xp())/100 > 1) {
        tank->set_level(tank->get_level() + 1);
        tank->increase_skill_point();
        qDebug()<<"INCREASED LEVEL BY 1";

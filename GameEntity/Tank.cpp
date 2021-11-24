@@ -28,7 +28,7 @@ int Tank::get_skill_point() const {return skill_point;}
 
 void Tank::advance(int step)
 {
-    if (!step)
+    if (!step)      
         return;
 
     QPointF healthpos;

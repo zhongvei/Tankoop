@@ -82,7 +82,6 @@ GameWindow::GameWindow(QWidget* parent)
 
 void GameWindow::main_loop() {            
     if(!game_over()){
-        qDebug()<<"continue";
         hud->update_value();
     } else {
         hud->hide();

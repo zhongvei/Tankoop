@@ -66,23 +66,6 @@ double Basic::get_changex() {
         result = this->get_vx()*((double) RIGHT)/2;
     }
     return result;
-
-    double result = 0 ;
-    if (this->x() > 0 && this->x() < 2000-(this->get_size())) {
-        if (diagonalMovement) {
-            return (this->get_vx() * ((double)RIGHT - (double)LEFT) / sqrt(2)) / 2;
-        }
-        else {
-            return this->get_vx() * ((double)RIGHT - (double)LEFT) / 2;
-        }
-    }
-    else if (this->x() > 0) {
-        result = this->get_vx()*(-(double) LEFT)/2;
-    }
-    else {
-        result = this->get_vx()*((double) RIGHT)/2;
-    }
-    return result;
 }
 
 double Basic::get_changey() {
@@ -163,10 +146,6 @@ void Basic::facing_cursor(Basic* basic) {
     //basic->setTransformOriginPoint(QPoint(basic->x()+(basic->get_size()/2),basic->y()+(basic->get_size()/2)));
     basic->setTransform(transform);
 
-    QPointF tankpos;
-    tankpos.setX(basic->x());
-    tankpos.setY(basic->y());
-    tankpos += QPointF(0,120);
 
     basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
 }
