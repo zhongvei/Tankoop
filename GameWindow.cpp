@@ -22,9 +22,9 @@
 GameWindow::GameWindow(QWidget* parent)
 {
     this->setWindowTitle("TankOOP");
-    //this->setWindowIcon(QIcon(R"(C:\Users\zhong\Desktop\Uni\Academic Semester\Fall 2021\COMP 2012H\Tankoop\resource\gameIcon.jpeg)"));
-    scene = new QGraphicsScene();
+    this->setWindowIcon(QIcon(":/Resources/icon/tankoop.jpg"));
 
+    scene = new QGraphicsScene();
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
