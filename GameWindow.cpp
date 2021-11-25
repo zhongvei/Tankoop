@@ -65,7 +65,7 @@ GameWindow::GameWindow(QWidget* parent)
 //    enemy_timer = new QTimer{this};
 //    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
 //    enemy_timer->start(5000); //adding new enemy every 5 seconds
-    spawn_enemies();
+//    spawn_enemies();
 
     /* Create Health Bar */
     HealthBar* health_bar = new HealthBar(basic, scene);

@@ -27,6 +27,7 @@ double Tank::get_degree() const { return degree; }
 int Tank::get_skill_point() const {return skill_point;}
 bool Tank::get_reload_status() const {return reload;}
 int Tank::get_reload_finish() const {return reload_finish;}
+int Tank::get_evolution_point() const {return evolution_point;}
 
 
 void Tank::advance(int step)
@@ -96,6 +97,52 @@ void Tank::increase_level() {
        this->increase_total_skill_point();
        this->increase_skill_point();
        qDebug()<<"INCREASED LEVEL BY 1";
+       if((this->get_level() % 10) == 0 && this->get_level() != 0) {
+           this->increase_evolution_point();
+           qDebug()<<"INCREASE EVOLUTION POINT BY 1";
+       }
+    }
+
+}
+
+
+
+void Tank::change_class(Tank::TYPE type) {
+    this->type = type;
+    switch (type)
+    {
+        case Tank::TYPE::ASSASIN:
+            this->set_attack_speed(this->get_attack_speed()*2);
+            this->set_bullet_speed(this->get_bullet_speed() -0.5);
+            this->set_health_regen(this->get_health_regen() *2);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_vx(this->get_vx() + 1);
+            break;
+        case Tank::TYPE::GIANT:
+            this->set_attack_speed(this->get_attack_speed()*2);
+            this->set_bullet_speed(this->get_bullet_speed() -0.5);
+            this->set_health_regen(this->get_health_regen() *2);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_vx(this->get_vx() + 1);
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            this->set_attack_speed(this->get_attack_speed()*2);
+            this->set_bullet_speed(this->get_bullet_speed() -0.5);
+            this->set_health_regen(this->get_health_regen() *2);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_vx(this->get_vx() + 1);
+            break;
+        case Tank::TYPE::ENGINEER:
+            this->set_attack_speed(this->get_attack_speed()*2);
+            this->set_bullet_speed(this->get_bullet_speed() -0.5);
+            this->set_health_regen(this->get_health_regen() *2);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_vx(this->get_vx() + 1);
+            break;
     }
 }
 
@@ -110,3 +157,5 @@ int Tank::get_total_skill_point() const {return this->total_skill_point;}
 void Tank::increase_total_skill_point() {this->total_skill_point++;}
 void Tank::set_reload_finish(int reload_finish) {this->reload_finish = reload_finish;}
 void Tank::change_reload_status() { reload? this->reload = 0: this->reload = 1;}
+void Tank::increase_evolution_point() {this->evolution_point++;}
+void Tank::decrease_evolution_point() {this->evolution_point--;}
