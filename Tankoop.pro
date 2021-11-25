@@ -7,6 +7,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
 SOURCES += \
+    GameEngine.cpp \
     GameEntity/Basic.cpp \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
     main.cpp \
 
 HEADERS += \
+    GameEngine.h \
     GameEntity/Basic.h \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
