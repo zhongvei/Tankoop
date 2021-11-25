@@ -10,9 +10,12 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.6,0.6,50,1,0,0),
+Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.8,0.6,50,1,0,0),
     parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
 }
+
+int reload_finish_basic = 0;
+bool reload_basic = true;
 
 void Basic::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
@@ -32,14 +35,19 @@ void Basic::keyPressEvent(QKeyEvent *event){
 
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
-        qDebug() << "PEW-PEW";
-        qDebug() << get_bullet_speed();
-        Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
-        bullet->set_degree(this->get_degree());
-        //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
-        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+        if(!reload_basic) {
+            qDebug() << "PEW-PEW";
+            qDebug() << get_bullet_speed();
+            Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+            bullet->set_degree(this->get_degree());
+            //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
+            bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
-        scene()->addItem(bullet);
+            scene()->addItem(bullet);
+            reload_basic = true;
+            reload_finish_basic = 0;
+        }
+
     }
 
 }
@@ -119,6 +127,13 @@ void Basic::advance(int step)
     facing_cursor(this);
     increase_level();
     setFocus();
+
+    if(reload_basic) {
+        reload_finish_basic += 1;
+        if(reload_finish_basic == qRound(get_attack_speed()/0.05)) {
+            reload_basic = false;
+        }
+    }
 
     // dont delete
 //    QPainter painter(QPaintDevice);

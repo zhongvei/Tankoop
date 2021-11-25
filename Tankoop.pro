@@ -41,3 +41,6 @@ FORMS += \
     Hud.ui \
     MainWindow.ui
 
+RESOURCES += \
+    Resources.qrc
+
