@@ -16,7 +16,8 @@ Tank::Tank(
         GameEntity(health,health_regen,max_health,size,vx,vy,xp,level),
         attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
-        QRandomGenerator::global()->bounded(256)) {};
+        QRandomGenerator::global()->bounded(256))
+{};
 
 /* The Accessor of Tank Object */
 double Tank::get_attack_speed() const { return attack_speed;}
@@ -24,16 +25,14 @@ double Tank::get_bullet_speed() const { return bullet_speed; }
 double Tank::get_damage() const { return damage; }
 double Tank::get_degree() const { return degree; }
 int Tank::get_skill_point() const {return skill_point;}
+bool Tank::get_reload_status() const {return reload;}
+int Tank::get_reload_finish() const {return reload_finish;}
 
 
 void Tank::advance(int step)
 {
-    if (!step)      
+    if (!step)
         return;
-
-    QPointF healthpos;
-    healthpos.setX(this->x());
-    healthpos.setY(this->y());
 }
 
 
@@ -92,7 +91,7 @@ void Tank::check_collision() {
 }
 
 void Tank::increase_level() {
-    if((this->get_xp()/100 > this->get_level())) {
+    if((this->get_xp()/100 >= this->get_level())) {
        this->set_level(this->get_level() + 1);
        this->increase_total_skill_point();
        this->increase_skill_point();
@@ -109,4 +108,5 @@ void Tank::increase_skill_point() {this->skill_point++; }
 void Tank::decrease_skill_point() {this->skill_point--; }
 int Tank::get_total_skill_point() const {return this->total_skill_point;}
 void Tank::increase_total_skill_point() {this->total_skill_point++;}
-
+void Tank::set_reload_finish(int reload_finish) {this->reload_finish = reload_finish;}
+void Tank::change_reload_status() { reload? this->reload = 0: this->reload = 1;}

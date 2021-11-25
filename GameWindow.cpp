@@ -65,11 +65,12 @@ GameWindow::GameWindow(QWidget* parent)
 //    enemy_timer = new QTimer{this};
 //    connect(enemy_timer, &QTimer::timeout, this, &GameWindow::spawn_enemies);
 //    enemy_timer->start(5000); //adding new enemy every 5 seconds
-//    spawn_enemies();
+    spawn_enemies();
 
     /* Create Health Bar */
     HealthBar* health_bar = new HealthBar(basic, scene);
     scene->addItem(health_bar);
+
 
     //spawn the block
     spawn_loop();
@@ -105,6 +106,9 @@ void GameWindow::spawn_enemies(){
     //double scale = enemy->get_size() / enemy->get_range();
     enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_attack_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_attack_scale()-1)/2);
     enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
+
+    HealthBar* health_bar = new HealthBar(enemy, scene);
+    scene->addItem(health_bar);
 
     scene->addItem(enemy);
     scene->addItem(enemy->get_attack_area());

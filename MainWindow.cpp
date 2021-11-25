@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     /* Set the background color of the main window */
     QPalette pal = palette();
     pal.setColor(QPalette::Background, Qt::lightGray);
+    this->setWindowIcon(QIcon(":/Resources/icon/tankoop.jpg"));
+
     setAutoFillBackground(true);
     setPalette(pal);
 

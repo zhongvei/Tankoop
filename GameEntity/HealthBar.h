@@ -1,11 +1,12 @@
 #ifndef HEALTHBAR_H
 #define HEALTHBAR_H
 
-#include "Basic.h"
+#include "Tank.h"
 #include <QGraphicsRectItem>
 
 class HealthBar : public QGraphicsRectItem
 {
+
 Tank* tank = nullptr;
 QGraphicsRectItem* healthPercentageRect;
 QGraphicsScene* scene;

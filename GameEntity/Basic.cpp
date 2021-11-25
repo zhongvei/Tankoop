@@ -14,9 +14,6 @@ Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.8,0.6,50,1,0,0
     parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
 }
 
-int reload_finish_basic = 0;
-bool reload_basic = true;
-
 void Basic::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
         case Qt::Key::Key_W:
@@ -35,7 +32,7 @@ void Basic::keyPressEvent(QKeyEvent *event){
 
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
-        if(!reload_basic) {
+        if(!this->get_reload_status()) {
             qDebug() << "PEW-PEW";
             qDebug() << get_bullet_speed();
             Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
@@ -44,8 +41,8 @@ void Basic::keyPressEvent(QKeyEvent *event){
             bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
             scene()->addItem(bullet);
-            reload_basic = true;
-            reload_finish_basic = 0;
+            this->change_reload_status();
+            this->set_reload_finish(0);
         }
 
     }
@@ -128,10 +125,10 @@ void Basic::advance(int step)
     increase_level();
     setFocus();
 
-    if(reload_basic) {
-        reload_finish_basic += 1;
-        if(reload_finish_basic == qRound(get_attack_speed()/0.05)) {
-            reload_basic = false;
+    if(this->get_reload_status()) {
+        set_reload_finish(this->get_reload_finish()+1);
+        if(get_reload_finish()== qRound(get_attack_speed()/0.05)) {
+            this->change_reload_status();
         }
     }
 

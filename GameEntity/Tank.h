@@ -2,6 +2,7 @@
 #define TANK_H
 
 #include "GameEntity.h"
+
 #include <QGraphicsRectItem>
 #include <QRandomGenerator>
 #include <QGraphicsScene>
@@ -37,6 +38,13 @@ public:
 
     void check_collision();
     void increase_level();
+
+    int get_reload_finish() const;
+    void set_reload_finish(int reload_finish);
+
+    bool get_reload_status() const;
+    void change_reload_status();
+
     virtual void dummy(){}
     
 private:
@@ -46,6 +54,8 @@ private:
     int total_skill_point{};
     int skill_point{};
     double degree{};
+    int reload_finish{};
+    bool reload {1};
 
     qreal angle = 0;
     qreal speed = 0;
