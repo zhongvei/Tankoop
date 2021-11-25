@@ -30,311 +30,246 @@
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
-  <widget class="QWidget" name="horizontalLayoutWidget">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>201</width>
-     <height>26</height>
+     <width>221</width>
+     <height>351</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="max_health_layout">
-    <item>
-     <widget class="QLabel" name="max_health_label">
-      <property name="text">
-       <string>Max Health:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="max_health_value">
+   <property name="title">
+    <string/>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="8" column="1">
+     <widget class="QLabel" name="skill_point_value">
       <property name="text">
        <string>0</string>
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QPushButton" name="increase_max_health_btn">
-      <property name="text">
-       <string>+</string>
+    <item row="6" column="0" colspan="2">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>50</y>
-     <width>201</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="health_regen_layout">
-    <item>
-     <widget class="QLabel" name="health_regen_label">
-      <property name="text">
-       <string>Health Regen:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="health_regen_value">
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="increase_health_regen_btn">
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>90</y>
-     <width>201</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="damage_layout">
-    <item>
-     <widget class="QLabel" name="damage_label">
-      <property name="text">
-       <string>Damage:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="damage_value">
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="increase_damage_btn">
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget_4">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>130</y>
-     <width>201</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="movement_speed_layout">
-    <item>
-     <widget class="QLabel" name="movement_speed_label">
-      <property name="text">
-       <string>Movement Speed:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="movement_speed_value">
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="increase_movement_speed_btn">
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget_5">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>170</y>
-     <width>201</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="attack_speed_layout">
-    <item>
-     <widget class="QLabel" name="attack_speed_label">
-      <property name="text">
-       <string>Attack Speed:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="attack_speed_value">
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="increase_attack_speed_btn">
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget_6">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>210</y>
-     <width>201</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="bullet_speed_layout">
-    <item>
-     <widget class="QLabel" name="bullet_speed_label">
-      <property name="text">
-       <string>Bullet Speed:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="bullet_speed_value">
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="increase_bullet_speed_btn">
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget_9">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>270</y>
-     <width>201</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="level_exp_layout">
-    <item>
-     <layout class="QHBoxLayout" name="exp_layout">
+    <item row="3" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="movement_speed_layout">
       <item>
-       <widget class="QLabel" name="exp_label">
+       <widget class="QLabel" name="movement_speed_label">
         <property name="text">
-         <string>Exp:</string>
+         <string>Movement Speed:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="exp_value">
+       <widget class="QLabel" name="movement_speed_value">
         <property name="text">
          <string>0</string>
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="increase_movement_speed_btn">
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
-    <item>
-     <layout class="QHBoxLayout" name="level_layout">
+    <item row="4" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="attack_speed_layout">
       <item>
-       <widget class="QLabel" name="level_label">
+       <widget class="QLabel" name="attack_speed_label">
         <property name="text">
-         <string>Level:</string>
+         <string>Attack Speed:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="level_value">
+       <widget class="QLabel" name="attack_speed_value">
         <property name="text">
          <string>0</string>
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="increase_attack_speed_btn">
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="skill_point_label">
+      <property name="text">
+       <string>Upgrade Available:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="bullet_speed_layout">
+      <item>
+       <widget class="QLabel" name="bullet_speed_label">
+        <property name="text">
+         <string>Bullet Speed:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="bullet_speed_value">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="increase_bullet_speed_btn">
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="health_regen_layout">
+      <item>
+       <widget class="QLabel" name="health_regen_label">
+        <property name="text">
+         <string>Health Regen:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="health_regen_value">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="increase_health_regen_btn">
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="max_health_layout">
+      <item>
+       <widget class="QLabel" name="max_health_label">
+        <property name="text">
+         <string>Max Health:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="max_health_value">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="increase_max_health_btn">
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="2" rowspan="8">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="damage_layout">
+      <item>
+       <widget class="QLabel" name="damage_label">
+        <property name="text">
+         <string>Damage:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="damage_value">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="increase_damage_btn">
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="7" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="level_exp_layout">
+      <item>
+       <layout class="QHBoxLayout" name="exp_layout">
+        <item>
+         <widget class="QLabel" name="exp_label">
+          <property name="text">
+           <string>Exp:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="exp_value">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="level_layout">
+        <item>
+         <widget class="QLabel" name="level_label">
+          <property name="text">
+           <string>Level:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="level_value">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QLabel" name="skill_point_value">
-   <property name="geometry">
-    <rect>
-     <x>110</x>
-     <y>310</y>
-     <width>95</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>0</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="skill_point_label">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>310</y>
-     <width>96</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Upgrade Available:</string>
-   </property>
-  </widget>
-  <widget class="Line" name="line">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>250</y>
-     <width>211</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="Line" name="line_2">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>0</y>
-     <width>20</width>
-     <height>341</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
   </widget>
   <widget class="QPushButton" name="show_hud_btn">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>10</y>
-     <width>75</width>
-     <height>51</height>
+     <x>250</x>
+     <y>40</y>
+     <width>100</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="text">

@@ -19,8 +19,8 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     ui->setupUi(this);
     shown = true;
     update_value();
-
-    this->setStyleSheet("background-color:white;");
+    raise();
+    ui->groupBox->setStyleSheet("background-color:rgba(41, 70, 255, 0.8);");
 
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
     connect(ui->increase_health_regen_btn,SIGNAL(clicked()),this,SLOT(increase_health_regen_clicked()));
