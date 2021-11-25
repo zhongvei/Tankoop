@@ -73,7 +73,7 @@ void Hud::increase_movement_speed_clicked() {
 void Hud::increase_attack_speed_clicked() {
     qDebug()<<"as clicked";
     if(tank->get_skill_point() >= 1) {
-        tank->set_attack_speed(tank->get_attack_speed() + 5);
+        tank->set_attack_speed(tank->get_attack_speed() - 0.05);
         tank->decrease_skill_point();
     }
     tank->setFocus();
