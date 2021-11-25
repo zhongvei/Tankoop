@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
+    <width>479</width>
     <height>370</height>
    </rect>
   </property>
@@ -43,17 +43,17 @@
     <string/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="2" rowspan="8">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
     <item row="8" column="1">
      <widget class="QLabel" name="skill_point_value">
       <property name="text">
        <string>0</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0" colspan="2">
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
@@ -82,6 +82,20 @@
       </item>
      </layout>
     </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="skill_point_label">
+      <property name="text">
+       <string>Upgrade Available:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="2">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
     <item row="4" column="0" colspan="2">
      <layout class="QHBoxLayout" name="attack_speed_layout">
       <item>
@@ -100,38 +114,6 @@
       </item>
       <item>
        <widget class="QPushButton" name="increase_attack_speed_btn">
-        <property name="text">
-         <string>+</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="skill_point_label">
-      <property name="text">
-       <string>Upgrade Available:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0" colspan="2">
-     <layout class="QHBoxLayout" name="bullet_speed_layout">
-      <item>
-       <widget class="QLabel" name="bullet_speed_label">
-        <property name="text">
-         <string>Bullet Speed:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="bullet_speed_value">
-        <property name="text">
-         <string>0</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="increase_bullet_speed_btn">
         <property name="text">
          <string>+</string>
         </property>
@@ -188,13 +170,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="0" column="2" rowspan="8">
-     <widget class="Line" name="line_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
     </item>
     <item row="2" column="0" colspan="2">
      <layout class="QHBoxLayout" name="damage_layout">
@@ -261,6 +236,31 @@
       </item>
      </layout>
     </item>
+    <item row="5" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="bullet_speed_layout">
+      <item>
+       <widget class="QLabel" name="bullet_speed_label">
+        <property name="text">
+         <string>Bullet Speed:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="bullet_speed_value">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="increase_bullet_speed_btn">
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
    </layout>
   </widget>
   <widget class="QPushButton" name="show_hud_btn">
@@ -276,6 +276,75 @@
     <string>&lt;&lt;&lt;</string>
    </property>
   </widget>
+  <widget class="QToolButton" name="giant_btn">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>190</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>GIANT</string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="sharpshooter_btn">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>110</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SHARPSHOOTER</string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="assassin_btn">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>190</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ASSASSIN</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>441</width>
+     <height>351</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="engineer_btn">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>110</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ENGINEER</string>
+   </property>
+  </widget>
+  <zorder>listView</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>show_hud_btn</zorder>
+  <zorder>giant_btn</zorder>
+  <zorder>sharpshooter_btn</zorder>
+  <zorder>assassin_btn</zorder>
+  <zorder>engineer_btn</zorder>
  </widget>
  <resources/>
  <connections/>
