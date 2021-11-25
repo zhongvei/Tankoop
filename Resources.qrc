@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/img/logo.png</file>
+        <file>Resources/icon/tankoop.jpg</file>
+    </qresource>
+</RCC>

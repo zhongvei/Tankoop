@@ -49,10 +49,10 @@ double Enemy::distanceTo(Basic * basic){
     return ln.length();
 }
 
-int reload_finish = 0;
-bool reload = true;
+//int reload_finish = 0;
+//bool reload = true;
 
-void Enemy::fire(bool &reload){
+void Enemy::fire(){
     QTransform transform;
     transform.translate(this->get_size()/2,this->get_size()/2);
     transform.rotate(get_degree());
@@ -60,18 +60,14 @@ void Enemy::fire(bool &reload){
     //transform.translate(-dx,-dy);
     this->setTransform(transform);
 
-    if(!reload){
-        reload = true;
+    if(!this->get_reload_status()){
+        change_reload_status();
         qDebug() << "ENEMY GOES PEW-PEW";
         Bullet * bullet = new Bullet(this,50,0,10,0.6,0.6);
         bullet->set_degree(this->get_degree());
         bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y() +(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
         scene()->addItem(bullet);
     }
-
-
-
-
 }
 
 template <typename T>
@@ -151,16 +147,16 @@ void Enemy::detecting(){
 
 
 void Enemy::stateHunting(){
-    if(reload){
-        reload_finish += 1;
-        if (reload_finish == 10){
-            reload = false;
-            reload_finish = 0;
+    if(this->get_reload_status()){
+        this->set_reload_finish(this->get_reload_finish() + 1);
+        if (get_reload_finish() == 10){
+            this->change_reload_status();
+            this->set_reload_finish(0);
         }
     }
 
     if(num_target){
-        fire(reload);
+        fire();
         num_target = 0;
     }
     else{

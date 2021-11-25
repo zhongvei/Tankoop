@@ -2,6 +2,7 @@
 #define TANK_H
 
 #include "GameEntity.h"
+
 #include <QGraphicsRectItem>
 #include <QRandomGenerator>
 #include <QGraphicsScene>
@@ -10,7 +11,16 @@
 #include <QtMath>
 
 class Tank: public GameEntity, public QGraphicsRectItem {
+
 public:
+
+    enum class TYPE {
+        NORMAL = 0,
+        GIANT = 1,
+        ASSASIN = 2,
+        SHARPSHOOTER = 3,
+        ENGINEER = 4
+    };
 
     double get_attack_speed() const;
     void set_attack_speed(double attack_speed);
@@ -35,9 +45,22 @@ public:
     int get_total_skill_point() const;
     void increase_total_skill_point();
 
+    int get_evolution_point() const;
+    void increase_evolution_point();
+    void decrease_evolution_point();
+
     void check_collision();
     void increase_level();
-    virtual void dummy(){}
+
+    int get_reload_finish() const;
+    void set_reload_finish(int reload_finish);
+
+    bool get_reload_status() const;
+    void change_reload_status();
+
+    void change_class(Tank::TYPE type);
+
+    virtual void skill(){}
     
 private:
     double attack_speed{};
@@ -45,7 +68,12 @@ private:
     double damage{};
     int total_skill_point{};
     int skill_point{};
+    int evolution_point{};
     double degree{};
+    int reload_finish{};
+    bool reload {1};
+
+    Tank::TYPE type = Tank::TYPE::NORMAL;
 
     qreal angle = 0;
     qreal speed = 0;

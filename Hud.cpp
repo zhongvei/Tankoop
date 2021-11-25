@@ -19,8 +19,8 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     ui->setupUi(this);
     shown = true;
     update_value();
-
-    this->setStyleSheet("background-color:white;");
+//    ui->groupBox->setStyleSheet("background-color:rgba(41, 70, 255, 0.8);");
+    ui->listView->setStyleSheet("background-color:rgba(255, 255, 255);");
 
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
     connect(ui->increase_health_regen_btn,SIGNAL(clicked()),this,SLOT(increase_health_regen_clicked()));
@@ -29,6 +29,11 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     connect(ui->increase_movement_speed_btn,SIGNAL(clicked()),this,SLOT(increase_movement_speed_clicked()));
     connect(ui->increase_bullet_speed_btn,SIGNAL(clicked()),this,SLOT(increase_bullet_speed_clicked()));
     connect(ui->show_hud_btn,SIGNAL(clicked()),this,SLOT(show_hud_cicked()));
+
+    connect(ui->assassin_btn,SIGNAL(clicked()),this,SLOT(assassin_btn_clicked()));
+    connect(ui->sharpshooter_btn,SIGNAL(clicked()),this,SLOT(sharpshooter_btn_clicked()));
+    connect(ui->giant_btn,SIGNAL(clicked()),this,SLOT(giant_btn_clicked()));
+    connect(ui->engineer_btn,SIGNAL(clicked()),this,SLOT(engineer_btn_clicked()));
 
 }
 
@@ -73,7 +78,7 @@ void Hud::increase_movement_speed_clicked() {
 void Hud::increase_attack_speed_clicked() {
     qDebug()<<"as clicked";
     if(tank->get_skill_point() >= 1) {
-        tank->set_attack_speed(tank->get_attack_speed() + 5);
+        tank->set_attack_speed(tank->get_attack_speed() - 0.05);
         tank->decrease_skill_point();
     }
     tank->setFocus();
@@ -106,6 +111,41 @@ bool Hud::check_upgrade() {
     }
     return false;
 }
+bool Hud::check_evolution() {
+    if(tank->get_evolution_point() == 1) {
+        return true;
+    }
+    return false;
+}
+
+void Hud::giant_btn_clicked() {
+    if(check_evolution()) {
+        tank->change_class(Tank::TYPE::GIANT);
+        tank->decrease_evolution_point();
+    }
+    tank->setFocus();
+}
+void Hud::sharpshooter_btn_clicked() {
+    if(check_evolution()) {
+        tank->change_class(Tank::TYPE::SHARPSHOOTER);
+        tank->decrease_evolution_point();
+    }
+    tank->setFocus();
+}
+void Hud::engineer_btn_clicked() {
+    if(check_evolution()) {
+        tank->change_class(Tank::TYPE::SHARPSHOOTER);
+        tank->decrease_evolution_point();
+    }
+    tank->setFocus();
+}
+void Hud::assassin_btn_clicked() {
+    if(check_evolution()){
+        tank->change_class(Tank::TYPE::ASSASIN);
+        tank->decrease_evolution_point();
+    }
+    tank->setFocus();
+}
 
 void Hud::update_btn_color(){
     if(tank->get_skill_point() >= 1) {
@@ -122,6 +162,17 @@ void Hud::update_btn_color(){
         ui->increase_health_regen_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_max_health_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_movement_speed_btn->setStyleSheet(UPGRADE_DISABLE);
+    }
+    if(tank->get_evolution_point() >= 1) {
+        ui->engineer_btn->setStyleSheet(UPGRADE_AVAILABLE);
+        ui->assassin_btn->setStyleSheet(UPGRADE_AVAILABLE);
+        ui->giant_btn->setStyleSheet(UPGRADE_AVAILABLE);
+        ui->sharpshooter_btn->setStyleSheet(UPGRADE_AVAILABLE);
+    } else {
+        ui->engineer_btn->setStyleSheet(UPGRADE_DISABLE);
+        ui->assassin_btn->setStyleSheet(UPGRADE_DISABLE);
+        ui->giant_btn->setStyleSheet(UPGRADE_DISABLE);
+        ui->sharpshooter_btn->setStyleSheet(UPGRADE_DISABLE);
     }
 }
 

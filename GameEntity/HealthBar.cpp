@@ -19,7 +19,6 @@ void HealthBar::advance(int step)
 {
     if (!step)
         return;
-
     QPointF healthpos;
     healthpos.setX(this->x());
     healthpos.setY(this->y());
@@ -34,6 +33,9 @@ void HealthBar::advance(int step)
     double health = tank->get_health();
     double max_health = tank->get_max_health();
     double health_percentage = health/max_health;
+    if(tank->get_health() < tank->get_max_health()) {
+        tank->set_health(tank->get_health() + tank->get_health_regen()*0.05);
+    }
     if (health_percentage<=0) {health_percentage=0;}
 
     healthPercentageRect->setRect(this->x(),this->y(),80*health_percentage,18); // change 80 if health_bar width is changed

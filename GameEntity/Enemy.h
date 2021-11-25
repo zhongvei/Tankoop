@@ -24,7 +24,7 @@ public:
     double get_attack_scale() const { return attack_scale; }
     double get_sight_scale() const { return sight_scale; }
 
-    void fire(bool &reload);
+    void fire();
     void detecting();
 
     double distanceTo(Block * item);

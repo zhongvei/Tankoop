@@ -10,7 +10,7 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.6,0.6,50,1,0,0),
+Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.8,0.6,100,1,0,0),
     parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
 }
 
@@ -32,14 +32,19 @@ void Basic::keyPressEvent(QKeyEvent *event){
 
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
-        qDebug() << "PEW-PEW";
-        qDebug() << get_bullet_speed();
-        Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
-        bullet->set_degree(this->get_degree());
-        //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
-        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
+        if(!this->get_reload_status()) {
+            qDebug() << "PEW-PEW";
+            qDebug() << get_bullet_speed();
+            Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+            bullet->set_degree(this->get_degree());
+            //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
+            bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57))));
 
-        scene()->addItem(bullet);
+            scene()->addItem(bullet);
+            this->change_reload_status();
+            this->set_reload_finish(0);
+        }
+
     }
 
 }
@@ -119,6 +124,13 @@ void Basic::advance(int step)
     facing_cursor(this);
     increase_level();
     setFocus();
+
+    if(this->get_reload_status()) {
+        set_reload_finish(this->get_reload_finish()+1);
+        if(get_reload_finish()== qRound(get_attack_speed()/0.05)) {
+            this->change_reload_status();
+        }
+    }
 
     // dont delete
 //    QPainter painter(QPaintDevice);

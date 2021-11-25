@@ -16,7 +16,8 @@ Tank::Tank(
         GameEntity(health,health_regen,max_health,size,vx,vy,xp,level),
         attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
-        QRandomGenerator::global()->bounded(256)) {};
+        QRandomGenerator::global()->bounded(256))
+{};
 
 /* The Accessor of Tank Object */
 double Tank::get_attack_speed() const { return attack_speed;}
@@ -24,16 +25,15 @@ double Tank::get_bullet_speed() const { return bullet_speed; }
 double Tank::get_damage() const { return damage; }
 double Tank::get_degree() const { return degree; }
 int Tank::get_skill_point() const {return skill_point;}
+bool Tank::get_reload_status() const {return reload;}
+int Tank::get_reload_finish() const {return reload_finish;}
+int Tank::get_evolution_point() const {return evolution_point;}
 
 
 void Tank::advance(int step)
 {
-    if (!step)      
+    if (!step)
         return;
-
-    QPointF healthpos;
-    healthpos.setX(this->x());
-    healthpos.setY(this->y());
 }
 
 
@@ -92,11 +92,57 @@ void Tank::check_collision() {
 }
 
 void Tank::increase_level() {
-    if((this->get_xp()/100 > this->get_level())) {
+    if((this->get_xp()/100 >= this->get_level())) {
        this->set_level(this->get_level() + 1);
        this->increase_total_skill_point();
        this->increase_skill_point();
        qDebug()<<"INCREASED LEVEL BY 1";
+       if((this->get_level() % 10) == 0 && this->get_level() != 0) {
+           this->increase_evolution_point();
+           qDebug()<<"INCREASE EVOLUTION POINT BY 1";
+       }
+    }
+
+}
+
+
+
+void Tank::change_class(Tank::TYPE type) {
+    this->type = type;
+    switch (type)
+    {
+        case Tank::TYPE::ASSASIN:
+            this->set_attack_speed(this->get_attack_speed()*2);
+            this->set_bullet_speed(this->get_bullet_speed() -0.5);
+            this->set_health_regen(this->get_health_regen() *2);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_vx(this->get_vx() + 1);
+            break;
+        case Tank::TYPE::GIANT:
+            this->set_attack_speed(this->get_attack_speed()*2);
+            this->set_bullet_speed(this->get_bullet_speed() -0.5);
+            this->set_health_regen(this->get_health_regen() *2);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_vx(this->get_vx() + 1);
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            this->set_attack_speed(this->get_attack_speed()*2);
+            this->set_bullet_speed(this->get_bullet_speed() -0.5);
+            this->set_health_regen(this->get_health_regen() *2);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_vx(this->get_vx() + 1);
+            break;
+        case Tank::TYPE::ENGINEER:
+            this->set_attack_speed(this->get_attack_speed()*2);
+            this->set_bullet_speed(this->get_bullet_speed() -0.5);
+            this->set_health_regen(this->get_health_regen() *2);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_vx(this->get_vx() + 1);
+            break;
     }
 }
 
@@ -109,4 +155,7 @@ void Tank::increase_skill_point() {this->skill_point++; }
 void Tank::decrease_skill_point() {this->skill_point--; }
 int Tank::get_total_skill_point() const {return this->total_skill_point;}
 void Tank::increase_total_skill_point() {this->total_skill_point++;}
-
+void Tank::set_reload_finish(int reload_finish) {this->reload_finish = reload_finish;}
+void Tank::change_reload_status() { reload? this->reload = 0: this->reload = 1;}
+void Tank::increase_evolution_point() {this->evolution_point++;}
+void Tank::decrease_evolution_point() {this->evolution_point--;}
