@@ -136,8 +136,7 @@ void GameEngine::entity_spawn() {
     }
     set_block_count(block);
     set_enemy_count(enemy);
-    qDebug()<<enemy_count;
-    qDebug()<<block_count;
+
     spawn_loop();
     spawn_enemies();
 
