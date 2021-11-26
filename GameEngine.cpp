@@ -2,14 +2,13 @@
 #include "GameEntity/Basic.h"
 #include "GameEntity/Enemy.h"
 #include "GameEntity/HealthBar.h"
+#include "EndGameWindow.h"
 
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QTimer>
 
-
-
-GameEngine::GameEngine(GameWindow* window): window(window)
+GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene): window(window), scene(scene)
 {}
 
 /* MUTATOR */
@@ -33,6 +32,9 @@ void GameEngine::run(){
     connect(loop_timer, &QTimer::timeout, this, &GameEngine::main_loop);
     connect(loop_timer, &QTimer::timeout, window->scene, &QGraphicsScene::advance);
     loop_timer->start(1000/60); // 60 fps
+
+    /* TIMER FOR TOTAL TIME ALIVE IN ENDING STATISTICS */
+    elapsed_timer.start();
 
     /* ENEMY SPAWNER */
 //    enemy_timer = new QTimer{this};
@@ -62,11 +64,36 @@ void GameEngine::main_loop() {
         hud->update_value();
         entity_spawn();
     } else {
+        qDebug() << "gameover";
         hud->hide();
         loop_timer->stop();
-        QMessageBox* msg_box = new QMessageBox(window);
-        msg_box->setText("GAMEOVER!");
-        msg_box->show();
+        delete loop_timer;
+
+        //QMessageBox* msg_box = new QMessageBox(window);
+        //msg_box->setText("GAMEOVER!");
+        //msg_box->show();
+
+        /* Create MainWindow::EndGameWindow */
+        EndGameWindow* endWindow = new EndGameWindow;
+        endWindow->setWindowTitle("TankOOP");
+
+        /* Calculate Ending Statistics */
+        QString player_xp = QString::number(player->get_xp());
+        QString player_class = player->TYPE_textstr[static_cast<int>(player->get_class())];
+        QString player_subtank = player->SUBTANK_textstr[static_cast<int>(player->get_subtank())];
+        QString player_time_alive = QString::number(elapsed_timer.elapsed()/1000);
+        endWindow->endGameStats(player_xp, player_class, player_subtank, player_time_alive);
+
+        endWindow->show();
+
+        // TODO: stop the game when game ends
+        // (not really necessary, takes too much time to find out how to delete all things)
+        // just cannot do play again after player just died, or else severe memory leak
+        //scene->clear();
+
+        window->close();
+
+
     }
 }
 

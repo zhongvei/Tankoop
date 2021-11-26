@@ -18,7 +18,7 @@ public:
     enum class TYPE {
         NORMAL = 0,
         GIANT = 1,
-        ASSASIN = 2,
+        ASSASIN = 2, // TODO: fix spelling: assassin
         SHARPSHOOTER = 3,
         ENGINEER = 4
     };
@@ -33,6 +33,29 @@ public:
         DUAL = 6,
         SPAWNER = 7,
         TRAPPER = 8
+    };
+
+    /* To print out enum class values as text */
+    QString TYPE_textstr[5] =
+    {
+        QString("Normal"),
+        QString("Giant"),
+        QString("Assassin"),
+        QString("Sharpshooter"),
+        QString("Engineer"),
+    };
+
+    QString SUBTANK_textstr[9] =
+    {
+        QString("Default"),
+        QString("Spinner"),
+        QString("Pounder"),
+        QString("Hunter"),
+        QString("Immune"),
+        QString("Sniper"),
+        QString("Dual"),
+        QString("Spawner"),
+        QString("Trapper"),
     };
 
     double get_reload_speed() const;
