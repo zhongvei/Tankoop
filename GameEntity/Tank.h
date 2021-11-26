@@ -25,6 +25,18 @@ public:
         ENGINEER = 4
     };
 
+    enum class SUBTANK {
+        DEFUALT = 0,
+        SPINNER = 1,
+        POUNDER = 2,
+        HUNTER = 3,
+        IMMUNE = 4,
+        SNIPER = 5,
+        DUAL = 6,
+        SPAWNER = 7,
+        TRAPPER = 8
+    };
+
     double get_reload_speed() const;
     void set_reload_speed(double reload_speed);
 
@@ -61,14 +73,23 @@ public:
     bool get_reload_status() const;
     void change_reload_status();
 
+    bool get_cooldown_status() const;
+    void change_cooldown_status();
+
+    int get_cooldown() const;
+    void set_cooldown(int cooldown);
+
     void change_class(Tank::TYPE type);
     TYPE get_class() const;
+
+    void change_subtank(Tank::SUBTANK subtank);
+    SUBTANK get_subtank() const;
 
     void create_heatlh_bar(QGraphicsScene* scene);
 
     HealthBar* get_health_bar() const;
 
-    virtual void skill(){}
+    void skill();
     
 private:
     double reload_speed{};
@@ -80,10 +101,14 @@ private:
     double degree{};
     int reload_finish{};
     bool reload {1};
+    bool cooldown_status {};
+    int cooldown {};
+
 
     HealthBar* health_bar{};
 
     Tank::TYPE type = Tank::TYPE::NORMAL;
+    Tank::SUBTANK subtank = Tank::SUBTANK::DEFUALT;
 
     qreal angle = 0;
     qreal speed = 0;

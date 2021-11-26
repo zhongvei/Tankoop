@@ -25,6 +25,14 @@ void Basic::keyPressEvent(QKeyEvent *event){
         case Qt::Key::Key_A:
             LEFT = true;
             break;
+        case Qt::Key::Key_Q:
+            if (!this->get_cooldown_status()) {
+                qDebug()<<"SKILL PRESSED";
+                skill();
+                this->change_cooldown_status();
+                this->set_cooldown(50);
+            }
+            break;
     }
 
     if (event->key() == Qt::Key_Space){
@@ -126,6 +134,13 @@ void Basic::advance(int step)
         if(get_reload_finish()== qRound(get_reload_speed()/0.05)) {
             this->change_reload_status();
         }
+    }
+    if(this->get_cooldown_status()) {
+        set_cooldown(this->get_cooldown() - 1);
+        if(!this->get_cooldown()) {
+            this->change_cooldown_status();
+        }
+
     }
 
     // dont delete

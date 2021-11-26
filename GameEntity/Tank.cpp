@@ -32,6 +32,9 @@ int Tank::get_reload_finish() const {return reload_finish;}
 int Tank::get_evolution_point() const {return evolution_point;}
 HealthBar* Tank::get_health_bar() const {return health_bar;}
 Tank::TYPE Tank::get_class() const {return type;}
+Tank::SUBTANK Tank::get_subtank() const {return subtank;}
+int Tank::get_cooldown() const {return cooldown;}
+bool Tank::get_cooldown_status() const {return cooldown_status;}
 
 void Tank::advance(int step)
 {
@@ -169,7 +172,27 @@ void Tank::increase_level() {
 
 }
 
-
+void Tank::skill() {
+    switch (this->get_subtank())
+    {
+        case Tank::SUBTANK::SPINNER:
+            break;
+        case Tank::SUBTANK::POUNDER:
+            break;
+        case Tank::SUBTANK::HUNTER:
+            break;
+        case Tank::SUBTANK::IMMUNE:
+            break;
+        case Tank::SUBTANK::SNIPER:
+            break;
+        case Tank::SUBTANK::DUAL:
+            break;
+        case Tank::SUBTANK::SPAWNER:
+            break;
+        case Tank::SUBTANK::TRAPPER:
+            break;
+    }
+}
 
 void Tank::change_class(Tank::TYPE type) {
     this->type = type;
@@ -214,6 +237,31 @@ void Tank::change_class(Tank::TYPE type) {
     }
 }
 
+void Tank::change_subtank(Tank::SUBTANK subtank) {
+    if(!this->get_cooldown_status()) {
+        this->subtank = subtank;
+        switch (subtank)
+        {
+            case Tank::SUBTANK::SPINNER:
+                break;
+            case Tank::SUBTANK::POUNDER:
+                break;
+            case Tank::SUBTANK::HUNTER:
+                break;
+            case Tank::SUBTANK::IMMUNE:
+                break;
+            case Tank::SUBTANK::SNIPER:
+                break;
+            case Tank::SUBTANK::DUAL:
+                break;
+            case Tank::SUBTANK::SPAWNER:
+                break;
+            case Tank::SUBTANK::TRAPPER:
+                break;
+        }
+    }
+}
+
 void Tank::create_heatlh_bar(QGraphicsScene *scene) {
     health_bar = new HealthBar(this,scene);
 }
@@ -231,3 +279,5 @@ void Tank::set_reload_finish(int reload_finish) {this->reload_finish = reload_fi
 void Tank::change_reload_status() { reload? this->reload = 0: this->reload = 1;}
 void Tank::increase_evolution_point() {this->evolution_point++;}
 void Tank::decrease_evolution_point() {this->evolution_point--;}
+void Tank::change_cooldown_status() {this->cooldown_status? this->cooldown_status = false: this->cooldown_status = true;}
+void Tank::set_cooldown(int cooldown) {this->cooldown = cooldown;}
