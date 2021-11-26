@@ -4,9 +4,9 @@
 #include "Tank.h"
 #include "GameEntity.h"
 #include <QObject>
-#include <QGraphicsRectItem>
 
-class Bullet : public QObject, public QGraphicsRectItem, public GameEntity
+
+class Bullet : public QObject, public GameEntity
 {
     Q_OBJECT
 public:        

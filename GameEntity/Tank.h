@@ -2,14 +2,13 @@
 #define TANK_H
 
 #include "GameEntity.h"
-#include <QGraphicsRectItem>
 #include <QRandomGenerator>
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOption>
 #include <QtMath>
 
-class Tank: public GameEntity, public QGraphicsRectItem {
+class Tank: public GameEntity {
 public:
 
     double get_attack_speed() const;

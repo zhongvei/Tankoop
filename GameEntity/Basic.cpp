@@ -156,6 +156,5 @@ void Basic::facing_cursor(Basic* basic) {
     transform.rotate(angle_in_degrees);
     transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
     basic->setTransform(transform);
-
     basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
 }

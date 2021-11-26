@@ -1,7 +1,9 @@
 #ifndef GAMEENTITY_H
 #define GAMEENTITY_H
 
-class GameEntity
+#include <QGraphicsRectItem>
+
+class GameEntity: public QGraphicsRectItem
 {
 public:
     enum class category{

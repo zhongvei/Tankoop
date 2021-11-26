@@ -25,10 +25,11 @@ public:
     double get_sight_scale() const { return sight_scale; }
 
     void fire(bool &reload);
-    void detecting();
+    void detecting(QList <QGraphicsItem *> items, QPointF *blocks_coordinate, int &detected_blocks);
+    void whereToMove(QPointF *running_location, int size);
 
-    double distanceTo(Block * item);
-    double distanceTo(Basic * basic);
+    double distanceTo(GameEntity * the_target);
+
     ~Enemy();
 
 public slots:
@@ -36,17 +37,19 @@ public slots:
 
 private:
     int num_target;
+
     double attack_range;
     double attack_scale;
     double sight_scale;
     bool player_detected {false};
+    QPointF player_location;
 
     STATE current_state = STATE::HUNTING;
     QGraphicsEllipseItem *attack_area;
     QGraphicsEllipseItem *sight_area;
 
     void stateHunting();
-    void stateRunning();
+    void stateRunning(QPointF *blocks_coordinate, const int &detected_blocks);
 
 };
 
