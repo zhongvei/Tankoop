@@ -47,21 +47,18 @@ void Hud::increase_max_health_clicked() {
         tank->set_max_health(tank->get_max_health() + 50);
         tank->decrease_skill_point();
     }
-    tank->setFocus();
 }
 void Hud::increase_health_regen_clicked() {
     if(tank->get_skill_point() >= 1) {
         tank->set_health_regen(tank->get_health_regen() + 5);
         tank->decrease_skill_point();
     }
-    tank->setFocus();
 }
 void Hud::increase_damage_clicked() {
     if(tank->get_skill_point()>=1){
         tank->set_damage(tank->get_damage() + 10);
         tank->decrease_skill_point();
     }
-    tank->setFocus();
 }
 void Hud::increase_movement_speed_clicked() {
     if(tank->get_skill_point() >= 1) {
@@ -69,21 +66,18 @@ void Hud::increase_movement_speed_clicked() {
         tank->set_vy(tank->get_vy() + 2);
         tank->decrease_skill_point();
     }
-    tank->setFocus();
 }
 void Hud::increase_attack_speed_clicked() {
     if(tank->get_skill_point() >= 1) {
         tank->set_attack_speed(tank->get_attack_speed() - 0.05);
         tank->decrease_skill_point();
     }
-    tank->setFocus();
 }
 void Hud::increase_bullet_speed_clicked() {
     if(tank->get_skill_point() >= 1) {
         tank->set_bullet_speed(tank->get_bullet_speed() + 3);
         tank->decrease_skill_point();
     }
-    tank->setFocus();
 }
 
 void Hud::update_value() {
@@ -117,28 +111,24 @@ void Hud::giant_btn_clicked() {
         tank->change_class(Tank::TYPE::GIANT);
         tank->decrease_evolution_point();
     }
-    tank->setFocus();
 }
 void Hud::sharpshooter_btn_clicked() {
     if(check_evolution()) {
         tank->change_class(Tank::TYPE::SHARPSHOOTER);
         tank->decrease_evolution_point();
     }
-    tank->setFocus();
 }
 void Hud::engineer_btn_clicked() {
     if(check_evolution()) {
         tank->change_class(Tank::TYPE::SHARPSHOOTER);
         tank->decrease_evolution_point();
     }
-    tank->setFocus();
 }
 void Hud::assassin_btn_clicked() {
     if(check_evolution()){
         tank->change_class(Tank::TYPE::ASSASIN);
         tank->decrease_evolution_point();
     }
-    tank->setFocus();
 }
 
 void Hud::update_btn_color(){

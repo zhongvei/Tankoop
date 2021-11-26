@@ -69,7 +69,7 @@ void GameEngine::main_loop() {
 }
 
 void GameEngine::spawn_enemies(){
-    if(get_enemy_count() <= 5) {
+    if(get_enemy_count() < 3) {
         qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
         Enemy *enemy = new Enemy(500,100); // multiple of 50
 
