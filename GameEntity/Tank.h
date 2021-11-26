@@ -8,6 +8,7 @@
 #include <QRandomGenerator>
 #include <QGraphicsScene>
 #include <QPainter>
+#include <QPen>
 #include <QStyleOption>
 
 class HealthBar;
@@ -61,6 +62,8 @@ public:
     void change_reload_status();
 
     void change_class(Tank::TYPE type);
+    TYPE get_class() const;
+
     void create_heatlh_bar(QGraphicsScene* scene);
 
     HealthBar* get_health_bar() const;
@@ -73,7 +76,7 @@ private:
     double damage{};
     int total_skill_point{};
     int skill_point{};
-    int evolution_point{};
+    int evolution_point{1};
     double degree{};
     int reload_finish{};
     bool reload {1};

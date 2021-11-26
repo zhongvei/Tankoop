@@ -31,6 +31,7 @@ bool Tank::get_reload_status() const {return reload;}
 int Tank::get_reload_finish() const {return reload_finish;}
 int Tank::get_evolution_point() const {return evolution_point;}
 HealthBar* Tank::get_health_bar() const {return health_bar;}
+Tank::TYPE Tank::get_class() const {return type;}
 
 void Tank::advance(int step)
 {
@@ -61,11 +62,46 @@ QRectF Tank::boundingRect() const
 // overriding QGraphicsItem::paint(). Draws Tank instead of a Rectangle.
 void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    //painter->drawRect(-12.5,-12.5,60,25);
-    painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
-    painter->setBrush(color);
-    //painter->drawEllipse(-25, -25, 50, 50);
-    painter->drawEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+    QRectF rectangle = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+    QPainterPath path;
+
+    switch (get_class()) {
+        case Tank::TYPE::NORMAL:
+           painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+            painter->setBrush(color);
+            painter->drawEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            break;
+        case Tank::TYPE::GIANT:
+            painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+            painter->setBrush(color);
+            painter->drawRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            break;
+        case Tank::TYPE::ASSASIN:
+            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+            path.moveTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.bottomLeft());
+            path.lineTo(rectangle.topLeft());
+            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            painter->fillPath(path, color);
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+            painter->setBrush(color);
+            painter->drawEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+            break;
+        case Tank::TYPE::ENGINEER:
+            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+            painter->setPen (QPen(Qt::black, 5, Qt::SolidLine));
+            path.moveTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.top());
+            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.bottom());
+            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.bottom());
+            path.lineTo(rectangle.left(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+            painter->fillPath(path, color);
+            break;
+    }
 }
 
 /* Reimplementing ::shape()
@@ -74,10 +110,35 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 */
 QPainterPath Tank::shape() const
 {
+    QRectF rectangle = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
     QPainterPath path;
-    // Currently shape is just a small square. Change code if necessary for better collision detection.
-    path.addEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
-//    path.addRect(-40, -40, 130, 130);
+    // Shape for collision detection
+    switch (get_class()) {
+        case Tank::TYPE::NORMAL:
+            path.addEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            break;
+        case Tank::TYPE::GIANT:
+            path.addRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            break;
+        case Tank::TYPE::ASSASIN:
+            path.moveTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.bottomLeft());
+            path.lineTo(rectangle.topLeft());
+            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            path.addEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+            break;
+        case Tank::TYPE::ENGINEER:
+            path.moveTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.top());
+            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.bottom());
+            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.bottom());
+            path.lineTo(rectangle.left(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+            break;
+    }
     return path;
 }
 
