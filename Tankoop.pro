@@ -15,14 +15,6 @@ SOURCES += \
     GameEntity/FirstStage.cpp \
     GameEntity/HealthBar.cpp \
     GameEntity/Enemy.cpp \
-    GameEntity/Subtank/Spinner.cpp \
-    GameEntity/Subtank/Dual.cpp \
-    GameEntity/Subtank/Hunter.cpp \
-    GameEntity/Subtank/Immune.cpp \
-    GameEntity/Subtank/Pounder.cpp \
-    GameEntity/Subtank/Sniper.cpp \
-    GameEntity/Subtank/Spawner.cpp \
-    GameEntity/Subtank/Trapper.cpp \
     GameEntity/Tank.cpp \
     GameEntity/gameentity.cpp \
     GameWindow.cpp \
@@ -38,14 +30,6 @@ HEADERS += \
     GameEntity/FirstStage.h \
     GameEntity/HealthBar.h \
     GameEntity/Enemy.h \
-    GameEntity/Subtank/Spinner.h \
-    GameEntity/Subtank/Dual.h \
-    GameEntity/Subtank/Hunter.h \
-    GameEntity/Subtank/Immune.h \
-    GameEntity/Subtank/Pounder.h \
-    GameEntity/Subtank/Sniper.h \
-    GameEntity/Subtank/Spawner.h \
-    GameEntity/Subtank/Trapper.h\
     GameWindow.h \
     GameEntity/Tank.h \
     GameEntity/gameentity.h \
