@@ -2,17 +2,41 @@
 #define TANK_H
 
 #include "GameEntity.h"
+#include "HealthBar.h"
+
 #include <QRandomGenerator>
 #include <QGraphicsScene>
 #include <QPainter>
+#include <QPen>
 #include <QStyleOption>
-#include <QtMath>
+
+class HealthBar;
 
 class Tank: public GameEntity {
 public:
 
-    double get_attack_speed() const;
-    void set_attack_speed(double attack_speed);
+    enum class TYPE {
+        NORMAL = 0,
+        GIANT = 1,
+        ASSASIN = 2,
+        SHARPSHOOTER = 3,
+        ENGINEER = 4
+    };
+
+    enum class SUBTANK {
+        DEFUALT = 0,
+        SPINNER = 1,
+        POUNDER = 2,
+        HUNTER = 3,
+        IMMUNE = 4,
+        SNIPER = 5,
+        DUAL = 6,
+        SPAWNER = 7,
+        TRAPPER = 8
+    };
+
+    double get_reload_speed() const;
+    void set_reload_speed(double reload_speed);
 
     double get_bullet_speed() const;
     void set_bullet_speed(double bullet_speed);
@@ -34,17 +58,55 @@ public:
     int get_total_skill_point() const;
     void increase_total_skill_point();
 
+    int get_evolution_point() const;
+    void increase_evolution_point();
+    void decrease_evolution_point();
+
     void check_collision();
     void increase_level();
-    virtual void dummy(){}
+
+    int get_reload_finish() const;
+    void set_reload_finish(int reload_finish);
+
+    bool get_reload_status() const;
+    void change_reload_status();
+
+    bool get_cooldown_status() const;
+    void change_cooldown_status();
+
+    int get_cooldown() const;
+    void set_cooldown(int cooldown);
+
+    void change_class(Tank::TYPE type);
+    TYPE get_class() const;
+
+    void change_subtank(Tank::SUBTANK subtank);
+    SUBTANK get_subtank() const;
+
+    void create_heatlh_bar(QGraphicsScene* scene);
+
+    HealthBar* get_health_bar() const;
+
+    void skill();
     
 private:
-    double attack_speed{};
+    double reload_speed{};
     double bullet_speed{};
     double damage{};
     int total_skill_point{};
     int skill_point{};
+    int evolution_point{1};
     double degree{};
+    int reload_finish{};
+    bool reload {1};
+    bool cooldown_status {};
+    int cooldown {};
+
+
+    HealthBar* health_bar{};
+
+    Tank::TYPE type = Tank::TYPE::NORMAL;
+    Tank::SUBTANK subtank = Tank::SUBTANK::DEFUALT;
 
     qreal angle = 0;
     qreal speed = 0;
@@ -55,7 +117,7 @@ protected:
     Tank(
         const double& health, const double& health_regen, const double& max_health, 
         const int& size, const double& vx, const double& vy,const double& xp,
-        const double& attack_speed,
+        const double& reload_speed,
         const double& bullet_speed,
         const double& damage,
         const int& level,

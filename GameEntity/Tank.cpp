@@ -3,37 +3,43 @@
 
 #include <QDebug>
 
+class HealthBar;
+
 /* The Constructor of Tank Object */
 Tank::Tank(
         const double& health, const double& health_regen, const double& max_health, const int& size,
         const double& vx, const double& vy,const double& xp,
-        const double& attack_speed,
+        const double& reload_speed,
         const double& bullet_speed,
         const double& damage,
         const int& level,
         const int& skill_point,
         const int& degree):
         GameEntity(health,health_regen,max_health,size,vx,vy,xp,level),
-        attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
+        reload_speed(reload_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
-        QRandomGenerator::global()->bounded(256)) {};
+        QRandomGenerator::global()->bounded(256))
+{};
 
 /* The Accessor of Tank Object */
-double Tank::get_attack_speed() const { return attack_speed;}
+double Tank::get_reload_speed() const { return reload_speed;}
 double Tank::get_bullet_speed() const { return bullet_speed; }
 double Tank::get_damage() const { return damage; }
 double Tank::get_degree() const { return degree; }
 int Tank::get_skill_point() const {return skill_point;}
-
+bool Tank::get_reload_status() const {return reload;}
+int Tank::get_reload_finish() const {return reload_finish;}
+int Tank::get_evolution_point() const {return evolution_point;}
+HealthBar* Tank::get_health_bar() const {return health_bar;}
+Tank::TYPE Tank::get_class() const {return type;}
+Tank::SUBTANK Tank::get_subtank() const {return subtank;}
+int Tank::get_cooldown() const {return cooldown;}
+bool Tank::get_cooldown_status() const {return cooldown_status;}
 
 void Tank::advance(int step)
 {
-    if (!step)      
+    if (!step)
         return;
-
-    QPointF healthpos;
-    healthpos.setX(this->x());
-    healthpos.setY(this->y());
 }
 
 
@@ -48,6 +54,7 @@ void Tank::advance(int step)
  * range of boundingRect, it will lead to drawing issues where parts of the Tank gets left
  * behind when Tank moves.
 */
+
 QRectF Tank::boundingRect() const
 {
 
@@ -58,11 +65,46 @@ QRectF Tank::boundingRect() const
 // overriding QGraphicsItem::paint(). Draws Tank instead of a Rectangle.
 void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    //painter->drawRect(-12.5,-12.5,60,25);
-    painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
-    painter->setBrush(color);
-    //painter->drawEllipse(-25, -25, 50, 50);
-    painter->drawEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+    QRectF rectangle = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+    QPainterPath path;
+
+    switch (get_class()) {
+        case Tank::TYPE::NORMAL:
+           painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+            painter->setBrush(color);
+            painter->drawEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            break;
+        case Tank::TYPE::GIANT:
+            painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+            painter->setBrush(color);
+            painter->drawRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            break;
+        case Tank::TYPE::ASSASIN:
+            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+            path.moveTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.bottomLeft());
+            path.lineTo(rectangle.topLeft());
+            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            painter->fillPath(path, color);
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+            painter->setBrush(color);
+            painter->drawEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+            break;
+        case Tank::TYPE::ENGINEER:
+            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+            painter->setPen (QPen(Qt::black, 5, Qt::SolidLine));
+            path.moveTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.top());
+            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.bottom());
+            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.bottom());
+            path.lineTo(rectangle.left(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+            painter->fillPath(path, color);
+            break;
+    }
 }
 
 /* Reimplementing ::shape()
@@ -71,10 +113,35 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 */
 QPainterPath Tank::shape() const
 {
+    QRectF rectangle = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
     QPainterPath path;
-    // Currently shape is just a small square. Change code if necessary for better collision detection.
-    path.addEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
-//    path.addRect(-40, -40, 130, 130);
+    // Shape for collision detection
+    switch (get_class()) {
+        case Tank::TYPE::NORMAL:
+            path.addEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            break;
+        case Tank::TYPE::GIANT:
+            path.addRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            break;
+        case Tank::TYPE::ASSASIN:
+            path.moveTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.bottomLeft());
+            path.lineTo(rectangle.topLeft());
+            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            path.addEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+            break;
+        case Tank::TYPE::ENGINEER:
+            path.moveTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.top());
+            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.bottom());
+            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.bottom());
+            path.lineTo(rectangle.left(), rectangle.top() + rectangle.height()/2);
+            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+            break;
+    }
     return path;
 }
 
@@ -92,16 +159,115 @@ void Tank::check_collision() {
 }
 
 void Tank::increase_level() {
-    if((this->get_xp()/100 > this->get_level())) {
+    if((this->get_xp()/100 >= this->get_level())) {
        this->set_level(this->get_level() + 1);
        this->increase_total_skill_point();
        this->increase_skill_point();
        qDebug()<<"INCREASED LEVEL BY 1";
+       if((this->get_level() % 10) == 0 && this->get_level() != 0) {
+           this->increase_evolution_point();
+           qDebug()<<"INCREASE EVOLUTION POINT BY 1";
+       }
+    }
+
+}
+
+void Tank::skill() {
+    switch (this->get_subtank())
+    {
+        case Tank::SUBTANK::SPINNER:
+            break;
+        case Tank::SUBTANK::POUNDER:
+            break;
+        case Tank::SUBTANK::HUNTER:
+            break;
+        case Tank::SUBTANK::IMMUNE:
+            break;
+        case Tank::SUBTANK::SNIPER:
+            break;
+        case Tank::SUBTANK::DUAL:
+            break;
+        case Tank::SUBTANK::SPAWNER:
+            break;
+        case Tank::SUBTANK::TRAPPER:
+            break;
     }
 }
 
+void Tank::change_class(Tank::TYPE type) {
+    this->type = type;
+    switch (type)
+    {
+        case Tank::TYPE::GIANT:
+            this->set_max_health(this->get_max_health() * 2);
+            this->set_health_regen(this->get_health_regen() * 1.5);
+            this->set_vx(this->get_vx() * 1);
+            this->set_vy(this->get_vy() * 1);
+            this->set_damage(this->get_damage() * 1.2);
+            this->set_reload_speed(this->get_reload_speed() - 0.1);
+            this->set_bullet_speed(this->get_bullet_speed() * 1);
+            break;
+        case Tank::TYPE::ASSASIN:
+            this->set_max_health(this->get_max_health() * 1.2);
+            this->set_health_regen(this->get_health_regen() * 0.8);
+            this->set_vx(this->get_vx() * 1.5);
+            this->set_vy(this->get_vy() * 1.5);
+            this->set_damage(this->get_damage() * 1);
+            this->set_reload_speed(this->get_reload_speed() - 0.2);
+            this->set_bullet_speed(this->get_bullet_speed() * 1);
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            this->set_max_health(this->get_max_health() * 1);
+            this->set_health_regen(this->get_health_regen() * 1);
+            this->set_vx(this->get_vx() * 1.2);
+            this->set_vy(this->get_vy() * 1.2);
+            this->set_damage(this->get_damage() * 2);
+            this->set_reload_speed(this->get_reload_speed() + 0.2);
+            this->set_bullet_speed(this->get_bullet_speed() * 1.5);
+            break;
+        case Tank::TYPE::ENGINEER:
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_health_regen(this->get_health_regen() * 1.2);
+            this->set_vx(this->get_vx() * 1.2);
+            this->set_vy(this->get_vy() * 1.2);
+            this->set_damage(this->get_damage() * 1.2);
+            this->set_reload_speed(this->get_reload_speed() - 0.1);
+            this->set_bullet_speed(this->get_bullet_speed() * 1);
+            break;
+    }
+}
+
+void Tank::change_subtank(Tank::SUBTANK subtank) {
+    if(!this->get_cooldown_status()) {
+        this->subtank = subtank;
+        switch (subtank)
+        {
+            case Tank::SUBTANK::SPINNER:
+                break;
+            case Tank::SUBTANK::POUNDER:
+                break;
+            case Tank::SUBTANK::HUNTER:
+                break;
+            case Tank::SUBTANK::IMMUNE:
+                break;
+            case Tank::SUBTANK::SNIPER:
+                break;
+            case Tank::SUBTANK::DUAL:
+                break;
+            case Tank::SUBTANK::SPAWNER:
+                break;
+            case Tank::SUBTANK::TRAPPER:
+                break;
+        }
+    }
+}
+
+void Tank::create_heatlh_bar(QGraphicsScene *scene) {
+    health_bar = new HealthBar(this,scene);
+}
+
 /* The Mutator of Tank Object */
-void Tank::set_attack_speed(double attack_speed) { this->attack_speed = attack_speed; }
+void Tank::set_reload_speed(double reload_speed) { this->reload_speed = reload_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
 void Tank::set_damage(double damage) { this->damage = damage; }
 void Tank::set_degree(double degree) { this->degree = degree; }
@@ -109,4 +275,9 @@ void Tank::increase_skill_point() {this->skill_point++; }
 void Tank::decrease_skill_point() {this->skill_point--; }
 int Tank::get_total_skill_point() const {return this->total_skill_point;}
 void Tank::increase_total_skill_point() {this->total_skill_point++;}
-
+void Tank::set_reload_finish(int reload_finish) {this->reload_finish = reload_finish;}
+void Tank::change_reload_status() { reload? this->reload = 0: this->reload = 1;}
+void Tank::increase_evolution_point() {this->evolution_point++;}
+void Tank::decrease_evolution_point() {this->evolution_point--;}
+void Tank::change_cooldown_status() {this->cooldown_status? this->cooldown_status = false: this->cooldown_status = true;}
+void Tank::set_cooldown(int cooldown) {this->cooldown = cooldown;}
