@@ -167,7 +167,3 @@ void Basic::facing_cursor(Basic* basic) {
 
     basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
 }
-
-void Basic::set_cooldown_status() {this->cooldown_status ? cooldown_status = false : cooldown_status = true;}
-
-int Basic::get_skill_cooldown() const {return this->skill_cooldown;}

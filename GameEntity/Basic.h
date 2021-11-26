@@ -23,17 +23,6 @@ private:
 
 public:
 
-    enum class ADVANCED {
-        POUNDER = 1,
-        SPINNER = 2,
-        HUNTER = 3,
-        IMMUNE = 4,
-        DUAL = 5,
-        SNIPER = 6,
-        SPAWNER = 7,
-        TRAPPER = 8
-    };
-
     Basic(QGraphicsView* parent=nullptr);
     void keyPressEvent(QKeyEvent * event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
@@ -42,8 +31,6 @@ public:
     double get_changex();
     double get_changey();
 
-    int get_skill_cooldown() const;
-    void set_cooldown_status();
 
 protected:
     void advance(int step) override;
