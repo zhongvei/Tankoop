@@ -4,7 +4,7 @@
 #include "GameEntity.h"
 #include <QGraphicsRectItem>
 
-class Block : public GameEntity, public QGraphicsRectItem
+class Block : public GameEntity
 {
 public:
     double get_collision_damge() const;

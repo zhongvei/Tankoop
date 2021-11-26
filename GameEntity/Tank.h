@@ -4,7 +4,6 @@
 #include "GameEntity.h"
 #include "HealthBar.h"
 
-#include <QGraphicsRectItem>
 #include <QRandomGenerator>
 #include <QGraphicsScene>
 #include <QPainter>
@@ -13,8 +12,7 @@
 
 class HealthBar;
 
-class Tank: public GameEntity, public QGraphicsRectItem {
-
+class Tank: public GameEntity {
 public:
 
     enum class TYPE {
