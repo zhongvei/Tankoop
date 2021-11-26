@@ -9,7 +9,6 @@
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOption>
-#include <QtMath>
 
 class HealthBar;
 

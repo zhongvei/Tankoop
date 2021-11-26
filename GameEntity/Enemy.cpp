@@ -103,10 +103,6 @@ void Enemy::detecting(){
                     num_target += 1;
                     //qDebug() << "BLOCK DETECTED INSIDE SHOOTING RANGE";
                 }
-                else{
-                    qDebug() << "BLOCK DETECTED";
-                }
-
                 Block *the_target = dynamic_cast<Block*>(spotted_items[i]);
                 double this_dist = distanceTo(the_target);
                 findClosestDistance(the_target,spotted_items,this_dist,closest_dist, i,closest_pt,closest_size);

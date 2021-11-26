@@ -50,6 +50,7 @@ void Tank::advance(int step)
  * range of boundingRect, it will lead to drawing issues where parts of the Tank gets left
  * behind when Tank moves.
 */
+
 QRectF Tank::boundingRect() const
 {
 
@@ -113,37 +114,41 @@ void Tank::change_class(Tank::TYPE type) {
     this->type = type;
     switch (type)
     {
-        case Tank::TYPE::ASSASIN:
-            this->set_attack_speed(this->get_attack_speed()*2);
-            this->set_bullet_speed(this->get_bullet_speed() -0.5);
-            this->set_health_regen(this->get_health_regen() *2);
-            this->set_damage(this->get_damage() * 1.1);
-            this->set_max_health(this->get_max_health() * 1.5);
-            this->set_vx(this->get_vx() + 1);
-            break;
         case Tank::TYPE::GIANT:
-            this->set_attack_speed(this->get_attack_speed()*2);
-            this->set_bullet_speed(this->get_bullet_speed() -0.5);
-            this->set_health_regen(this->get_health_regen() *2);
-            this->set_damage(this->get_damage() * 1.1);
-            this->set_max_health(this->get_max_health() * 1.5);
-            this->set_vx(this->get_vx() + 1);
+            this->set_max_health(this->get_max_health() * 2);
+            this->set_health_regen(this->get_health_regen() * 1.5);
+            this->set_vx(this->get_vx() * 1);
+            this->set_vy(this->get_vy() * 1);
+            this->set_damage(this->get_damage() * 1.2);
+            this->set_attack_speed(this->get_attack_speed() - 0.1);
+            this->set_bullet_speed(this->get_bullet_speed() * 1);
+            break;
+        case Tank::TYPE::ASSASIN:
+            this->set_max_health(this->get_max_health() * 1.2);
+            this->set_health_regen(this->get_health_regen() * 0.8);
+            this->set_vx(this->get_vx() * 1.5);
+            this->set_vy(this->get_vy() * 1.5);
+            this->set_damage(this->get_damage() * 1);
+            this->set_attack_speed(this->get_attack_speed() - 0.2);
+            this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
         case Tank::TYPE::SHARPSHOOTER:
-            this->set_attack_speed(this->get_attack_speed()*2);
-            this->set_bullet_speed(this->get_bullet_speed() -0.5);
-            this->set_health_regen(this->get_health_regen() *2);
-            this->set_damage(this->get_damage() * 1.1);
-            this->set_max_health(this->get_max_health() * 1.5);
-            this->set_vx(this->get_vx() + 1);
+            this->set_max_health(this->get_max_health() * 1);
+            this->set_health_regen(this->get_health_regen() * 1);
+            this->set_vx(this->get_vx() * 1.2);
+            this->set_vy(this->get_vy() * 1.2);
+            this->set_damage(this->get_damage() * 2);
+            this->set_attack_speed(this->get_attack_speed() + 0.2);
+            this->set_bullet_speed(this->get_bullet_speed() * 1.5);
             break;
         case Tank::TYPE::ENGINEER:
-            this->set_attack_speed(this->get_attack_speed()*2);
-            this->set_bullet_speed(this->get_bullet_speed() -0.5);
-            this->set_health_regen(this->get_health_regen() *2);
-            this->set_damage(this->get_damage() * 1.1);
             this->set_max_health(this->get_max_health() * 1.5);
-            this->set_vx(this->get_vx() + 1);
+            this->set_health_regen(this->get_health_regen() * 1.2);
+            this->set_vx(this->get_vx() * 1.2);
+            this->set_vy(this->get_vy() * 1.2);
+            this->set_damage(this->get_damage() * 1.2);
+            this->set_attack_speed(this->get_attack_speed() - 0.1);
+            this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
     }
 }

@@ -4,11 +4,6 @@
 #include <QIcon>
 #include <QPointF>
 #include <QPainter>
-#include <QDir>
-#include <QtWidgets>
-#include <QGraphicsRectItem>
-#include <QGraphicsEllipseItem>
-#include <QMessageBox>
 
 class GameEngine;
 

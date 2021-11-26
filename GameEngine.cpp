@@ -3,16 +3,25 @@
 #include "GameEntity/Enemy.h"
 #include "GameEntity/HealthBar.h"
 
-#include <cstdlib>
-
+#include <QRandomGenerator>
 #include <QMessageBox>
 #include <QTimer>
 
 
-GameEngine::GameEngine(GameWindow* window): window(window)
-{
 
-}
+GameEngine::GameEngine(GameWindow* window): window(window)
+{}
+
+/* MUTATOR */
+void GameEngine::increase_block_count() {this->block_count++;}
+void GameEngine::decrease_block_count() {this->block_count--;}
+
+void GameEngine::increase_enemy_count() {this->enemy_count++;}
+void GameEngine::decrease_enemy_count() {this->enemy_count--;}
+
+/* ACCESOR */
+int GameEngine::get_block_count() const {return block_count;}
+int GameEngine::get_enemy_count() const {return enemy_count;}
 
 void GameEngine::run(){
     /* CREATE THE PLAYER, STARTS WITH THE BASIC CLASS */
@@ -29,9 +38,9 @@ void GameEngine::run(){
     loop_timer->start(1000/60); // 60 fps
 
     /* ENEMY SPAWNER */
-//    enemy_timer = new QTimer{this};
-//    connect(enemy_timer, &QTimer::timeout, this, &GameEngine::spawn_enemies);
-//    enemy_timer->start(10000); //adding new enemy every 5 seconds
+    enemy_timer = new QTimer{this};
+    connect(enemy_timer, &QTimer::timeout, this, &GameEngine::spawn_enemies);
+    enemy_timer->start(10000); //adding new enemy every 100 seconds
     spawn_enemies();
 
     /* CREATE HEALTH BAR */
@@ -40,6 +49,7 @@ void GameEngine::run(){
 
     //spawn the block
     spawn_loop();
+    qDebug()<<get_block_count();
 
     /* The HUD */
     hud = new Hud(window, player);
@@ -59,30 +69,37 @@ void GameEngine::main_loop() {
 }
 
 void GameEngine::spawn_enemies(){
-    qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
-    Enemy *enemy = new Enemy(500,100); // multiple of 50
+    if(get_enemy_count() <= 5) {
+        qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
+        Enemy *enemy = new Enemy(500,100); // multiple of 50
 
-    enemy->setPos(600,250); //make it random
-    enemy->setRect(0,0,enemy->get_size(),enemy->get_size());
-    //double scale = enemy->get_size() / enemy->get_range();
-    enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_attack_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_attack_scale()-1)/2);
-    enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
-    enemy->create_heatlh_bar(window->scene);
-    window->scene->addItem(enemy->get_health_bar());
+        enemy->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
+                      QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));
+        enemy->setRect(0,0,enemy->get_size(),enemy->get_size());
+        //double scale = enemy->get_size() / enemy->get_range();
+        enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_attack_scale()-1)/2,
+                                         enemy->y() - enemy->get_size() * (enemy->get_attack_scale()-1)/2);
+        enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2,
+                                        enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
+        enemy->create_heatlh_bar(window->scene);
+        window->scene->addItem(enemy->get_health_bar());
 
-    window->scene->addItem(enemy);
-    window->scene->addItem(enemy->get_attack_area());
-    window->scene->addItem(enemy->get_sight_area());
+        window->scene->addItem(enemy);
+        window->scene->addItem(enemy->get_attack_area());
+        window->scene->addItem(enemy->get_sight_area());
+        increase_enemy_count();
+    }
 }
 
 void GameEngine::spawn_loop() {
     for(int number = 0; number < 300; number++) {
         Block* block = new Block(100,100,30,0,0,10,1,0);
         block->setRect(0,0,block->get_size(),block->get_size());
-        block->setPos(rand()%GameWindow::WINDOW_WIDTH,rand()%GameWindow::WINDOW_HEIGHT);
+        block->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
+                      QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));
         QTransform transform;
         transform.translate(block->get_size()/2,block->get_size()/2);
-        transform.rotate(rand()%360);
+        transform.rotate(QRandomGenerator::global()->bounded(360));
         transform.translate(-(block->get_size()/2),-(block->get_size()/2));
         block->setTransform(transform);
         block->setBrush(Qt::red);
@@ -100,6 +117,7 @@ void GameEngine::spawn_loop() {
             window->scene->removeItem(block);
             delete block;
         }
+        increase_block_count();
     }
 }
 

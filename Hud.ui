@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>370</height>
+    <width>487</width>
+    <height>603</height>
    </rect>
   </property>
   <property name="font">
@@ -75,6 +75,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="increase_movement_speed_btn">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>+</string>
         </property>
@@ -114,6 +117,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="increase_attack_speed_btn">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>+</string>
         </property>
@@ -139,6 +145,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="increase_health_regen_btn">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>+</string>
         </property>
@@ -164,6 +173,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="increase_max_health_btn">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>+</string>
         </property>
@@ -189,6 +201,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="increase_damage_btn">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>+</string>
         </property>
@@ -254,6 +269,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="increase_bullet_speed_btn">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>+</string>
         </property>
@@ -272,6 +290,9 @@
      <height>23</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="text">
     <string>&lt;&lt;&lt;</string>
    </property>
@@ -279,11 +300,14 @@
   <widget class="QToolButton" name="giant_btn">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>190</y>
+     <x>30</x>
+     <y>470</y>
      <width>91</width>
      <height>81</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="text">
     <string>GIANT</string>
@@ -292,11 +316,14 @@
   <widget class="QToolButton" name="sharpshooter_btn">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>110</y>
+     <x>120</x>
+     <y>390</y>
      <width>91</width>
      <height>81</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="text">
     <string>SHARPSHOOTER</string>
@@ -305,11 +332,14 @@
   <widget class="QToolButton" name="assassin_btn">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>190</y>
+     <x>120</x>
+     <y>470</y>
      <width>91</width>
      <height>81</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="text">
     <string>ASSASSIN</string>
@@ -320,19 +350,25 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>441</width>
-     <height>351</height>
+     <width>221</width>
+     <height>581</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="engineer_btn">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>110</y>
+     <x>30</x>
+     <y>390</y>
      <width>91</width>
      <height>81</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="text">
     <string>ENGINEER</string>

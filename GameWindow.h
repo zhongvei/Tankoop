@@ -6,7 +6,6 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
-
 class GameWindow : public QGraphicsView
 {
     Q_OBJECT

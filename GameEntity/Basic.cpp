@@ -1,16 +1,13 @@
 #include "Basic.h"
 #include "Bullet.h"
 
-#include <cstdlib>
-#include <cmath>
-
 #include <QKeyEvent>
 #include <QPointF>
 #include <QCursor>
 #include <QGraphicsView>
 #include <QDebug>
 
-Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.8,0.6,100,1,0,0),
+Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.8,0.6,50,1,0,0),
     parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
 }
 
@@ -34,7 +31,6 @@ void Basic::keyPressEvent(QKeyEvent *event){
         /* Create a bullet */
         if(!this->get_reload_status()) {
             qDebug() << "PEW-PEW";
-            qDebug() << get_bullet_speed();
             Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
             bullet->set_degree(this->get_degree());
             //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));

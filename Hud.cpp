@@ -17,7 +17,7 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     tank(tank)
 {
     ui->setupUi(this);
-    shown = true;
+    ui->show_hud_btn->setFocusPolicy(Qt::NoFocus);
     update_value();
 //    ui->groupBox->setStyleSheet("background-color:rgba(41, 70, 255, 0.8);");
     ui->listView->setStyleSheet("background-color:rgba(255, 255, 255);");
@@ -43,7 +43,6 @@ Hud::~Hud()
 }
 
 void Hud::increase_max_health_clicked() {
-    qDebug()<<"mh clicked";
     if(tank->get_skill_point() >= 1) {
         tank->set_max_health(tank->get_max_health() + 50);
         tank->decrease_skill_point();
@@ -51,7 +50,6 @@ void Hud::increase_max_health_clicked() {
     tank->setFocus();
 }
 void Hud::increase_health_regen_clicked() {
-    qDebug()<<"hr clicked";
     if(tank->get_skill_point() >= 1) {
         tank->set_health_regen(tank->get_health_regen() + 5);
         tank->decrease_skill_point();
@@ -59,7 +57,6 @@ void Hud::increase_health_regen_clicked() {
     tank->setFocus();
 }
 void Hud::increase_damage_clicked() {
-    qDebug()<<"dmg clicked";
     if(tank->get_skill_point()>=1){
         tank->set_damage(tank->get_damage() + 10);
         tank->decrease_skill_point();
@@ -67,16 +64,14 @@ void Hud::increase_damage_clicked() {
     tank->setFocus();
 }
 void Hud::increase_movement_speed_clicked() {
-    qDebug()<<"ms clicked";
     if(tank->get_skill_point() >= 1) {
-        tank->set_vx(tank->get_vx() + 7);
-        tank->set_vy(tank->get_vy() + 7);
+        tank->set_vx(tank->get_vx() + 2);
+        tank->set_vy(tank->get_vy() + 2);
         tank->decrease_skill_point();
     }
     tank->setFocus();
 }
 void Hud::increase_attack_speed_clicked() {
-    qDebug()<<"as clicked";
     if(tank->get_skill_point() >= 1) {
         tank->set_attack_speed(tank->get_attack_speed() - 0.05);
         tank->decrease_skill_point();
@@ -84,7 +79,6 @@ void Hud::increase_attack_speed_clicked() {
     tank->setFocus();
 }
 void Hud::increase_bullet_speed_clicked() {
-    qDebug()<<"bs clicked";
     if(tank->get_skill_point() >= 1) {
         tank->set_bullet_speed(tank->get_bullet_speed() + 3);
         tank->decrease_skill_point();
@@ -180,12 +174,10 @@ void Hud::show_hud_cicked() {
     if(shown) {
         ui->show_hud_btn->setText(">>>");
         this->move(-220,0);
-        tank->setFocus();
         shown = false;
     } else {
         ui->show_hud_btn->setText("<<<");
         this->move(0,0);
-        tank->setFocus();
         shown = true;
     }
 }
