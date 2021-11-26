@@ -4,6 +4,8 @@
 #include "Tank.h"
 #include <QGraphicsRectItem>
 
+class Tank;
+
 class HealthBar : public QGraphicsRectItem
 {
 
@@ -13,6 +15,7 @@ QGraphicsScene* scene;
 
 public:
     HealthBar(Tank* tank, QGraphicsScene* scene);
+    ~HealthBar();
 protected:
     void advance(int step) override;
 };

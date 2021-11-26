@@ -3,6 +3,8 @@
 
 #include <QDebug>
 
+class HealthBar;
+
 /* The Constructor of Tank Object */
 Tank::Tank(
         const double& health, const double& health_regen, const double& max_health, const int& size,
@@ -28,7 +30,7 @@ int Tank::get_skill_point() const {return skill_point;}
 bool Tank::get_reload_status() const {return reload;}
 int Tank::get_reload_finish() const {return reload_finish;}
 int Tank::get_evolution_point() const {return evolution_point;}
-
+HealthBar* Tank::get_health_bar() const {return health_bar;}
 
 void Tank::advance(int step)
 {
@@ -144,6 +146,10 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_vx(this->get_vx() + 1);
             break;
     }
+}
+
+void Tank::create_heatlh_bar(QGraphicsScene *scene) {
+    health_bar = new HealthBar(this,scene);
 }
 
 /* The Mutator of Tank Object */

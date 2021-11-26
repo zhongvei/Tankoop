@@ -29,14 +29,14 @@ void GameEngine::run(){
     loop_timer->start(1000/60); // 60 fps
 
     /* ENEMY SPAWNER */
-    enemy_timer = new QTimer{this};
-    connect(enemy_timer, &QTimer::timeout, this, &GameEngine::spawn_enemies);
-    enemy_timer->start(10000); //adding new enemy every 5 seconds
+//    enemy_timer = new QTimer{this};
+//    connect(enemy_timer, &QTimer::timeout, this, &GameEngine::spawn_enemies);
+//    enemy_timer->start(10000); //adding new enemy every 5 seconds
     spawn_enemies();
 
     /* CREATE HEALTH BAR */
-    HealthBar* health_bar = new HealthBar(player, window->scene);
-    window->scene->addItem(health_bar);
+    player->create_heatlh_bar(window->scene);
+    window->scene->addItem(player->get_health_bar());
 
     //spawn the block
     spawn_loop();
@@ -67,8 +67,8 @@ void GameEngine::spawn_enemies(){
     //double scale = enemy->get_size() / enemy->get_range();
     enemy->get_attack_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_attack_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_attack_scale()-1)/2);
     enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2, enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
-    HealthBar* health_bar = new HealthBar(enemy,window->scene);
-    window->scene->addItem(health_bar);
+    enemy->create_heatlh_bar(window->scene);
+    window->scene->addItem(enemy->get_health_bar());
 
     window->scene->addItem(enemy);
     window->scene->addItem(enemy->get_attack_area());

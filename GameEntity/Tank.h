@@ -2,6 +2,7 @@
 #define TANK_H
 
 #include "GameEntity.h"
+#include "HealthBar.h"
 
 #include <QGraphicsRectItem>
 #include <QRandomGenerator>
@@ -9,6 +10,8 @@
 #include <QPainter>
 #include <QStyleOption>
 #include <QtMath>
+
+class HealthBar;
 
 class Tank: public GameEntity, public QGraphicsRectItem {
 
@@ -59,6 +62,9 @@ public:
     void change_reload_status();
 
     void change_class(Tank::TYPE type);
+    void create_heatlh_bar(QGraphicsScene* scene);
+
+    HealthBar* get_health_bar() const;
 
     virtual void skill(){}
     
@@ -72,6 +78,8 @@ private:
     double degree{};
     int reload_finish{};
     bool reload {1};
+
+    HealthBar* health_bar{};
 
     Tank::TYPE type = Tank::TYPE::NORMAL;
 

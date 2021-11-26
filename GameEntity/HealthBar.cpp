@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QGraphicsRectItem>
 
+class Tank;
+
 HealthBar::HealthBar(Tank* tank, QGraphicsScene* scene) : tank(tank), scene(scene)
 {
 
@@ -13,6 +15,11 @@ HealthBar::HealthBar(Tank* tank, QGraphicsScene* scene) : tank(tank), scene(scen
     healthPercentageRect->setRect(0,0,100,20);
     healthPercentageRect->setBrush(Qt::green);
     scene->addItem(healthPercentageRect);
+}
+
+HealthBar::~HealthBar() {
+    scene->removeItem(healthPercentageRect);
+    delete healthPercentageRect;
 }
 
 void HealthBar::advance(int step)
