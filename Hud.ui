@@ -100,23 +100,23 @@
      </widget>
     </item>
     <item row="4" column="0" colspan="2">
-     <layout class="QHBoxLayout" name="attack_speed_layout">
+     <layout class="QHBoxLayout" name="reload_speed_layout">
       <item>
-       <widget class="QLabel" name="attack_speed_label">
+       <widget class="QLabel" name="reload_speed_label">
         <property name="text">
-         <string>Attack Speed:</string>
+         <string>Reload Speed:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="attack_speed_value">
+       <widget class="QLabel" name="reload_speed_value">
         <property name="text">
          <string>0</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="increase_attack_speed_btn">
+       <widget class="QPushButton" name="increase_reload_speed_btn">
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>

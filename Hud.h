@@ -23,7 +23,7 @@ public slots:
     void increase_health_regen_clicked();
     void increase_damage_clicked();
     void increase_movement_speed_clicked();
-    void increase_attack_speed_clicked();
+    void increase_reload_speed_clicked();
     void increase_bullet_speed_clicked();
 
     void update_btn_color();

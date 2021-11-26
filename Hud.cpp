@@ -25,7 +25,7 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
     connect(ui->increase_health_regen_btn,SIGNAL(clicked()),this,SLOT(increase_health_regen_clicked()));
     connect(ui->increase_damage_btn,SIGNAL(clicked()),this,SLOT(increase_damage_clicked()));
-    connect(ui->increase_attack_speed_btn,SIGNAL(clicked()),this,SLOT(increase_attack_speed_clicked()));
+    connect(ui->increase_reload_speed_btn,SIGNAL(clicked()),this,SLOT(increase_reload_speed_clicked()));
     connect(ui->increase_movement_speed_btn,SIGNAL(clicked()),this,SLOT(increase_movement_speed_clicked()));
     connect(ui->increase_bullet_speed_btn,SIGNAL(clicked()),this,SLOT(increase_bullet_speed_clicked()));
     connect(ui->show_hud_btn,SIGNAL(clicked()),this,SLOT(show_hud_cicked()));
@@ -67,15 +67,15 @@ void Hud::increase_movement_speed_clicked() {
         tank->decrease_skill_point();
     }
 }
-void Hud::increase_attack_speed_clicked() {
+void Hud::increase_reload_speed_clicked() {
     if(tank->get_skill_point() >= 1) {
-        tank->set_attack_speed(tank->get_attack_speed() - 0.05);
+        tank->set_reload_speed(tank->get_reload_speed() - 0.05);
         tank->decrease_skill_point();
     }
 }
 void Hud::increase_bullet_speed_clicked() {
     if(tank->get_skill_point() >= 1) {
-        tank->set_bullet_speed(tank->get_bullet_speed() + 3);
+        tank->set_bullet_speed(tank->get_bullet_speed() + 0.3);
         tank->decrease_skill_point();
     }
 }
@@ -86,7 +86,7 @@ void Hud::update_value() {
     ui->health_regen_value->setText(QString::number(tank->get_health_regen()));
     ui->damage_value->setText(QString::number(tank->get_damage()));
     ui->movement_speed_value->setText(QString::number(tank->get_vx()));
-    ui->attack_speed_value->setText(QString::number(tank->get_attack_speed()));
+    ui->reload_speed_value->setText(QString::number(tank->get_reload_speed()));
     ui->bullet_speed_value->setText(QString::number(tank->get_bullet_speed()));
     ui->skill_point_value->setText(QString::number(tank->get_skill_point()));
     ui->exp_value->setText(QString::number(tank->get_xp()));
@@ -133,14 +133,14 @@ void Hud::assassin_btn_clicked() {
 
 void Hud::update_btn_color(){
     if(tank->get_skill_point() >= 1) {
-        ui->increase_attack_speed_btn->setStyleSheet(UPGRADE_AVAILABLE);
+        ui->increase_reload_speed_btn->setStyleSheet(UPGRADE_AVAILABLE);
         ui->increase_bullet_speed_btn->setStyleSheet(UPGRADE_AVAILABLE);
         ui->increase_damage_btn->setStyleSheet(UPGRADE_AVAILABLE);
         ui->increase_health_regen_btn->setStyleSheet(UPGRADE_AVAILABLE);
         ui->increase_max_health_btn->setStyleSheet(UPGRADE_AVAILABLE);
         ui->increase_movement_speed_btn->setStyleSheet(UPGRADE_AVAILABLE);
     } else{
-        ui->increase_attack_speed_btn->setStyleSheet(UPGRADE_DISABLE);
+        ui->increase_reload_speed_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_bullet_speed_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_damage_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_health_regen_btn->setStyleSheet(UPGRADE_DISABLE);

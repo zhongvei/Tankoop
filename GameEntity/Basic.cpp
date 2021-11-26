@@ -123,7 +123,7 @@ void Basic::advance(int step)
 
     if(this->get_reload_status()) {
         set_reload_finish(this->get_reload_finish()+1);
-        if(get_reload_finish()== qRound(get_attack_speed()/0.05)) {
+        if(get_reload_finish()== qRound(get_reload_speed()/0.05)) {
             this->change_reload_status();
         }
     }

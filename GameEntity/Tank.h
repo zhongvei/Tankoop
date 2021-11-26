@@ -24,8 +24,8 @@ public:
         ENGINEER = 4
     };
 
-    double get_attack_speed() const;
-    void set_attack_speed(double attack_speed);
+    double get_reload_speed() const;
+    void set_reload_speed(double reload_speed);
 
     double get_bullet_speed() const;
     void set_bullet_speed(double bullet_speed);
@@ -68,7 +68,7 @@ public:
     virtual void skill(){}
     
 private:
-    double attack_speed{};
+    double reload_speed{};
     double bullet_speed{};
     double damage{};
     int total_skill_point{};
@@ -91,7 +91,7 @@ protected:
     Tank(
         const double& health, const double& health_regen, const double& max_health, 
         const int& size, const double& vx, const double& vy,const double& xp,
-        const double& attack_speed,
+        const double& reload_speed,
         const double& bullet_speed,
         const double& damage,
         const int& level,

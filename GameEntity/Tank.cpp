@@ -9,20 +9,20 @@ class HealthBar;
 Tank::Tank(
         const double& health, const double& health_regen, const double& max_health, const int& size,
         const double& vx, const double& vy,const double& xp,
-        const double& attack_speed,
+        const double& reload_speed,
         const double& bullet_speed,
         const double& damage,
         const int& level,
         const int& skill_point,
         const int& degree):
         GameEntity(health,health_regen,max_health,size,vx,vy,xp,level),
-        attack_speed(attack_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
+        reload_speed(reload_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
         QRandomGenerator::global()->bounded(256))
 {};
 
 /* The Accessor of Tank Object */
-double Tank::get_attack_speed() const { return attack_speed;}
+double Tank::get_reload_speed() const { return reload_speed;}
 double Tank::get_bullet_speed() const { return bullet_speed; }
 double Tank::get_damage() const { return damage; }
 double Tank::get_degree() const { return degree; }
@@ -120,7 +120,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_vx(this->get_vx() * 1);
             this->set_vy(this->get_vy() * 1);
             this->set_damage(this->get_damage() * 1.2);
-            this->set_attack_speed(this->get_attack_speed() - 0.1);
+            this->set_reload_speed(this->get_reload_speed() - 0.1);
             this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
         case Tank::TYPE::ASSASIN:
@@ -129,7 +129,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_vx(this->get_vx() * 1.5);
             this->set_vy(this->get_vy() * 1.5);
             this->set_damage(this->get_damage() * 1);
-            this->set_attack_speed(this->get_attack_speed() - 0.2);
+            this->set_reload_speed(this->get_reload_speed() - 0.2);
             this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
         case Tank::TYPE::SHARPSHOOTER:
@@ -138,7 +138,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_vx(this->get_vx() * 1.2);
             this->set_vy(this->get_vy() * 1.2);
             this->set_damage(this->get_damage() * 2);
-            this->set_attack_speed(this->get_attack_speed() + 0.2);
+            this->set_reload_speed(this->get_reload_speed() + 0.2);
             this->set_bullet_speed(this->get_bullet_speed() * 1.5);
             break;
         case Tank::TYPE::ENGINEER:
@@ -147,7 +147,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_vx(this->get_vx() * 1.2);
             this->set_vy(this->get_vy() * 1.2);
             this->set_damage(this->get_damage() * 1.2);
-            this->set_attack_speed(this->get_attack_speed() - 0.1);
+            this->set_reload_speed(this->get_reload_speed() - 0.1);
             this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
     }
@@ -158,7 +158,7 @@ void Tank::create_heatlh_bar(QGraphicsScene *scene) {
 }
 
 /* The Mutator of Tank Object */
-void Tank::set_attack_speed(double attack_speed) { this->attack_speed = attack_speed; }
+void Tank::set_reload_speed(double reload_speed) { this->reload_speed = reload_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
 void Tank::set_damage(double damage) { this->damage = damage; }
 void Tank::set_degree(double degree) { this->degree = degree; }

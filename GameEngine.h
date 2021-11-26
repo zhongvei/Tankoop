@@ -20,16 +20,12 @@ public:
     void spawn_loop();
     void spawn_enemies();
     bool game_over();
-
+    void entity_spawn();
     int get_enemy_count() const;
     int get_block_count() const;
 
-    void increase_enemy_count();
-    void decrease_enemy_count();
-
-    void increase_block_count();
-    void decrease_block_count();
-
+    void set_enemy_count(int enemy_count);
+    void set_block_count(int block_count);
 private:
     int enemy_count{};
     int block_count{};
@@ -37,6 +33,7 @@ private:
     GameWindow* window;
     QTimer* loop_timer;
     QTimer* enemy_timer;
+    QTimer* entity_spawn_timer;
     QTimer* single;
     Tank* player;
     Hud* hud;
