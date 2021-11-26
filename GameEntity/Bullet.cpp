@@ -50,7 +50,6 @@ void Bullet::move(){
                     if(the_enemy->get_health() <= 0){
                        scene()->removeItem(colliding_items[i]);
                        scene()->removeItem(the_enemy->get_health_bar());
-                       delete the_enemy->get_health_bar();
                        tank->set_xp(tank->get_xp()+the_enemy->get_xp());
                        delete colliding_items[i];
                     }
