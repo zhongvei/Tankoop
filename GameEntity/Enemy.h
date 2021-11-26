@@ -24,9 +24,8 @@ public:
     double get_attack_scale() const { return attack_scale; }
     double get_sight_scale() const { return sight_scale; }
 
-    void fire(bool &reload);
-    void detecting(QList <QGraphicsItem *> items, QPointF *blocks_coordinate, int &detected_blocks);
-    void whereToMove(QPointF *running_location, int size);
+    void fire();
+    void detecting(QList <QGraphicsItem *> items, int &detected_blocks);
 
     double distanceTo(GameEntity * the_target);
 
@@ -49,7 +48,7 @@ private:
     QGraphicsEllipseItem *sight_area;
 
     void stateHunting();
-    void stateRunning(QPointF *blocks_coordinate, const int &detected_blocks);
+    //void stateRunning(QPointF *blocks_coordinate, const int &detected_blocks);
 
 };
 

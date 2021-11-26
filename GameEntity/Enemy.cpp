@@ -74,7 +74,7 @@ void findClosestDistance(T a, double this_dist, double &closest_dist, QPointF &c
 }
 
 
-void Enemy::detecting(QList<QGraphicsItem *> items, QPointF *blocks_coordinate, int &detected_blocks){
+void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
 
     double closest_dist = 800;
     QPointF closest_pt = QPointF(0,0);
@@ -83,17 +83,12 @@ void Enemy::detecting(QList<QGraphicsItem *> items, QPointF *blocks_coordinate, 
     for (int i = 0, n = items.size(); i < n; ++i){
         /* Enemies spotted */
         if (typeid(*(items[i])) == typeid(Basic) || typeid(*(items[i])) == typeid(Block)){
-
-            blocks_coordinate[detected_blocks] = items[i]->pos();
             detected_blocks++;
             if(!player_detected){
                 if( (items[i]->x() > x() - attack_range/2 && items[i]->x() < x() + attack_range/2) && (items[i]->y() > y() - attack_range/2 && items[i]->y() < y() + attack_range/2)){
                     num_target += 1;
                     //qDebug() << "BLOCK DETECTED INSIDE SHOOTING RANGE";
                 }
-                Block *the_target = dynamic_cast<Block*>(spotted_items[i]);
-                double this_dist = distanceTo(the_target);
-                findClosestDistance(the_target,spotted_items,this_dist,closest_dist, i,closest_pt,closest_size);
 
             }
 
@@ -115,39 +110,6 @@ void Enemy::detecting(QList<QGraphicsItem *> items, QPointF *blocks_coordinate, 
         else if(i == n-1){
             player_detected = false;
         }
-//        if (typeid(*(items[i])) == typeid(Basic)){
-//            blocks_coordinate[detected_blocks] = items[i]->pos();
-//            detected_blocks++;
-//            if( (items[i]->x() > x() - attack_range/2 && items[i]->x() < x() + attack_range/2) && (items[i]->y() > y() - attack_range/2 && items[i]->y() < y() + attack_range/2)){
-//                num_target += 1;
-//            }
-
-//            GameEntity *the_target = dynamic_cast<GameEntity*>(items[i]);
-//            double this_dist = distanceTo(the_target);
-//            findClosestDistance(the_target,this_dist,closest_dist,closest_pt,closest_size);
-//            player_detected = true;
-//            break;
-//        }
-
-
-//        if (typeid(*(items[i])) == typeid(Block)){
-//            blocks_coordinate[detected_blocks] = items[i]->pos();
-//            detected_blocks++;
-
-//            if(!player_detected){
-//                if((items[i]->x() > x() - attack_range && items[i]->x() < x() + attack_range) && (items[i]->y() > y() - attack_range && items[i]->y() < y() + attack_range)){
-//                    num_target += 1;
-//                    //qDebug() << "BLOCK DETECTED INSIDE SHOOTING RANGE";
-//                }
-
-//            }
-//            GameEntity *the_target = dynamic_cast<GameEntity*>(items[i]);
-//            double this_dist = distanceTo(the_target);
-//            findClosestDistance(the_target,this_dist,closest_dist,closest_pt,closest_size);
-//        }
-//        else if(i == n-1){
-//            player_detected = false;
-//        }
 
 
     }
@@ -185,59 +147,55 @@ void Enemy::stateHunting(){
 
 }
 
-void Enemy::whereToMove(QPointF *running_location, int size){
 
+//void Enemy::stateRunning(QPointF *blocks_coordinate, const int &detected_blocks){
+//    double angle_in_radians = std::atan2((player_location.y() + 30/2 -(y()+get_size()/2)),(player_location.x() + 30/2 -(x()+get_size()/2)));
+//    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
+//    double player_degree = angle_in_degrees;
+//    int quadrant = 0;
+//    if(-179 <= player_degree && player_degree < -90){
+//        quadrant = 2;
+//    }
+//    else if (90 < player_degree && player_degree <= 180){
+//        quadrant = 3;
+//    }
 
-}
+//    int num_possible_running_location = 0;
+//    QPointF *max_possible_running_location = new QPointF [detected_blocks];
+//    for(int i = 0; i < detected_blocks; i++){
+//        angle_in_radians = std::atan2((blocks_coordinate[i].y() + 30/2 -(y()+get_size()/2)),(blocks_coordinate[i].x() + 30/2 -(x()+get_size()/2)));
+//        angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
-void Enemy::stateRunning(QPointF *blocks_coordinate, const int &detected_blocks){
-    double angle_in_radians = std::atan2((player_location.y() + 30/2 -(y()+get_size()/2)),(player_location.x() + 30/2 -(x()+get_size()/2)));
-    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
-    double player_degree = angle_in_degrees;
-    int quadrant = 0;
-    if(-179 <= player_degree && player_degree < -90){
-        quadrant = 2;
-    }
-    else if (90 < player_degree && player_degree <= 180){
-        quadrant = 3;
-    }
+//        if(quadrant == 2){
+//            if(angle_in_degrees < 180){
+//                angle_in_degrees -= 360;
+//            }
+//        }
+//        else if(quadrant == 3){
+//            if(angle_in_degrees < 0){
+//                angle_in_degrees += 360;
+//            }
+//        }
+//        if(angle_in_degrees < (player_degree - 90) || angle_in_degrees > (player_degree + 90) ){
+//            max_possible_running_location[num_possible_running_location] = blocks_coordinate[i];
+//            num_possible_running_location++;
+//        }
 
-    int num_possible_running_location = 0;
-    QPointF *max_possible_running_location = new QPointF [detected_blocks];
-    for(int i = 0; i < detected_blocks; i++){
-        angle_in_radians = std::atan2((blocks_coordinate[i].y() + 30/2 -(y()+get_size()/2)),(blocks_coordinate[i].x() + 30/2 -(x()+get_size()/2)));
-        angle_in_degrees = (angle_in_radians / M_PI) * 180;
+//    }
+//    qDebug() << num_possible_running_location;
+//    //whereToMove(max_possible_running_location, num_possible_running_location);
+//    delete[] max_possible_running_location;
 
-        if(quadrant == 2){
-            if(angle_in_degrees < 180){
-                angle_in_degrees -= 360;
-            }
-        }
-        else if(quadrant == 3){
-            if(angle_in_degrees < 0){
-                angle_in_degrees += 360;
-            }
-        }
-        if(angle_in_degrees < (player_degree - 90) || angle_in_degrees > (player_degree + 90) ){
-            max_possible_running_location[num_possible_running_location] = blocks_coordinate[i];
-            num_possible_running_location++;
-        }
-
-    }
-    qDebug() << num_possible_running_location;
-    //whereToMove(max_possible_running_location, num_possible_running_location);
-    delete[] max_possible_running_location;
-
-    //setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
-}
+//    //setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
+//}
 
 void Enemy::move(){
 
     /* Detecting the enemies */
     QList<QGraphicsItem *> spotted_items = sight_area->collidingItems();
-    QPointF *blocks_coordinate = new QPointF [spotted_items.size()]; //do delete later
+//    QPointF *blocks_coordinate = new QPointF [spotted_items.size()]; //do delete later
     int detected_blocks = 0;
-    detecting(spotted_items, blocks_coordinate, detected_blocks);
+    detecting(spotted_items, detected_blocks);
 
     if(get_health() >= get_max_health()*0.4){
         current_state = STATE::HUNTING;
@@ -253,14 +211,15 @@ void Enemy::move(){
         case STATE::HUNTING:
             stateHunting(); break;
         case STATE::RUNNING:
-            stateRunning(blocks_coordinate, detected_blocks); break;
+            break;
+            //stateRunning(blocks_coordinate, detected_blocks); break;
     }
 
 
     attack_area->setPos(x() - get_size() * (get_attack_scale()-1)/2, y() - get_size() * (get_attack_scale()-1)/2);
     sight_area->setPos(x() - get_size() * (get_sight_scale()-1)/2, y() - get_size() * (get_sight_scale()-1)/2);
 
-    delete[] blocks_coordinate;
+//    delete[] blocks_coordinate;
     // destroy enemy when it goes out of the screen
     if (pos().y() > 2000){
         //decrease the health
