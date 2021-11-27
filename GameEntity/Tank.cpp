@@ -156,10 +156,10 @@ void Tank::check_collision() {
     QList<QGraphicsItem *> list = this->collidingItems();
     for(int i = 0; i < list.size();i++) {
         if((typeid(*list[i]) == typeid(Block))){
-//            qDebug()<<"HIT A BLOCK";
-            delete list[i];
+            Block* the_block= dynamic_cast<Block*>(list[i]);
             this->set_health(this->get_health() - get_collision_damage());
-            this->set_xp(this->get_xp() + 7);
+            this->set_xp(this->get_xp() + the_block->get_xp()*0.7); //only gets 70% of the exp
+            delete the_block;
         }
         if((typeid(*list[i]) == typeid(Enemy)) && get_subtank() == Tank::SUBTANK::SPINNER && get_skill_status()) {
             Enemy* the_enemy= dynamic_cast<Enemy*>(list[i]);
@@ -167,7 +167,7 @@ void Tank::check_collision() {
             if(the_enemy->get_health() <= 0){
                scene()->removeItem(the_enemy->get_health_bar());
                this->set_xp(this->get_xp() + the_enemy->get_xp());
-               delete list[i];
+               delete the_enemy;
             }
         }
     }

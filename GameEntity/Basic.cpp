@@ -1,5 +1,6 @@
 #include "Basic.h"
 #include "Bullet.h"
+#include "Wall.h"
 
 #include <QKeyEvent>
 #include <QPointF>
@@ -33,9 +34,14 @@ void Basic::keyPressEvent(QKeyEvent *event){
                 this->set_cooldown(360); // secs * 60
 
                 if(this->get_subtank() == Tank::SUBTANK::TRAPPER){
-                    QGraphicsRectItem* wall = new QGraphicsRectItem();
-                    wall->setRect(0,0,200,200);
-                    wall->setPos(x()+50,y());
+                    Wall* wall = new Wall(this->get_degree());
+                    wall->setPos(x()+((this->get_size()/2)*(1+cos(this->get_degree()/57))-10/2),
+                                 y()+((this->get_size()/2)*(1+sin(this->get_degree()/57)))-wall->get_size()/2);
+                    QTransform transform;
+                    transform.translate(10/2,this->get_size()/2);
+                    transform.rotate(get_degree());
+                    transform.translate(-(10/2),-(this->get_size()/2));
+                    wall->setTransform(transform);
                     scene()->addItem(wall);
                 }
             }

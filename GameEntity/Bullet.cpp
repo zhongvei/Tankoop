@@ -2,6 +2,7 @@
 #include "Block.h"
 #include "Enemy.h"
 #include "Basic.h"
+#include "Wall.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -65,8 +66,22 @@ void Bullet::move(){
                     scene()->removeItem(this);
                     delete this;
                     return;
-                }
+                } else if (typeid(*(colliding_items[i])) == typeid(Wall) && typeid(*tank) == typeid(Enemy)){
+                    /* Removing both the bullet and the block from the screen when colliding */
+                    Wall* the_wall = dynamic_cast<Wall*>(colliding_items[i]);
+                    the_wall->set_health(the_wall->get_health()-get_damage());
 
+                    /* Delete the Enemy if its health is less than or equal to zero */
+                    if(the_wall->get_health() <= 0){
+                       scene()->removeItem(colliding_items[i]);
+                       delete colliding_items[i];
+                    }
+
+                    /* Deleting both the Bullet */
+                    scene()->removeItem(this);
+                    delete this;
+                    return;
+                }
             }
 
             /* Set The Movement of the Bullet */
