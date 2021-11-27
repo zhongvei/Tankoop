@@ -70,44 +70,154 @@ QRectF Tank::boundingRect() const
 // overriding QGraphicsItem::paint(). Draws Tank instead of a Rectangle.
 void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    QRectF rectangle = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+    QRectF square = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+    QRectF small_square = QRectF();
     QPainterPath path;
 
     switch (get_class()) {    
         case Tank::TYPE::NORMAL:
-           painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+            painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
             painter->setBrush(color);
             painter->drawEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
             break;
         case Tank::TYPE::GIANT:
-            painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
-            painter->setBrush(color);
-            painter->drawRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+            switch(get_subtank()) {
+                case Tank::SUBTANK::DEFAULT:
+                    painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+                    painter->setBrush(color);
+                    painter->drawRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+                    break;
+                case Tank::SUBTANK::POUNDER:
+                    painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+                    painter->drawRect(0,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+                    painter->drawRect(this->get_size()/3,this->get_size()/2,this->get_size()/3,this->get_size()/2);
+                    painter->drawRect(this->get_size()/3,0,this->get_size()/3,this->get_size()/2);
+                    painter->setBrush(color);
+                    painter->drawRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+                    path.moveTo(this->get_size()/2,this->get_size()/2);
+                    path.lineTo(this->get_size()*8/10, this->get_size()/2);
+                    painter->drawPath(path);
+                    break;
+                case Tank::SUBTANK::SPINNER:
+                    painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
+                    path.moveTo(this->get_size()*2/5,this->get_size()/5);
+                    path.lineTo(this->get_size()/2,0);
+                    path.lineTo(this->get_size()*3/5,this->get_size()/5);
+                    path.moveTo(this->get_size()*3/5,this->get_size()*4/5);
+                    path.lineTo(this->get_size()/2,this->get_size());
+                    path.lineTo(this->get_size()*2/5,this->get_size()*4/5);
+                    path.moveTo(this->get_size()/5,this->get_size()*2/5);
+                    path.lineTo(0,this->get_size()/2);
+                    path.lineTo(this->get_size()/5,this->get_size()*3/5);
+                    painter->drawPath(path);
+                    painter->setBrush(color);
+                    painter->drawRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+                    break;
+            }
             break;
         case Tank::TYPE::ASSASSIN:
-            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
-            path.moveTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
-            path.lineTo(rectangle.bottomLeft());
-            path.lineTo(rectangle.topLeft());
-            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
-            painter->fillPath(path, color);
+            switch(get_subtank()) {
+                case Tank::SUBTANK::DEFAULT:
+                    painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+                    path.moveTo(square.right(), square.top() + square.height()/2);
+                    path.lineTo(square.bottomLeft());
+                    path.lineTo(square.topLeft());
+                    path.lineTo(square.right(), square.top() + square.height()/2);
+                    painter->fillPath(path, color);
+                    painter->drawPath(path);
+                    break;
+                case Tank::SUBTANK::HUNTER:
+                    path.moveTo(square.left(),square.top());
+                    path.lineTo(this->get_size(),this->get_size()/2);
+                    path.lineTo(square.left(),square.bottom());
+                    path.lineTo(this->get_size()/2,this->get_size()/2);
+                    path.lineTo(square.left(),square.top());
+                    painter->fillPath(path, color);
+                    painter->drawPath(path);
+                    break;
+                case Tank::SUBTANK::IMMUNE:
+                    painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+                    path.moveTo(square.right(), square.top() + square.height()/2);
+                    path.lineTo(square.bottomLeft());
+                    path.lineTo(square.topLeft());
+                    path.lineTo(square.right(), square.top() + square.height()/2);
+                    painter->fillPath(path, color);
+                    painter->drawPath(path);
+                    break;
+            }
+
             break;
         case Tank::TYPE::SHARPSHOOTER:
-            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
-            painter->setBrush(color);
-            painter->drawEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+            switch(get_subtank()) {
+                case Tank::SUBTANK::DEFAULT:
+                    painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+                    painter->setBrush(color);
+                    painter->drawEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+                    break;
+                case Tank::SUBTANK::SNIPER:
+                    painter->drawRect(this->get_size()*3/4,this->get_size()*5/12,this->get_size()/4,this->get_size()/6);
+//                    path.arcMoveTo(square, 270);
+//                    path.arcTo(square, 270, 180);
+//                    path.arcMoveTo(this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.3, this->get_size()*0.6, 270);
+//                    path.arcTo(this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.3, this->get_size()*0.6, 270, 180);
+                    path.arcMoveTo(-this->get_size()*0.6, this->get_size()*0.2, this->get_size()*1.4, this->get_size()*0.6, 270);
+                    path.arcTo(-this->get_size()*0.6, this->get_size()*0.2, this->get_size()*1.4, this->get_size()*0.6, 270, 180);
+                    path.arcMoveTo(-this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.9, this->get_size()*0.6, 270);
+                    path.arcTo(-this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.9, this->get_size()*0.6, 270, 180);
+                    painter->fillPath(path, color);
+                    painter->drawPath(path);
+                    break;
+                case Tank::SUBTANK::DUAL:
+                    painter->drawRect(this->get_size()/2,this->get_size()/4,this->get_size()*4/9,this->get_size()/2);
+//                    path.moveTo(this->get_size()/2, this->get_size()/4);
+//                    path.lineTo(this->get_size()/2+this->get_size()*4/9, this->get_size()/4);
+//                    painter->drawPath(path);
+                    painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+                    painter->setBrush(color);
+                    painter->drawEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+                    break;
+            }
+
             break;
         case Tank::TYPE::ENGINEER:
-            painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
-            painter->setPen (QPen(Qt::black, 5, Qt::SolidLine));
-            path.moveTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
-            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.top());
-            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
-            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.bottom());
-            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.bottom());
-            path.lineTo(rectangle.left(), rectangle.top() + rectangle.height()/2);
-            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
-            painter->fillPath(path, color);
+            switch(get_subtank()) {
+                case Tank::SUBTANK::DEFAULT:
+                    painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+                    path.moveTo(square.left() + square.width()*2*tan(60), square.top());
+                    path.lineTo(square.right() - square.width()*2*tan(60), square.top());
+                    path.lineTo(square.right(), square.top() + square.height()/2);
+                    path.lineTo(square.right() - square.width()*2*tan(60), square.bottom());
+                    path.lineTo(square.left() + square.width()*2*tan(60), square.bottom());
+                    path.lineTo(square.left(), square.top() + square.height()/2);
+                    path.lineTo(square.left() + square.width()*2*tan(60), square.top());
+                    painter->fillPath(path, color);
+                    painter->drawPath(path);
+                    break;
+                case Tank::SUBTANK::SPAWNER:
+                    painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+                    path.moveTo(square.left() + square.width()*2*tan(60), square.top());
+                    path.lineTo(square.right() - square.width()*2*tan(60), square.top());
+                    path.lineTo(square.right(), square.top() + square.height()/2);
+                    path.lineTo(square.right() - square.width()*2*tan(60), square.bottom());
+                    path.lineTo(square.left() + square.width()*2*tan(60), square.bottom());
+                    path.lineTo(square.left(), square.top() + square.height()/2);
+                    path.lineTo(square.left() + square.width()*2*tan(60), square.top());
+                    painter->fillPath(path, color);
+                    painter->drawPath(path);
+                    break;
+                case Tank::SUBTANK::TRAPPER:
+                    painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+                    path.moveTo(square.left() + square.width()*2*tan(60), square.top());
+                    path.lineTo(square.right() - square.width()*2*tan(60), square.top());
+                    path.lineTo(square.right(), square.top() + square.height()/2);
+                    path.lineTo(square.right() - square.width()*2*tan(60), square.bottom());
+                    path.lineTo(square.left() + square.width()*2*tan(60), square.bottom());
+                    path.lineTo(square.left(), square.top() + square.height()/2);
+                    path.lineTo(square.left() + square.width()*2*tan(60), square.top());
+                    painter->fillPath(path, color);
+                    painter->drawPath(path);
+                    break;
+            }
             break;
     }
 }

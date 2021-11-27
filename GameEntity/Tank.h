@@ -142,8 +142,8 @@ private:
 
     HealthBar* health_bar{};
 
-    Tank::TYPE type = Tank::TYPE::NORMAL;
-    Tank::SUBTANK subtank = Tank::SUBTANK::DUAL;
+    Tank::TYPE type = Tank::TYPE::SHARPSHOOTER;
+    Tank::SUBTANK subtank = Tank::SUBTANK::SNIPER;
 
     qreal angle = 0;
     qreal speed = 0;
