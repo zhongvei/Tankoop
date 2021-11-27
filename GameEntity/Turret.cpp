@@ -25,7 +25,8 @@ Turret::~Turret() {
     delete attack_area;
     QList<QGraphicsItem *> list = scene()->items();
     for(int i = 0; i < list.size(); i++) {
-        if (typeid(*(list[i])) == typeid(Bullet)) {
+        GameEntity* the_thing =  dynamic_cast<GameEntity*>(list[i]);
+        if (the_thing != nullptr && the_thing->get_category() == GameEntity::CATEGORY::BULLET) {
             Bullet* the_bullet= dynamic_cast<Bullet*>(list[i]);
             if(the_bullet->get_tank() == this) {
                 delete the_bullet;
@@ -59,7 +60,7 @@ void Turret::fire(){
     }
 }
 
-
+GameEntity::CLASS Turret::get_class() const {return GameEntity::CLASS::TURRET;}
 
 template <typename T>
 void findClosestDistance(T a, double this_dist, double &closest_dist, QPointF &closest_pt, double &closest_size){
@@ -78,11 +79,12 @@ void Turret::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
     double closest_size = 0;
 
     for (int i = 0, n = items.size(); i < n; ++i){
-        /* Enemies spotted */
-        if (typeid(*(items[i])) == typeid(Enemy) || typeid(*(items[i])) == typeid(Block)){
+        GameEntity* the_thing =  dynamic_cast<GameEntity*>(items[i]);
+        if (the_thing != nullptr && (the_thing->get_class() == GameEntity::CLASS::ENEMY  || the_thing->get_category() == GameEntity::CATEGORY::BLOCK)){
             detected_blocks++;
             if(!enemy_detected){
-                if( (items[i]->x() > x() - attack_range/2 && items[i]->x() < x() + attack_range/2) && (items[i]->y() > y() - attack_range/2 && items[i]->y() < y() + attack_range/2)){
+                if( (the_thing->x() > x() - attack_range/2 && the_thing->x() < x() + attack_range/2) &&
+                    (the_thing->y() > y() - attack_range/2 && the_thing->y() < y() + attack_range/2)){
                     num_target += 1;
                 }
 
@@ -92,7 +94,7 @@ void Turret::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
             double this_dist = distanceTo(the_target);
             findClosestDistance(the_target,this_dist,closest_dist,closest_pt,closest_size);
 
-            if(typeid(*(items[i])) == typeid(Basic)){
+            if(the_target!= nullptr && the_target->get_class() == GameEntity::CLASS::BASIC){
                 enemy_detected = true;
                 closest_pt = the_target->pos();
                 closest_size = the_target->get_size();

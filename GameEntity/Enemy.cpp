@@ -37,7 +37,8 @@ Enemy::~Enemy(){
     delete this->get_health_bar();
     QList<QGraphicsItem *> list = scene()->items();
     for(int i = 0; i < list.size(); i++) {
-        if (typeid(*(list[i])) == typeid(Bullet)) {
+        GameEntity* the_thing =  dynamic_cast<GameEntity*>(list[i]);
+        if (the_thing !=nullptr && the_thing->get_category() == GameEntity::CATEGORY::BULLET) {
             Bullet* the_bullet= dynamic_cast<Bullet*>(list[i]);
             if(the_bullet->get_tank() == this) {
                 delete the_bullet;
@@ -48,7 +49,7 @@ Enemy::~Enemy(){
     timer->stop();
 }
 
-
+GameEntity::CLASS Enemy::get_class() const {return GameEntity::CLASS::ENEMY;}
 
 double Enemy::distanceTo(GameEntity * basic){
     QPointF this_pos = QPointF(x() + get_size()/2, y() + get_size()/2);

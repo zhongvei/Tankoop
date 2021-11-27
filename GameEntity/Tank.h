@@ -110,10 +110,11 @@ public:
     void change_skill_status();
 
     void change_class(Tank::TYPE type);
-    TYPE get_class() const;
+    TYPE get_type() const;
 
     void change_subtank(Tank::SUBTANK subtank);
     SUBTANK get_subtank() const;
+    GameEntity::CATEGORY get_category() const override;
 
     void create_heatlh_bar(QGraphicsScene* scene);
 
@@ -151,8 +152,7 @@ private:
     qreal mouseEyeDirection = 0;
     QColor color;
     Turret* turret{};
-    //copy constructor
-    Tank(const Tank& tank);
+
 protected:
     Tank(
         const double& health, const double& health_regen, const double& max_health, 

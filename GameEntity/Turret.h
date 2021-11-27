@@ -28,6 +28,7 @@ public:
     void detecting(QList <QGraphicsItem *> items, int &detected_blocks);
     Tank* get_creator() const;
     double distanceTo(GameEntity * the_target);
+    GameEntity::CLASS get_class() const override;
 public slots:
     void move();
 private:

@@ -10,6 +10,7 @@ class Wall: public GameEntity
 public:
     Wall(const double& degree);
     double get_degree() const;
+    GameEntity::CATEGORY get_category() const override;
 private:
     double degree{};
 };

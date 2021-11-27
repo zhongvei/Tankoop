@@ -5,8 +5,6 @@
 #include <QDebug>
 #include <QGraphicsRectItem>
 
-class Tank;
-
 HealthBar::HealthBar(Tank* tank, QGraphicsScene* scene) : tank(tank), scene(scene)
 {
 

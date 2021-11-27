@@ -13,6 +13,8 @@ Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.8,0.6,50,1,0,0
     parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
 }
 
+GameEntity::CLASS Basic::get_class() const {return GameEntity::CLASS::BASIC;}
+
 void Basic::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
         case Qt::Key::Key_W:

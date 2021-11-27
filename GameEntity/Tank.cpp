@@ -25,10 +25,7 @@ Tank::Tank(
         QRandomGenerator::global()->bounded(256))
 {};
 
-Tank::Tank(const Tank& tank):GameEntity(0,0,0,0,0,0,0,0)
-{
-
-}
+GameEntity::CATEGORY Tank::get_category() const {return  GameEntity::CATEGORY::TANK;}
 
 /* The Accessor of Tank Object */
 double Tank::get_reload_speed() const { return reload_speed;}
@@ -40,7 +37,7 @@ bool Tank::get_reload_status() const {return reload;}
 int Tank::get_reload_finish() const {return reload_finish;}
 int Tank::get_evolution_point() const {return evolution_point;}
 HealthBar* Tank::get_health_bar() const {return health_bar;}
-Tank::TYPE Tank::get_class() const {return type;}
+Tank::TYPE Tank::get_type() const {return type;}
 Tank::SUBTANK Tank::get_subtank() const {return subtank;}
 int Tank::get_sub_tank_evolution_point() const {return sub_tank_evolution_point;}
 int Tank::get_cooldown() const {return cooldown;}
@@ -80,7 +77,7 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
     QRectF square = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
     QPainterPath path;
 
-    switch (get_class()) {    
+    switch (get_type()) {    
         case Tank::TYPE::NORMAL:
             painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
             painter->setBrush(color);
@@ -246,7 +243,7 @@ QPainterPath Tank::shape() const
     QRectF square = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
     QPainterPath path;
     // Shape for collision detection
-    switch (get_class()) {
+    switch (get_type()) {
         case Tank::TYPE::NORMAL:
             path.addEllipse(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
             break;
@@ -340,13 +337,13 @@ QPainterPath Tank::shape() const
 void Tank::check_collision() {
     QList<QGraphicsItem *> list = this->collidingItems();
     for(int i = 0; i < list.size();i++) {
-        if((typeid(*list[i]) == typeid(Block))){
+        GameEntity* the_thing = dynamic_cast<GameEntity*>(list[i]);
+        if(the_thing != nullptr && the_thing->get_category() == GameEntity::CATEGORY::BLOCK){
             Block* the_block= dynamic_cast<Block*>(list[i]);
             this->set_health(this->get_health() - get_collision_damage());
             this->set_xp(this->get_xp() + the_block->get_xp()*0.7); //only gets 70% of the exp
             delete the_block;
-        }
-        if((typeid(*list[i]) == typeid(Enemy)) && get_subtank() == Tank::SUBTANK::SPINNER && get_skill_status()) {
+        }else if(the_thing != nullptr && the_thing->get_class() == GameEntity::CLASS::ENEMY && get_subtank() == Tank::SUBTANK::SPINNER && get_skill_status()) {
             Enemy* the_enemy= dynamic_cast<Enemy*>(list[i]);
             the_enemy->set_health(the_enemy->get_health() - 10);
             if(the_enemy->get_health() <= 0){

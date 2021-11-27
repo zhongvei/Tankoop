@@ -53,7 +53,7 @@ void Hud::increase_max_health_clicked() {
 }
 void Hud::increase_health_regen_clicked() {
     if(tank->get_skill_point() >= 1) {
-        tank->set_health_regen(tank->get_health_regen() + 5);
+        tank->set_health_regen(tank->get_health_regen() + 1);
         tank->decrease_skill_point();
     }
 }
@@ -95,7 +95,7 @@ void Hud::update_value() {
     ui->exp_value->setText(QString::number(tank->get_xp()));
     ui->level_value->setText(QString::number(tank->get_level()));
 
-    if (tank->get_evolution_point() == 1 && tank->get_class() == Tank::TYPE::NORMAL) {
+    if (tank->get_evolution_point() == 1 && tank->get_type() == Tank::TYPE::NORMAL) {
         ui->sub_tank_1->setStyleSheet(UPGRADE_AVAILABLE);
         ui->sub_tank_2->setStyleSheet(UPGRADE_AVAILABLE);
         ui->type_frame->show();
@@ -103,8 +103,8 @@ void Hud::update_value() {
         ui->type_frame->hide();
     }
 
-    if (tank->get_class() != Tank::TYPE::NORMAL && tank->get_sub_tank_evolution_point() == 1) {
-        switch (tank->get_class())
+    if (tank->get_type() != Tank::TYPE::NORMAL && tank->get_sub_tank_evolution_point() == 1) {
+        switch (tank->get_type())
         {
             case Tank::TYPE::NORMAL:
                 break;
@@ -134,6 +134,12 @@ void Hud::update_value() {
         ui->skill_status_text->show();
     } else {
         ui->skill_status_text->hide();
+    }
+    if(tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
+        ui->cool_down_value->setText(QString::number(10));
+        ui->skill_cooldown_frame->show();
+    } else {
+        ui->skill_cooldown_frame->hide();
     }
 }
 
@@ -176,7 +182,7 @@ void Hud::ASSASSIN_btn_clicked() {
 }
 
 void Hud::subtank1_btn_clicked() {
-    switch(tank->get_class()) {
+    switch(tank->get_type()) {
         case Tank::TYPE::GIANT:
             tank->change_subtank(Tank::SUBTANK::POUNDER);
             tank->decrease_sub_tank_evolution_point();
@@ -198,7 +204,7 @@ void Hud::subtank1_btn_clicked() {
     }
 }
 void Hud::subtank2_btn_clicked() {
-    switch(tank->get_class()) {
+    switch(tank->get_type()) {
         case Tank::TYPE::GIANT:
             tank->change_subtank(Tank::SUBTANK::SPINNER);
             tank->decrease_sub_tank_evolution_point();

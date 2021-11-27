@@ -94,7 +94,7 @@ void GameEngine::main_loop() {
 
         /* Calculate Ending Statistics */
         QString player_xp = QString::number(player->get_xp());
-        QString player_class = player->TYPE_textstr[static_cast<int>(player->get_class())];
+        QString player_class = player->TYPE_textstr[static_cast<int>(player->get_type())];
         QString player_subtank = player->SUBTANK_textstr[static_cast<int>(player->get_subtank())];
         QString player_time_alive = QString::number(elapsed_timer.elapsed()/1000);
         endWindow->endGameStats(player_xp, player_class, player_subtank, player_time_alive);

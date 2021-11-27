@@ -410,7 +410,7 @@
      <rect>
       <x>10</x>
       <y>100</y>
-      <width>191</width>
+      <width>201</width>
       <height>81</height>
      </rect>
     </property>
@@ -426,7 +426,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>191</width>
+      <width>201</width>
       <height>81</height>
      </rect>
     </property>
@@ -441,9 +441,9 @@
   <widget class="QFrame" name="skill_status_frame">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>70</y>
-     <width>111</width>
+     <x>240</x>
+     <y>130</y>
+     <width>141</width>
      <height>51</height>
     </rect>
    </property>
@@ -453,18 +453,66 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="skill_status_text">
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>10</y>
-      <width>91</width>
+      <width>131</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="text">
-     <string>SKILL ACTIVATED</string>
+    <layout class="QHBoxLayout" name="skill_status_layout">
+     <item>
+      <widget class="QLabel" name="skill_status_text">
+       <property name="text">
+        <string>SKILL ACTIVATED</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="skill_cooldown_frame">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>70</y>
+     <width>141</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
     </property>
+    <layout class="QHBoxLayout" name="cool_down_layout">
+     <item>
+      <widget class="QLabel" name="cool_down_value">
+       <property name="text">
+        <string>Cooldown:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="cooldown_text">
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <zorder>listView</zorder>
@@ -473,6 +521,7 @@
   <zorder>type_frame</zorder>
   <zorder>sub_tank_frame</zorder>
   <zorder>skill_status_frame</zorder>
+  <zorder>skill_cooldown_frame</zorder>
  </widget>
  <resources/>
  <connections/>
