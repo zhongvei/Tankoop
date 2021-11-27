@@ -170,30 +170,11 @@ void GameEngine::spawn_block_loop() {
 
 }
 
-<<<<<<< HEAD
+
 void GameEngine::entity_spawn()
 {
     spawn_block_loop();
     spawn_enemies_loop();
-=======
-void GameEngine::entity_spawn() {
-    QList<QGraphicsItem *> list = this->window->items();
-    int block = 0;
-    int enemy = 0;
-    for(int i = 0; i < list.size(); i++) {
-        if((typeid(*list[i]) == typeid(Block))){
-            block++;
-        } else if((typeid(*list[i]) == typeid(Enemy))) {
-            enemy++;
-        }
-    }
-    set_block_count(block);
-    set_enemy_count(enemy);
-
-    spawn_loop();
-    spawn_enemies();
->>>>>>> main
-
 }
 
 bool GameEngine::game_over() {
