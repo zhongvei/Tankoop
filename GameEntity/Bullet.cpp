@@ -1,6 +1,6 @@
 #include "Bullet.h"
 #include "Block.h"
-#include "Enemy.h"
+//#include "Enemy.h"
 #include "Basic.h"
 
 #include <QDebug>
@@ -51,6 +51,8 @@ void Bullet::move(){
                        scene()->removeItem(colliding_items[i]);
                        scene()->removeItem(the_enemy->get_health_bar());
                        tank->set_xp(tank->get_xp()+the_enemy->get_xp());
+                       enemyStats temp = {the_enemy, the_enemy->name,int(the_enemy->get_xp())}; // store enemy statistics in enemyList
+                       Enemy::cumulativeEnemyList.push_back(temp);
                        delete colliding_items[i];
                     }
 

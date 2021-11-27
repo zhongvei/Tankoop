@@ -3,13 +3,19 @@
 
 #include "GameWindow.h"
 #include "GameEntity/Tank.h"
+#include "GameEntity/Enemy.h"
 #include "Hud.h"
 
 #include <QObject>
 #include <QElapsedTimer>
+#include <QVector>
 
 class GameWindow;
 
+//struct enemyStats;
+//enemyStats p;
+//QVector<enemyStats> Enemy::cumulativeEnemyList;
+//QVector<Enemy*> Enemy::currentEnemyList;
 class GameEngine: public QObject
 {
     Q_OBJECT
@@ -27,6 +33,7 @@ public:
 
     void set_enemy_count(int enemy_count);
     void set_block_count(int block_count);
+
 private:
     int enemy_count{};
     int block_count{};
@@ -40,6 +47,9 @@ private:
     Hud* hud;
     QGraphicsScene* scene;
     QElapsedTimer elapsed_timer;
+
+//    QVector<QString> EnemyNames {QString("John"), QString("Adam"), QString("Bing"), QString("Chilli")};
+
 
 };
 

@@ -3,9 +3,13 @@
 
 #include "Tank.h"
 #include "GameEntity.h"
+#include "Enemy.h"
 
 #include <QObject>
-
+//struct enemyStats;
+//enemyStats p;
+//QVector<enemyStats> Enemy::cumulativeEnemyList;
+//QVector<Enemy*> Enemy::currentEnemyList;
 
 class Bullet : public QObject, public GameEntity
 {
@@ -20,6 +24,9 @@ private:
     double damage;
     double degree;
     Tank* tank;
+
+//    QVector<QString> EnemyNames {QString("John"), QString("Adam"), QString("Bing"), QString("Chilli")};
+//    // how to put in Enemy.h ?
 
 public slots:
     void move();

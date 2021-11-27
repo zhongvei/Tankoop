@@ -1,12 +1,13 @@
 #include "GameEngine.h"
 #include "GameEntity/Basic.h"
-#include "GameEntity/Enemy.h"
+//#include "GameEntity/Enemy.h"
 #include "GameEntity/HealthBar.h"
 #include "EndGameWindow.h"
 
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QTimer>
+#include <QVector>
 
 GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene): window(window), scene(scene)
 {}
@@ -56,6 +57,8 @@ void GameEngine::run(){
 
     /* The HUD */
     hud = new Hud(window, player);
+
+
 }
 
 void GameEngine::main_loop() {
@@ -84,6 +87,17 @@ void GameEngine::main_loop() {
         QString player_time_alive = QString::number(elapsed_timer.elapsed()/1000);
         endWindow->endGameStats(player_xp, player_class, player_subtank, player_time_alive);
 
+        for (int i = 0; i < Enemy::currentEnemyList.size(); ++i) {
+            if (Enemy::currentEnemyList[i] == nullptr) {
+                qDebug() << "ERROR, not supposed to happen (debug)";
+            }
+            else {
+                enemyStats temp = {Enemy::currentEnemyList[i], Enemy::currentEnemyList[i]->name,int(Enemy::currentEnemyList[i]->get_xp())}; // store enemy statistics in enemyList
+                Enemy::cumulativeEnemyList.push_back(temp);
+            }
+        }
+
+
         endWindow->show();
 
         // TODO: stop the game when game ends
@@ -101,6 +115,10 @@ void GameEngine::spawn_enemies(){
     if(get_enemy_count() < 3) {
         qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
         Enemy *enemy = new Enemy(500,100); // multiple of 50
+//        Enemy::enemyStats temp = {enemy, QString(EnemyNames[qrand() % 4]),0}; // store enemy statistics in enemyList
+//        Enemy::enemyList.push_back(temp);
+        Enemy::currentEnemyList.push_back(enemy);
+
 
         enemy->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
                       QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));

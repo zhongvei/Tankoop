@@ -10,12 +10,22 @@
 #include <QTransform>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsItem>
+#include <QVector>
 
+class Enemy;
+struct enemyStats
+{
+    Enemy* ptr = nullptr;
+    QString name = QString("");
+    int score = 0;
+};
 
 class Enemy: public QObject, public QTransform, public Tank
 {
     Q_OBJECT
     enum class STATE{HUNTING, RUNNING};
+
+
 public:
     Enemy(double attack_range,const int& size);
     QGraphicsEllipseItem* get_attack_area(){ return attack_area; }
@@ -30,6 +40,21 @@ public:
     double distanceTo(GameEntity * the_target);
 
     ~Enemy();
+    QVector<QString> EnemyNames {QString("John"), QString("Adam"), QString("Bing"), QString("Chilli")};
+    QString name = EnemyNames[qrand() % 4];
+
+    /* Enemy statistics for end game leaderboard */
+//    QVector<QString> EnemyNames {QString("John"), QString("Adam"), QString("Bing"), QString("Chilli")};
+//    struct enemyStats
+//    {
+//        Enemy* ptr = nullptr;
+//        QString name = QString("");
+//        int score = 0;
+//    };
+    static QVector<enemyStats> cumulativeEnemyList; // vector that contains all enemies that spawns during the game
+    static QVector<Enemy*> currentEnemyList; // vector that contains current enemies in the game
+
+
 
 public slots:
     void move();
@@ -43,6 +68,7 @@ private:
     bool player_detected {false};
     QPointF player_location;
 
+
     STATE current_state = STATE::HUNTING;
     QGraphicsEllipseItem *attack_area;
     QGraphicsEllipseItem *sight_area;
@@ -52,6 +78,8 @@ private:
 
 };
 
+QVector<enemyStats> Enemy::cumulativeEnemyList;
+QVector<Enemy*> Enemy::currentEnemyList;
 #endif // ENEMY_H
 
 

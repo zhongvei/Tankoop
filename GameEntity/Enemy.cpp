@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QTimer>
+#include <QVector>
 
 
 Enemy::Enemy(double attack_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
@@ -32,6 +33,7 @@ Enemy::~Enemy(){
     delete attack_area;
     delete sight_area;
     delete this->get_health_bar();
+    currentEnemyList.removeOne(this); // remove this enemy from currentenemylist
     timer->stop();
 }
 
@@ -222,6 +224,8 @@ void Enemy::move(){
     if (pos().y() > 2000 || pos().x() > 2000 || pos().y() < 0 || pos().x() < 0){
         //decrease the health
         qDebug() << "ENEMY DELETED";
+
+
         scene()->removeItem(this);
         delete this;
     }
