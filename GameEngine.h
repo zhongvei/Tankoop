@@ -6,6 +6,7 @@
 #include "Hud.h"
 
 #include <QObject>
+#include <QElapsedTimer>
 
 class GameWindow;
 
@@ -13,7 +14,7 @@ class GameEngine: public QObject
 {
     Q_OBJECT
 public:
-    GameEngine(GameWindow* window);
+    GameEngine(GameWindow* window, QGraphicsScene* scene);
     void run();
     void main_loop();
     void facing_cursor(Tank* player);
@@ -37,6 +38,8 @@ private:
     QTimer* single;
     Tank* player;
     Hud* hud;
+    QGraphicsScene* scene;
+    QElapsedTimer elapsed_timer;
 
 };
 

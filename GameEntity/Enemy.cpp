@@ -21,7 +21,7 @@ Enemy::Enemy(double attack_range, const int& size): Tank(200,1,200,size,10,10,0,
     sight_area->setPos(x() - get_size() * (get_sight_scale()-1)/2, y() - get_size() * (get_sight_scale()-1)/2);
 
     // make/connect a timer to move() the enemy every so often
-    QTimer * timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
 
     timer->start(50);
@@ -31,7 +31,8 @@ Enemy::Enemy(double attack_range, const int& size): Tank(200,1,200,size,10,10,0,
 Enemy::~Enemy(){
     delete attack_area;
     delete sight_area;
-    //delete timer
+    delete this->get_health_bar();
+    timer->stop();
 }
 
 
@@ -42,9 +43,6 @@ double Enemy::distanceTo(GameEntity * basic){
     QLineF ln(this_pos,target_pos);
     return ln.length();
 }
-
-//int reload_finish = 0;
-//bool reload = true;
 
 void Enemy::fire(){
     QTransform transform;
@@ -221,7 +219,7 @@ void Enemy::move(){
 
 //    delete[] blocks_coordinate;
     // destroy enemy when it goes out of the screen
-    if (pos().y() > 2000){
+    if (pos().y() > 2000 || pos().x() > 2000 || pos().y() < 0 || pos().x() < 0){
         //decrease the health
         qDebug() << "ENEMY DELETED";
         scene()->removeItem(this);

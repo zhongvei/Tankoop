@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "GameWindow.h"
+#include "EndGameWindow.h"
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->start_button, SIGNAL(clicked()), this, SLOT(start_button_clicked()));
     connect(ui->quit_button, &QPushButton::clicked, QApplication::instance(), &QApplication::quit);
+    connect(ui->load_button, SIGNAL(clicked()), this, SLOT(load_button_clicked()));
 }
 
 void MainWindow::startGame() {
@@ -30,4 +32,13 @@ void MainWindow::startGame() {
 
 void MainWindow::start_button_clicked() {
     startGame();
+}
+
+void MainWindow::load_button_clicked() {
+    EndGameWindow* window = new EndGameWindow;
+    window->setWindowTitle("TankOOaP");
+
+    window->show();
+
+    this->close();
 }

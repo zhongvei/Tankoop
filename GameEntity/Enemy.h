@@ -36,7 +36,7 @@ public slots:
 
 private:
     int num_target;
-
+    QTimer *timer = nullptr;
     double attack_range;
     double attack_scale;
     double sight_scale;

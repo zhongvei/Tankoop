@@ -7,6 +7,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 
 SOURCES += \
+    EndGameWindow.cpp \
     main.cpp\
     GameEngine.cpp \
     GameEntity/Basic.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
 
 
 HEADERS += \
+    EndGameWindow.h \
     GameEngine.h \
     GameEntity/Basic.h \
     GameEntity/Block.h \
@@ -44,6 +46,7 @@ HEADERS += \
 
 
 FORMS += \
+    EndGameWindow.ui \
     Hud.ui \
     MainWindow.ui
 

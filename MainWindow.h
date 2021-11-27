@@ -12,6 +12,7 @@ public:
     void startGame();
 public slots:
     void start_button_clicked();
+    void load_button_clicked();
 
 private:
     Ui::MainWindow *ui;
