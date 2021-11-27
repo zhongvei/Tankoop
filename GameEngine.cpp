@@ -38,7 +38,7 @@ void GameEngine::run(){
 //    enemy_timer = new QTimer{this};
 //    connect(enemy_timer, &QTimer::timeout, this, &GameEngine::spawn_enemies);
 //    enemy_timer->start(10000); //adding new enemy every 100 seconds
-    //spawn_enemies();
+    spawn_enemies();
 
     /* CREATE HEALTH BAR */
     player->create_heatlh_bar(window->scene);
@@ -73,7 +73,7 @@ void GameEngine::main_loop() {
 void GameEngine::spawn_enemies(){
     if(get_enemy_count() < 3) {
         qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
-        Enemy *enemy = new Enemy(500,100); // multiple of 50
+        Enemy *enemy = new Enemy(500,800,100); // multiple of 50
 
         enemy->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
                       QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));
@@ -138,7 +138,7 @@ void GameEngine::entity_spawn() {
     set_enemy_count(enemy);
 
     spawn_loop();
-    spawn_enemies();
+    //spawn_enemies();
 
 }
 

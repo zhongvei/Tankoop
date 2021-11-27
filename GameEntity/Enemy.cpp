@@ -5,18 +5,19 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QTimer>
+#include <QThread>
 
 
-Enemy::Enemy(double attack_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range)
+Enemy::Enemy(double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range), sight_range(sight_range)
 {
     attack_scale = attack_range/size;
-    sight_scale = 800/size; // change 800 to variable later
+    sight_scale = sight_range/size; // change 800 to variable later
 
     attack_area = new QGraphicsEllipseItem(0,0,attack_range,attack_range);
     //attack_area->setStartAngle(90*16);
     attack_area->setPos(x() - get_size() * (get_attack_scale()-1)/2, y() - get_size() * (get_attack_scale()-1)/2);
 
-    sight_area = new QGraphicsEllipseItem(0,0,800,800); // change the value of sight_area to non const later
+    sight_area = new QGraphicsEllipseItem(0,0,sight_range,sight_range); // change the value of sight_area to non const later
     //attack_area->setStartAngle(90*16);
     sight_area->setPos(x() - get_size() * (get_sight_scale()-1)/2, y() - get_size() * (get_sight_scale()-1)/2);
 
@@ -54,7 +55,6 @@ void Enemy::fire(){
 
     if(!this->get_reload_status()){
         change_reload_status();
-        qDebug() << "ENEMY GOES PEW-PEW";
         Bullet * bullet = new Bullet(this,50,0,10,0.6,0.6);
         bullet->set_degree(this->get_degree());
         bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y() +(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
@@ -81,6 +81,8 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
     for (int i = 0, n = items.size(); i < n; ++i){
         /* Enemies spotted */
         if (typeid(*(items[i])) == typeid(Basic) || typeid(*(items[i])) == typeid(Block)){
+            random_movement = true; // the enemy can do random movement again only after seeing a block
+            turn = 0;
             detected_blocks++;
             if(!player_detected){
                 if( (items[i]->x() > x() - attack_range/2 && items[i]->x() < x() + attack_range/2) && (items[i]->y() > y() - attack_range/2 && items[i]->y() < y() + attack_range/2)){
@@ -96,7 +98,8 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
 
             if(typeid(*(items[i])) == typeid(Basic)){
                 player_detected = true;
-                closest_pt = items[i]->pos();
+                closest_pt = the_target->pos();
+                closest_size = the_target->get_size();
                 if( (items[i]->x() > x() - attack_range/2 && items[i]->x() < x() + attack_range/2) && (items[i]->y() > y() - attack_range/2 && items[i]->y() < y() + attack_range/2)){
                     num_target = 1;
                 }
@@ -119,7 +122,21 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
         set_degree(angle_in_degrees);
     }
     else{
-        // random movement
+        if(random_movement){
+            random_movement = false;
+            double degree_mult = 0;
+
+            srand(time(NULL));
+            degree_mult = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+
+            if(!get_degree()){
+                set_degree(180);
+            }
+            else{
+                set_degree(get_degree()*degree_mult);
+            }
+
+        }
     }
 
 }
@@ -187,6 +204,18 @@ void Enemy::stateHunting(){
 //    //setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
 //}
 
+void Enemy::bounces(){
+    if(turn == 10){
+        turn = 0;
+        turn = true;
+        double degree_mult = 1.5;
+        set_degree(get_degree()*degree_mult);
+    }
+    else{
+        turn += 1;
+    }
+}
+
 void Enemy::move(){
 
     /* Detecting the enemies */
@@ -218,11 +247,10 @@ void Enemy::move(){
     sight_area->setPos(x() - get_size() * (get_sight_scale()-1)/2, y() - get_size() * (get_sight_scale()-1)/2);
 
 //    delete[] blocks_coordinate;
-    // destroy enemy when it goes out of the screen
-    if (pos().y() > 2000 || pos().x() > 2000 || pos().y() < 0 || pos().x() < 0){
-        //decrease the health
-        qDebug() << "ENEMY DELETED";
-        scene()->removeItem(this);
-        delete this;
+    // destroy enemy when it goes out of the screen pos().y() > 2000 || pos().x() > 2000 || pos().y() < 0 || pos().x() < 0
+    if (pos().x() + sight_range/2 > 2000 || pos().y() + sight_range/2 > 2000 || pos().x() - sight_range/2 < 0 || pos().y() - sight_range/2 < 0){
+        bounces();
+//        scene()->removeItem(this);
+//        delete this;
     }
 }
