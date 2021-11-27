@@ -122,7 +122,7 @@ private:
     double damage{};
     int total_skill_point{};
     int skill_point{};
-    int evolution_point{};
+    int evolution_point{1};
     int sub_tank_evolution_point{};
     double degree{};
     int reload_finish{};

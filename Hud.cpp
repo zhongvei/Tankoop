@@ -133,7 +133,7 @@ void Hud::sharpshooter_btn_clicked() {
 }
 void Hud::engineer_btn_clicked() {
     if(check_evolution()) {
-        tank->change_class(Tank::TYPE::SHARPSHOOTER);
+        tank->change_class(Tank::TYPE::ENGINEER);
         tank->decrease_evolution_point();
     }
 }
