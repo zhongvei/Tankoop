@@ -1,5 +1,6 @@
 #include "Tank.h"
 #include "Block.h"
+#include "Bullet.h"
 
 #include <QDebug>
 #include <QElapsedTimer>
@@ -183,6 +184,12 @@ void Tank::skill() {
         if(this->get_subtank() == Tank::SUBTANK::SPINNER) {
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::POUNDER) {
+            for (int i=0; i<4; ++i) {
+                Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                bullet->set_degree(this->get_degree() + i*90);
+                bullet->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+i*90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+i*90)/57)))-bullet->get_size()/2);
+                scene()->addItem(bullet);
+            }
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::HUNTER) {
             this->set_max_health(this->get_max_health() * 1.5);
@@ -259,7 +266,7 @@ void Tank::change_subtank(Tank::SUBTANK subtank) {
     this->subtank = subtank;
     switch (subtank)
     {
-        case Tank::SUBTANK::DEFUALT:
+        case Tank::SUBTANK::DEFAULT:
             break;
         case Tank::SUBTANK::SPINNER:
             break;

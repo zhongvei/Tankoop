@@ -24,7 +24,7 @@ public:
     };
 
     enum class SUBTANK {
-        DEFUALT = 0,
+        DEFAULT = 0,
         SPINNER = 1,
         POUNDER = 2,
         HUNTER = 3,
