@@ -30,7 +30,7 @@ void Basic::keyPressEvent(QKeyEvent *event){
                 qDebug()<<"SKILL PRESSED";
                 skill();
                 this->change_cooldown_status();
-                this->set_cooldown(360); // secs * 60
+                this->set_cooldown(5); // secs * 60
             }
             break;
     }
@@ -38,11 +38,27 @@ void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
         if(!this->get_reload_status()) {
-            qDebug() << "PEW-PEW";
+//            qDebug() << "PEW-PEW";
+
             Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
             bullet->set_degree(this->get_degree());
             //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
             bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
+
+            if (this->get_subtank() == Tank::SUBTANK::POUNDER && this->get_skill_status() == true) {
+                Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                bullet2->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+90)/57)))-bullet->get_size()/2);
+                bullet2->set_degree(this->get_degree()+90);
+                scene()->addItem(bullet2);
+                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                bullet3->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+180)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+180)/57)))-bullet->get_size()/2);
+                bullet3->set_degree(this->get_degree()+180);
+                scene()->addItem(bullet3);
+                Bullet * bullet4 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                bullet4->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()-90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()-90)/57)))-bullet->get_size()/2);
+                bullet4->set_degree(this->get_degree()-90);
+                scene()->addItem(bullet4);
+            }
 
             scene()->addItem(bullet);
             this->change_reload_status();

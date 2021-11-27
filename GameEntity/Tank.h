@@ -10,6 +10,7 @@
 #include <QPen>
 #include <QStyleOption>
 
+
 class HealthBar;
 
 class Tank: public GameEntity {
@@ -24,7 +25,7 @@ public:
     };
 
     enum class SUBTANK {
-        DEFUALT = 0,
+        DEFAULT = 0,
         SPINNER = 1,
         POUNDER = 2,
         HUNTER = 3,
@@ -104,6 +105,9 @@ public:
     int get_cooldown() const;
     void set_cooldown(int cooldown);
 
+    bool get_skill_status() const;
+    void change_skill_status();
+
     void change_class(Tank::TYPE type);
     TYPE get_class() const;
 
@@ -113,9 +117,13 @@ public:
     void create_heatlh_bar(QGraphicsScene* scene);
 
     HealthBar* get_health_bar() const;
-
     void skill();
-    
+    void skill_timer_timeout();
+
+    void set_collision_damage(double collision_damage);
+    double get_collision_damage() const;
+
+
 private:
     double reload_speed{};
     double bullet_speed{};
@@ -129,12 +137,13 @@ private:
     bool reload {1};
     bool cooldown_status {};
     int cooldown {};
-
+    double collision_damage {7};
+    bool skill_status {};
 
     HealthBar* health_bar{};
 
     Tank::TYPE type = Tank::TYPE::NORMAL;
-    Tank::SUBTANK subtank = Tank::SUBTANK::HUNTER;
+    Tank::SUBTANK subtank = Tank::SUBTANK::POUNDER;
 
     qreal angle = 0;
     qreal speed = 0;
