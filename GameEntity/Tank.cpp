@@ -1,6 +1,7 @@
 #include "Tank.h"
 #include "Block.h"
 #include "Bullet.h"
+#include "Enemy.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -265,10 +266,19 @@ void Tank::check_collision() {
     QList<QGraphicsItem *> list = this->collidingItems();
     for(int i = 0; i < list.size();i++) {
         if((typeid(*list[i]) == typeid(Block))){
-//            qDebug()<<"HIT A BLOCK";
-            delete list[i];
+            Block* the_block= dynamic_cast<Block*>(list[i]);
             this->set_health(this->get_health() - get_collision_damage());
-            this->set_xp(this->get_xp() + 7);
+            this->set_xp(this->get_xp() + the_block->get_xp()*0.7); //only gets 70% of the exp
+            delete the_block;
+        }
+        if((typeid(*list[i]) == typeid(Enemy)) && get_subtank() == Tank::SUBTANK::SPINNER && get_skill_status()) {
+            Enemy* the_enemy= dynamic_cast<Enemy*>(list[i]);
+            the_enemy->set_health(the_enemy->get_health() - 10);
+            if(the_enemy->get_health() <= 0){
+               scene()->removeItem(the_enemy->get_health_bar());
+               this->set_xp(this->get_xp() + the_enemy->get_xp());
+               delete the_enemy;
+            }
         }
     }
 }
@@ -296,6 +306,9 @@ void Tank::skill() {
         qDebug()<<"skill pressed";
         change_skill_status();
         if(this->get_subtank() == Tank::SUBTANK::SPINNER) {
+            this->set_vx(this->get_vx() * 1.5);
+            this->set_vy(this->get_vy() * 1.5);
+            QTimer::singleShot(4000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::POUNDER) {
             QTimer::singleShot(5000,[=](){skill_timer_timeout();});
@@ -338,6 +351,8 @@ void Tank::skill_timer_timeout() {
         case Tank::SUBTANK::DEFAULT:
             break;
         case Tank::SUBTANK::SPINNER:
+            this->set_vx(this->get_vx() / 1.5);
+            this->set_vy(this->get_vy() / 1.5);
             break;
         case Tank::SUBTANK::POUNDER:
             break;
