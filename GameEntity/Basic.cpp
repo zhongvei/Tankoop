@@ -137,7 +137,6 @@ void Basic::advance(int step)
     }
     if(this->get_cooldown_status()) {
         set_cooldown(this->get_cooldown() - 1);
-        qDebug()<<get_cooldown();
         if(!this->get_cooldown()) {
             this->change_cooldown_status();
         }

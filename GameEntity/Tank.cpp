@@ -2,6 +2,7 @@
 #include "Block.h"
 
 #include <QDebug>
+#include <QElapsedTimer>
 
 class HealthBar;
 
@@ -69,7 +70,7 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
     QRectF rectangle = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
     QPainterPath path;
 
-    switch (get_class()) {
+    switch (get_class()) {    
         case Tank::TYPE::NORMAL:
            painter->drawRect(this->get_size()/2,this->get_size()/3,this->get_size()/2,this->get_size()/3);
             painter->setBrush(color);
@@ -151,7 +152,7 @@ void Tank::check_collision() {
     QList<QGraphicsItem *> list = this->collidingItems();
     for(int i = 0; i < list.size();i++) {
         if((typeid(*list[i]) == typeid(Block))){
-            qDebug()<<"HIT A BLOCK";
+//            qDebug()<<"HIT A BLOCK";
             delete list[i];
             this->set_health(this->get_health()-7);
             this->set_xp(this->get_xp() + 7);
@@ -178,31 +179,42 @@ void Tank::increase_level() {
 }
 
 void Tank::skill() {
-    switch (this->get_subtank())
-    {
-        case Tank::SUBTANK::SPINNER:
-            break;
-        case Tank::SUBTANK::POUNDER:
-            break;
-        case Tank::SUBTANK::HUNTER:
-            break;
-        case Tank::SUBTANK::IMMUNE:
-            break;
-        case Tank::SUBTANK::SNIPER:
-            break;
-        case Tank::SUBTANK::DUAL:
-            break;
-        case Tank::SUBTANK::SPAWNER:
-            break;
-        case Tank::SUBTANK::TRAPPER:
-            break;
+    if(!this->get_cooldown_status()) {
+        if(this->get_subtank() == Tank::SUBTANK::SPINNER) {
+            return;
+        } else if (this->get_subtank() == Tank::SUBTANK::POUNDER) {
+            return;
+        } else if (this->get_subtank() == Tank::SUBTANK::HUNTER) {
+            this->set_max_health(this->get_max_health() * 1.5);
+            this->set_health(this->get_max_health());
+            this->set_health_regen(this->get_health_regen() * 1);
+            this->set_vx(this->get_vx() * 1.1);
+            this->set_vy(this->get_vy() * 1.1);
+            this->set_damage(this->get_damage() * 1.1);
+            this->set_reload_speed(this->get_reload_speed() - 0.1);
+            this->set_bullet_speed(this->get_bullet_speed() * 1.3);
+            return;
+        } else if (this->get_subtank() == Tank::SUBTANK::IMMUNE) {
+            return;
+        } else if (this->get_subtank() == Tank::SUBTANK::SNIPER) {
+            return;
+        } else if (this->get_subtank() == Tank::SUBTANK::DUAL) {
+            return;
+        } else if (this->get_subtank() == Tank::SUBTANK::SPAWNER) {
+            return;
+        } else if (this->get_subtank() == Tank::SUBTANK::TRAPPER) {
+            return;
+        }
     }
+
 }
 
 void Tank::change_class(Tank::TYPE type) {
     this->type = type;
     switch (type)
     {
+        case Tank::TYPE::NORMAL:
+            break;
         case Tank::TYPE::GIANT:
             this->set_max_health(this->get_max_health() * 2);
             this->set_health_regen(this->get_health_regen() * 1.5);
@@ -244,28 +256,29 @@ void Tank::change_class(Tank::TYPE type) {
 
 
 void Tank::change_subtank(Tank::SUBTANK subtank) {
-    if(!this->get_cooldown_status()) {
-        this->subtank = subtank;
-        switch (subtank)
-        {
-            case Tank::SUBTANK::SPINNER:
-                break;
-            case Tank::SUBTANK::POUNDER:
-                break;
-            case Tank::SUBTANK::HUNTER:
-                break;
-            case Tank::SUBTANK::IMMUNE:
-                break;
-            case Tank::SUBTANK::SNIPER:
-                break;
-            case Tank::SUBTANK::DUAL:
-                break;
-            case Tank::SUBTANK::SPAWNER:
-                break;
-            case Tank::SUBTANK::TRAPPER:
-                break;
-        }
+    this->subtank = subtank;
+    switch (subtank)
+    {
+        case Tank::SUBTANK::DEFUALT:
+            break;
+        case Tank::SUBTANK::SPINNER:
+            break;
+        case Tank::SUBTANK::POUNDER:
+            break;
+        case Tank::SUBTANK::HUNTER:
+            break;
+        case Tank::SUBTANK::IMMUNE:
+            break;
+        case Tank::SUBTANK::SNIPER:
+            break;
+        case Tank::SUBTANK::DUAL:
+            break;
+        case Tank::SUBTANK::SPAWNER:
+            break;
+        case Tank::SUBTANK::TRAPPER:
+            break;
     }
+
 }
 
 void Tank::create_heatlh_bar(QGraphicsScene *scene) {
