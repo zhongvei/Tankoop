@@ -1,6 +1,7 @@
 #include "Basic.h"
 #include "Bullet.h"
 #include "Wall.h"
+#include "Turret.h"
 
 #include <QKeyEvent>
 #include <QPointF>

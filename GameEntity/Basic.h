@@ -2,12 +2,12 @@
 #define BASIC_H
 
 #include "Tank.h"
-#include "tankgraphic.h"
 
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsRotation>
 #include <QTransform>
+
 
 class Basic: public Tank, public QGraphicsRotation, public QTransform
 {
@@ -16,7 +16,6 @@ private:
     double changey = 0;
     int skill_cooldown;
     bool cooldown_status;
-
     QGraphicsView* parent = nullptr;
 
     bool UP, DOWN, RIGHT, LEFT;
@@ -32,9 +31,10 @@ public:
     double get_changey();
 
 
+
 protected:
     void advance(int step) override;
-    
+
 };
 
 #endif // BASIC_H

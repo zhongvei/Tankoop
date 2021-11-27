@@ -15,6 +15,7 @@ public:
     double get_damage() const;
     double get_degree() const {return degree;}
     void set_degree (double degree) {this->degree = degree;}
+    Tank* get_tank() const;
 
 private:
     double damage;

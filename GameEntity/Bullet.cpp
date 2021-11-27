@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "Basic.h"
 #include "Wall.h"
+#include "Turret.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -20,11 +21,49 @@ Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int
 }
 
 double Bullet::get_damage() const { return damage; }
+Tank* Bullet::get_tank() const {return tank;}
 
 void Bullet::move(){
         QList<QGraphicsItem *> colliding_items = collidingItems();
             for (int i = 0, n = colliding_items.size(); i < n; ++i){
-                if (typeid(*(colliding_items[i])) == typeid(Block)){
+                if(tank == nullptr){
+                    qDebug()<<"from TURRET";
+                }
+                if (typeid(*(colliding_items[i])) == typeid(Block) && typeid(*tank) == typeid(Turret)){
+                    /* Removing both the bullet and the block from the screen when colliding */
+                    Block *the_block = dynamic_cast<Block*>(colliding_items[i]);
+
+                    the_block->set_health(the_block->get_health()-get_damage());
+
+                    /* Delete the Block if the heath is less than or equal to zero */
+                    if(the_block->get_health() <= 0){
+                       Turret* the_turret = dynamic_cast<Turret*>(tank);
+                       the_turret->get_creator()->set_xp(the_turret->get_creator()->get_xp()+the_block->get_xp());
+                       delete colliding_items[i];
+                    }
+
+                    /* Deleting both the Bullet */
+                    delete this;
+                    return;
+                }
+                else if (typeid(*(colliding_items[i])) == typeid(Enemy) && typeid(*tank) == typeid(Turret)){
+                    /* Removing both the bullet and the block from the screen when colliding */
+                    Enemy *the_enemy = dynamic_cast<Enemy*>(colliding_items[i]);
+                    Turret* the_turret = dynamic_cast<Turret*>(tank);
+                    the_enemy->set_health(the_enemy->get_health()-get_damage());
+
+                    /* Delete the Enemy if its health is less than or equal to zero */
+                    if(the_enemy->get_health() <= 0){
+                       the_turret->get_creator()->set_xp(the_turret->get_creator()->get_xp()+the_enemy->get_xp());
+                       delete the_enemy;
+                    }
+
+                    /* Deleting both the Bullet */
+                    scene()->removeItem(this);
+                    delete this;
+                    return;
+                }
+                else if (typeid(*(colliding_items[i])) == typeid(Block)){
                     /* Removing both the bullet and the block from the screen when colliding */
                     Block *the_block = dynamic_cast<Block*>(colliding_items[i]);
                     the_block->set_health(the_block->get_health()-get_damage());
@@ -46,8 +85,6 @@ void Bullet::move(){
 
                     /* Delete the Enemy if its health is less than or equal to zero */
                     if(the_enemy->get_health() <= 0){
-                       scene()->removeItem(colliding_items[i]);
-                       scene()->removeItem(the_enemy->get_health_bar());
                        tank->set_xp(tank->get_xp()+the_enemy->get_xp());
                        delete colliding_items[i];
                     }

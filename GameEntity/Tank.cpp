@@ -2,6 +2,7 @@
 #include "Block.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "Turret.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -23,6 +24,11 @@ Tank::Tank(
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
         QRandomGenerator::global()->bounded(256))
 {};
+
+Tank::Tank(const Tank& tank):GameEntity(0,0,0,0,0,0,0,0)
+{
+
+}
 
 /* The Accessor of Tank Object */
 double Tank::get_reload_speed() const { return reload_speed;}
@@ -337,6 +343,15 @@ void Tank::skill() {
             QTimer::singleShot(4000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::SPAWNER) {
+
+            turret = new Turret(500,100,this); // multiple of 50
+            turret->setPos(x(),y());
+            turret->setRect(0,0,turret->get_size(),turret->get_size());
+            turret->get_attack_area()->setPos(turret->x() - turret->get_size() * (turret->get_attack_scale()-1)/2,
+                                             turret->y() - turret->get_size() * (turret->get_attack_scale()-1)/2);
+            scene()->addItem(turret);
+            scene()->addItem(turret->get_attack_area());
+            QTimer::singleShot(4000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::TRAPPER) {
             return;
@@ -376,6 +391,7 @@ void Tank::skill_timer_timeout() {
         case Tank::SUBTANK::DUAL:
             break;
         case Tank::SUBTANK::SPAWNER:
+            delete turret;
             break;
         case Tank::SUBTANK::TRAPPER:
             break;

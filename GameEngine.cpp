@@ -163,8 +163,11 @@ void GameEngine::spawn_block_loop() {
             window->scene->removeItem(block);
             delete block;
         }
+
         set_block_count(get_block_count()+1);
+
     }
+
 }
 
 

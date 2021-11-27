@@ -3,6 +3,7 @@
 
 #include "GameEntity.h"
 #include "HealthBar.h"
+//#include "Turret.h"
 
 #include <QRandomGenerator>
 #include <QGraphicsScene>
@@ -12,6 +13,7 @@
 
 
 class HealthBar;
+class Turret;
 
 class Tank: public GameEntity {
 public:
@@ -142,14 +144,16 @@ private:
 
     HealthBar* health_bar{};
 
-    Tank::TYPE type = Tank::TYPE::NORMAL;
-    Tank::SUBTANK subtank = Tank::SUBTANK::TRAPPER;
+    Tank::TYPE type = Tank::TYPE::ENGINEER;
+    Tank::SUBTANK subtank = Tank::SUBTANK::SPAWNER;
 
     qreal angle = 0;
     qreal speed = 0;
     qreal mouseEyeDirection = 0;
     QColor color;
-
+    Turret* turret{};
+    //copy constructor
+    Tank(const Tank& tank);
 protected:
     Tank(
         const double& health, const double& health_regen, const double& max_health, 

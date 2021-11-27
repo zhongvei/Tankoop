@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QThread>
+#include <QList>
 
 
 Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), g(g), attack_range(attack_range), sight_range(sight_range)
@@ -34,6 +35,15 @@ Enemy::~Enemy(){
     delete attack_area;
     delete sight_area;
     delete this->get_health_bar();
+    QList<QGraphicsItem *> list = scene()->items();
+    for(int i = 0; i < list.size(); i++) {
+        if (typeid(*(list[i])) == typeid(Bullet)) {
+            Bullet* the_bullet= dynamic_cast<Bullet*>(list[i]);
+            if(the_bullet->get_tank() == this) {
+                delete the_bullet;
+            }
+        }
+    }
     g->set_enemy_count(g->get_enemy_count()-1);
     timer->stop();
 }
@@ -141,7 +151,6 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
 
         }
     }
-
 }
 
 
