@@ -30,7 +30,7 @@ public slots:
     void show_hud_cicked();
 
     void giant_btn_clicked();
-    void assassin_btn_clicked();
+    void ASSASSIN_btn_clicked();
     void sharpshooter_btn_clicked();
     void engineer_btn_clicked();
 

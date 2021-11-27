@@ -373,7 +373,7 @@
      <string>ENGINEER</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="assassin_btn">
+   <widget class="QToolButton" name="ASSASSIN_btn">
     <property name="geometry">
      <rect>
       <x>100</x>

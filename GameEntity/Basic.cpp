@@ -38,8 +38,6 @@ void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
         if(!this->get_reload_status()) {
-//            qDebug() << "PEW-PEW";
-
             Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
             bullet->set_degree(this->get_degree());
             bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
@@ -63,6 +61,10 @@ void Basic::keyPressEvent(QKeyEvent *event){
                 bullet2->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+10)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+10)/57)))-bullet->get_size()/2);
                 bullet2->set_degree(this->get_degree()+10);
                 scene()->addItem(bullet2);
+                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                bullet3->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()-10)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()-10)/57)))-bullet->get_size()/2);
+                bullet3->set_degree(this->get_degree()-10);
+                scene()->addItem(bullet3);
             }
 
             scene()->addItem(bullet);

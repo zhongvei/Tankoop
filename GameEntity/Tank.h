@@ -19,7 +19,7 @@ public:
     enum class TYPE {
         NORMAL = 0,
         GIANT = 1,
-        ASSASIN = 2, // TODO: fix spelling: assassin
+        ASSASSIN = 2, // TODO: fix spelling: ASSASSIN
         SHARPSHOOTER = 3,
         ENGINEER = 4
     };
@@ -41,7 +41,7 @@ public:
     {
         QString("Normal"),
         QString("Giant"),
-        QString("Assassin"),
+        QString("ASSASSIN"),
         QString("Sharpshooter"),
         QString("Engineer"),
     };
@@ -130,7 +130,7 @@ private:
     double damage{};
     int total_skill_point{};
     int skill_point{};
-    int evolution_point{1};
+    int evolution_point{};
     int sub_tank_evolution_point{};
     double degree{};
     int reload_finish{};

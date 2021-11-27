@@ -84,7 +84,7 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
             painter->setBrush(color);
             painter->drawRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
             break;
-        case Tank::TYPE::ASSASIN:
+        case Tank::TYPE::ASSASSIN:
             painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
             path.moveTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
             path.lineTo(rectangle.bottomLeft());
@@ -128,7 +128,7 @@ QPainterPath Tank::shape() const
         case Tank::TYPE::GIANT:
             path.addRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
             break;
-        case Tank::TYPE::ASSASIN:
+        case Tank::TYPE::ASSASSIN:
             path.moveTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
             path.lineTo(rectangle.bottomLeft());
             path.lineTo(rectangle.topLeft());
@@ -206,6 +206,9 @@ void Tank::skill() {
             QTimer::singleShot(3000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::SNIPER) {
+            this->set_damage(this->get_damage() * 3);
+            this->set_bullet_speed(this->get_bullet_speed() * 3);
+            QTimer::singleShot(3000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::DUAL) {
             QTimer::singleShot(4000,[=](){skill_timer_timeout();});
@@ -242,6 +245,8 @@ void Tank::skill_timer_timeout() {
             this->set_collision_damage(7);
             break;
         case Tank::SUBTANK::SNIPER:
+            this->set_damage(this->get_damage() / 3);
+            this->set_bullet_speed(this->get_bullet_speed() / 3);
             break;
         case Tank::SUBTANK::DUAL:
             break;
@@ -267,7 +272,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_reload_speed(this->get_reload_speed() - 0.1);
             this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
-        case Tank::TYPE::ASSASIN:
+        case Tank::TYPE::ASSASSIN:
             this->set_max_health(this->get_max_health() * 1.2);
             this->set_health_regen(this->get_health_regen() * 0.8);
             this->set_vx(this->get_vx() * 1.5);
