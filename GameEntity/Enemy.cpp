@@ -55,6 +55,7 @@ void Enemy::fire(){
 
     if(!this->get_reload_status()){
         change_reload_status();
+//        qDebug() << "ENEMY GOES PEW-PEW";
         Bullet * bullet = new Bullet(this,50,0,10,0.6,0.6);
         bullet->set_degree(this->get_degree());
         bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y() +(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);

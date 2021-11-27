@@ -46,7 +46,7 @@ void Bullet::move(){
                     Enemy *the_enemy = dynamic_cast<Enemy*>(colliding_items[i]);
                     the_enemy->set_health(the_enemy->get_health()-get_damage());
 
-                    /* Delete the Block if the heath is less than or equal to zero */
+                    /* Delete the Enemy if its health is less than or equal to zero */
                     if(the_enemy->get_health() <= 0){
                        scene()->removeItem(colliding_items[i]);
                        scene()->removeItem(the_enemy->get_health_bar());
@@ -63,7 +63,7 @@ void Bullet::move(){
                     /* Removing both the bullet and the block from the screen when colliding */
                     Basic *player = dynamic_cast<Basic*>(colliding_items[i]);
                     player->set_health(player->get_health()-get_damage());
-                    qDebug()<<"HIT THE PLAYER";
+                    // qDebug()<<"HIT THE PLAYER";
                     /* Deleting both the Bullet */
                     scene()->removeItem(this);
                     delete this;

@@ -30,7 +30,7 @@ void Basic::keyPressEvent(QKeyEvent *event){
                 qDebug()<<"SKILL PRESSED";
                 skill();
                 this->change_cooldown_status();
-                this->set_cooldown(50);
+                this->set_cooldown(360); // secs * 60
             }
             break;
     }

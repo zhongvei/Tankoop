@@ -37,7 +37,7 @@ GameWindow::GameWindow(QWidget* parent)
     setFixedSize(1200,600);
 
     /* START THE GAME */
-    GameEngine* gameengine = new GameEngine(this);
+    GameEngine* gameengine = new GameEngine(this, scene);
     gameengine->run();
 
     show();
