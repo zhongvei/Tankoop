@@ -2,13 +2,14 @@
 #include "Bullet.h"
 #include "Block.h"
 
+
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QTimer>
 #include <QThread>
 
 
-Enemy::Enemy(double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), attack_range(attack_range), sight_range(sight_range)
+Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), g(g), attack_range(attack_range), sight_range(sight_range)
 {
     attack_scale = attack_range/size;
     sight_scale = sight_range/size; // change 800 to variable later
@@ -33,6 +34,7 @@ Enemy::~Enemy(){
     delete attack_area;
     delete sight_area;
     delete this->get_health_bar();
+    g->set_enemy_count(g->get_enemy_count()-1);
     timer->stop();
 }
 
@@ -163,6 +165,12 @@ void Enemy::stateHunting(){
 
 }
 
+void Enemy::stateRunning(const int &detected_blocks){
+//    setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
+//    if (pos().x() + attack_range/2 > 2000 || pos().y() + attack_range/2  > 2000 || pos().x() - attack_range/2 < 0 || pos().y() - attack_range/2  < 0){
+
+//    }
+}
 
 //void Enemy::stateRunning(QPointF *blocks_coordinate, const int &detected_blocks){
 //    double angle_in_radians = std::atan2((player_location.y() + 30/2 -(y()+get_size()/2)),(player_location.x() + 30/2 -(x()+get_size()/2)));
@@ -202,15 +210,15 @@ void Enemy::stateHunting(){
 //    //whereToMove(max_possible_running_location, num_possible_running_location);
 //    delete[] max_possible_running_location;
 
-//    //setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
+//    setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
 //}
 
 void Enemy::bounces(){
     if(turn == 10){
         turn = 0;
         turn = true;
-        double degree_mult = 1.5;
-        set_degree(get_degree()*degree_mult);
+        double degree_mult = 90;
+        set_degree(get_degree()+degree_mult);
     }
     else{
         turn += 1;
@@ -238,9 +246,9 @@ void Enemy::move(){
     switch(current_state){
         case STATE::HUNTING:
             stateHunting(); break;
-        case STATE::RUNNING:
+        case STATE::RUNNING:          
+            stateRunning(detected_blocks);
             break;
-            //stateRunning(blocks_coordinate, detected_blocks); break;
     }
 
 
@@ -249,7 +257,7 @@ void Enemy::move(){
 
 //    delete[] blocks_coordinate;
     // destroy enemy when it goes out of the screen pos().y() > 2000 || pos().x() > 2000 || pos().y() < 0 || pos().x() < 0
-    if (pos().x() + sight_range/2 > 2000 || pos().y() + sight_range/2 > 2000 || pos().x() - sight_range/2 < 0 || pos().y() - sight_range/2 < 0){
+    if (pos().x() + 100 > 2000 || pos().y() + 100  > 2000 || pos().x() - 100 < 0 || pos().y() - 100  < 0){
         bounces();
 //        scene()->removeItem(this);
 //        delete this;

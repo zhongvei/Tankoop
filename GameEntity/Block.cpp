@@ -1,4 +1,5 @@
 #include "Block.h"
+#include <QDebug>
 
 //block doesnt have health_regen and is always spawn as alive
 Block::Block

@@ -4,11 +4,13 @@
 #include "GameWindow.h"
 #include "GameEntity/Tank.h"
 #include "Hud.h"
+#include "GameEntity/Enemy.h"
 
 #include <QObject>
 #include <QElapsedTimer>
 
 class GameWindow;
+//class Enemy;
 
 class GameEngine: public QObject
 {
@@ -18,8 +20,8 @@ public:
     void run();
     void main_loop();
     void facing_cursor(Tank* player);
-    void spawn_loop();
-    void spawn_enemies();
+    void spawn_block_loop();
+    void spawn_enemies_loop();
     bool game_over();
     void entity_spawn();
     int get_enemy_count() const;
@@ -38,6 +40,9 @@ private:
     QTimer* single;
     Tank* player;
     Hud* hud;
+    int waves = 1;
+    bool finish_wave = true;
+    int max_enemies = 3;
     QGraphicsScene* scene;
     QElapsedTimer elapsed_timer;
 

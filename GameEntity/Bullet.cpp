@@ -31,13 +31,11 @@ void Bullet::move(){
 
                     /* Delete the Block if the heath is less than or equal to zero */
                     if(the_block->get_health() <= 0){
-                       scene()->removeItem(colliding_items[i]);
                        tank->set_xp(tank->get_xp()+the_block->get_xp());
                        delete colliding_items[i];
                     }
 
                     /* Deleting both the Bullet */
-                    scene()->removeItem(this);
                     delete this;
                     return;
                 }
