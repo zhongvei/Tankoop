@@ -78,7 +78,6 @@ QRectF Tank::boundingRect() const
 void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QRectF square = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
-    QRectF small_square = QRectF();
     QPainterPath path;
 
     switch (get_class()) {    
@@ -120,6 +119,8 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
                     painter->setBrush(color);
                     painter->drawRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
                     break;
+                default:
+                    break;
             }
             break;
         case Tank::TYPE::ASSASSIN:
@@ -143,13 +144,16 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
                     painter->drawPath(path);
                     break;
                 case Tank::SUBTANK::IMMUNE:
-                    painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
+                    painter->drawRect(this->get_size()*0.62,this->get_size()*5/12,this->get_size()*0.38,this->get_size()/6);
                     path.moveTo(square.right(), square.top() + square.height()/2);
                     path.lineTo(square.bottomLeft());
                     path.lineTo(square.topLeft());
                     path.lineTo(square.right(), square.top() + square.height()/2);
+                    path.addEllipse(this->get_size()*0.4, this->get_size()*0.4, this->get_size()*0.2, this->get_size()*0.2);
                     painter->fillPath(path, color);
                     painter->drawPath(path);
+                    break;
+                default:
                     break;
             }
 
@@ -183,6 +187,8 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
                     painter->setBrush(color);
                     painter->drawEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
                     break;
+                default:
+                    break;
             }
 
             break;
@@ -190,13 +196,13 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
             switch(get_subtank()) {
                 case Tank::SUBTANK::DEFAULT:
                     painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
-                    path.moveTo(square.left() + square.width()*2*tan(60), square.top());
-                    path.lineTo(square.right() - square.width()*2*tan(60), square.top());
+                    path.moveTo(square.left() + square.width()*tan(60), square.top());
+                    path.lineTo(square.right() - square.width()*tan(60), square.top());
                     path.lineTo(square.right(), square.top() + square.height()/2);
-                    path.lineTo(square.right() - square.width()*2*tan(60), square.bottom());
-                    path.lineTo(square.left() + square.width()*2*tan(60), square.bottom());
+                    path.lineTo(square.right() - square.width()*tan(60), square.bottom());
+                    path.lineTo(square.left() + square.width()*tan(60), square.bottom());
                     path.lineTo(square.left(), square.top() + square.height()/2);
-                    path.lineTo(square.left() + square.width()*2*tan(60), square.top());
+                    path.lineTo(square.left() + square.width()*tan(60), square.top());
                     painter->fillPath(path, color);
                     painter->drawPath(path);
                     break;
@@ -214,15 +220,17 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
                     break;
                 case Tank::SUBTANK::TRAPPER:
                     painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
-                    path.moveTo(square.left() + square.width()*2*tan(60), square.top());
-                    path.lineTo(square.right() - square.width()*2*tan(60), square.top());
+                    path.moveTo(square.left() - square.width()*tan(60), square.top());
+                    path.lineTo(square.right() + square.width()*tan(60), square.top());
                     path.lineTo(square.right(), square.top() + square.height()/2);
-                    path.lineTo(square.right() - square.width()*2*tan(60), square.bottom());
-                    path.lineTo(square.left() + square.width()*2*tan(60), square.bottom());
+                    path.lineTo(square.right() + square.width()*tan(60), square.bottom());
+                    path.lineTo(square.left() - square.width()*tan(60), square.bottom());
                     path.lineTo(square.left(), square.top() + square.height()/2);
-                    path.lineTo(square.left() + square.width()*2*tan(60), square.top());
+                    path.lineTo(square.left() - square.width()*tan(60), square.top());
                     painter->fillPath(path, color);
                     painter->drawPath(path);
+                    break;
+                default:
                     break;
             }
             break;
@@ -235,7 +243,7 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 */
 QPainterPath Tank::shape() const
 {
-    QRectF rectangle = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
+    QRectF square = QRectF(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
     QPainterPath path;
     // Shape for collision detection
     switch (get_class()) {
@@ -246,22 +254,83 @@ QPainterPath Tank::shape() const
             path.addRect(this->get_size()*0.2, this->get_size()*0.2, this->get_size()*0.6, this->get_size()*0.6);
             break;
         case Tank::TYPE::ASSASSIN:
-            path.moveTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
-            path.lineTo(rectangle.bottomLeft());
-            path.lineTo(rectangle.topLeft());
-            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
+            switch(get_subtank()) {
+                case Tank::SUBTANK::DEFAULT:
+                    path.moveTo(square.right(), square.top() + square.height()/2);
+                    path.lineTo(square.bottomLeft());
+                    path.lineTo(square.topLeft());
+                    path.lineTo(square.right(), square.top() + square.height()/2);
+                    break;
+                case Tank::SUBTANK::HUNTER:
+                    path.moveTo(square.left(),square.top());
+                    path.lineTo(this->get_size(),this->get_size()/2);
+                    path.lineTo(square.left(),square.bottom());
+                    path.lineTo(this->get_size()/2,this->get_size()/2);
+                    path.lineTo(square.left(),square.top());
+                    break;
+                case Tank::SUBTANK::IMMUNE:
+                    path.moveTo(square.right(), square.top() + square.height()/2);
+                    path.lineTo(square.bottomLeft());
+                    path.lineTo(square.topLeft());
+                    path.lineTo(square.right(), square.top() + square.height()/2);
+                    break;
+                default:
+                    break;
+            }
+
             break;
         case Tank::TYPE::SHARPSHOOTER:
-            path.addEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+            switch(get_subtank()) {
+                case Tank::SUBTANK::DEFAULT:
+                    path.addEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+                    break;
+                case Tank::SUBTANK::SNIPER:
+                    path.arcMoveTo(-this->get_size()*0.6, this->get_size()*0.2, this->get_size()*1.4, this->get_size()*0.6, 270);
+                    path.arcTo(-this->get_size()*0.6, this->get_size()*0.2, this->get_size()*1.4, this->get_size()*0.6, 270, 180);
+                    path.arcMoveTo(-this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.9, this->get_size()*0.6, 270);
+                    path.arcTo(-this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.9, this->get_size()*0.6, 270, 180);
+                    break;
+                case Tank::SUBTANK::DUAL:
+                    path.addEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
+                    break;
+                default:
+                    break;
+            }
+
             break;
         case Tank::TYPE::ENGINEER:
-            path.moveTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
-            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.top());
-            path.lineTo(rectangle.right(), rectangle.top() + rectangle.height()/2);
-            path.lineTo(rectangle.right() - rectangle.width()*2*tan(60), rectangle.bottom());
-            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.bottom());
-            path.lineTo(rectangle.left(), rectangle.top() + rectangle.height()/2);
-            path.lineTo(rectangle.left() + rectangle.width()*2*tan(60), rectangle.top());
+        switch(get_subtank()) {
+            case Tank::SUBTANK::DEFAULT:
+                path.moveTo(square.left() + square.width()*tan(60), square.top());
+                path.lineTo(square.right() - square.width()*tan(60), square.top());
+                path.lineTo(square.right(), square.top() + square.height()/2);
+                path.lineTo(square.right() - square.width()*tan(60), square.bottom());
+                path.lineTo(square.left() + square.width()*tan(60), square.bottom());
+                path.lineTo(square.left(), square.top() + square.height()/2);
+                path.lineTo(square.left() + square.width()*tan(60), square.top());
+                break;
+            case Tank::SUBTANK::SPAWNER:
+                path.moveTo(square.left() + square.width()*2*tan(60), square.top());
+                path.lineTo(square.right() - square.width()*2*tan(60), square.top());
+                path.lineTo(square.right(), square.top() + square.height()/2);
+                path.lineTo(square.right() - square.width()*2*tan(60), square.bottom());
+                path.lineTo(square.left() + square.width()*2*tan(60), square.bottom());
+                path.lineTo(square.left(), square.top() + square.height()/2);
+                path.lineTo(square.left() + square.width()*2*tan(60), square.top());
+                break;
+            case Tank::SUBTANK::TRAPPER:
+                path.moveTo(square.left() - square.width()*tan(60), square.top());
+                path.lineTo(square.right() + square.width()*tan(60), square.top());
+                path.lineTo(square.right(), square.top() + square.height()/2);
+                path.lineTo(square.right() + square.width()*tan(60), square.bottom());
+                path.lineTo(square.left() - square.width()*tan(60), square.bottom());
+                path.lineTo(square.left(), square.top() + square.height()/2);
+                path.lineTo(square.left() - square.width()*tan(60), square.top());
+                break;
+            default:
+                break;
+        }
+
             break;
     }
     return path;
@@ -294,6 +363,7 @@ void Tank::increase_level() {
        this->set_level(this->get_level() + 1);
        this->increase_total_skill_point();
        this->increase_skill_point();
+       this->set_size(this->get_size()*1.03);
     //    qDebug()<<"INCREASED LEVEL BY 1";
        if(this->get_level() == 5) {
            this->increase_evolution_point();
@@ -405,6 +475,7 @@ void Tank::change_class(Tank::TYPE type) {
         case Tank::TYPE::NORMAL:
             break;
         case Tank::TYPE::GIANT:
+            this->set_size(this->get_size()*1.2);
             this->set_max_health(this->get_max_health() * 2);
             this->set_health_regen(this->get_health_regen() * 1.5);
             this->set_vx(this->get_vx() * 1);
@@ -414,6 +485,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
         case Tank::TYPE::ASSASSIN:
+            this->set_size(this->get_size()*1.2);
             this->set_max_health(this->get_max_health() * 1.2);
             this->set_health_regen(this->get_health_regen() * 0.8);
             this->set_vx(this->get_vx() * 1.5);
@@ -423,6 +495,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
         case Tank::TYPE::SHARPSHOOTER:
+            this->set_size(this->get_size()*0.8);
             this->set_max_health(this->get_max_health() * 1);
             this->set_health_regen(this->get_health_regen() * 1);
             this->set_vx(this->get_vx() * 1.2);
@@ -432,6 +505,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_bullet_speed(this->get_bullet_speed() * 1.5);
             break;
         case Tank::TYPE::ENGINEER:
+            this->set_size(this->get_size()*1.1);
             this->set_max_health(this->get_max_health() * 1.5);
             this->set_health_regen(this->get_health_regen() * 1.2);
             this->set_vx(this->get_vx() * 1.2);

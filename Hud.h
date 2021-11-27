@@ -34,6 +34,8 @@ public slots:
     void sharpshooter_btn_clicked();
     void engineer_btn_clicked();
 
+    void subtank1_btn_clicked();
+    void subtank2_btn_clicked();
 
 private:
     bool shown;
