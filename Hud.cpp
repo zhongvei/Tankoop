@@ -35,6 +35,9 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     connect(ui->giant_btn,SIGNAL(clicked()),this,SLOT(giant_btn_clicked()));
     connect(ui->engineer_btn,SIGNAL(clicked()),this,SLOT(engineer_btn_clicked()));
 
+    connect(ui->sub_tank_1,SIGNAL(clicked()),this,SLOT(subtank1_btn_clicked()));
+    connect(ui->sub_tank_2,SIGNAL(clicked()),this,SLOT(subtank2_btn_clicked()));
+
 }
 
 Hud::~Hud()
@@ -170,6 +173,51 @@ void Hud::ASSASSIN_btn_clicked() {
     }
 }
 
+void Hud::subtank1_btn_clicked() {
+    switch(tank->get_class()) {
+        case Tank::TYPE::GIANT:
+            tank->change_subtank(Tank::SUBTANK::POUNDER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::ASSASSIN:
+            tank->change_subtank(Tank::SUBTANK::HUNTER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            tank->change_subtank(Tank::SUBTANK::DUAL);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::ENGINEER:
+            tank->change_subtank(Tank::SUBTANK::SPAWNER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        default:
+            break;
+    }
+}
+void Hud::subtank2_btn_clicked() {
+    switch(tank->get_class()) {
+        case Tank::TYPE::GIANT:
+            tank->change_subtank(Tank::SUBTANK::SPINNER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::ASSASSIN:
+            tank->change_subtank(Tank::SUBTANK::IMMUNE);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            tank->change_subtank(Tank::SUBTANK::SNIPER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::ENGINEER:
+            tank->change_subtank(Tank::SUBTANK::TRAPPER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        default:
+            break;
+    }
+}
+
 void Hud::update_btn_color(){
     if(tank->get_skill_point() >= 1) {
         ui->increase_reload_speed_btn->setStyleSheet(UPGRADE_AVAILABLE);
@@ -210,5 +258,3 @@ void Hud::show_hud_cicked() {
         shown = true;
     }
 }
-
-

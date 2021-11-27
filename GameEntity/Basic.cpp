@@ -35,8 +35,10 @@ void Basic::keyPressEvent(QKeyEvent *event){
 
                 if(this->get_subtank() == Tank::SUBTANK::TRAPPER){
                     Wall* wall = new Wall(this->get_degree());
-                    wall->setPos(x()+((this->get_size()/2)*(1+cos(this->get_degree()/57))-10/2),
-                                 y()+((this->get_size()/2)*(1+sin(this->get_degree()/57)))-wall->get_size()/2);
+//                    wall->setPos(x()+((this->get_size()/2)*(1+cos(this->get_degree()/57))-10/2),
+//                                 y()+((this->get_size()/2)*(1+sin(this->get_degree()/57)))-wall->get_size()/2);
+                    wall->setPos(x()+((this->get_size()/2)+ (this->get_size()/2+15)*cos(this->get_degree()/57)-10/2),
+                                 y()+((this->get_size()/2)+ (this->get_size()/2+15)*sin(this->get_degree()/57))-wall->get_size()/2);
                     QTransform transform;
                     transform.translate(10/2,this->get_size()/2);
                     transform.rotate(get_degree());

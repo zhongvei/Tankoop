@@ -41,7 +41,7 @@ public:
     {
         QString("Normal"),
         QString("Giant"),
-        QString("ASSASSIN"),
+        QString("Assassin"),
         QString("Sharpshooter"),
         QString("Engineer"),
     };
@@ -142,7 +142,7 @@ private:
 
     HealthBar* health_bar{};
 
-    Tank::TYPE type = Tank::TYPE::NORMAL;
+    Tank::TYPE type = Tank::TYPE::ENGINEER;
     Tank::SUBTANK subtank = Tank::SUBTANK::TRAPPER;
 
     qreal angle = 0;
