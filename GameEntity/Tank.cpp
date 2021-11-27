@@ -208,6 +208,7 @@ void Tank::skill() {
         } else if (this->get_subtank() == Tank::SUBTANK::SNIPER) {
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::DUAL) {
+            QTimer::singleShot(4000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::SPAWNER) {
             return;

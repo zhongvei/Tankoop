@@ -42,7 +42,6 @@ void Basic::keyPressEvent(QKeyEvent *event){
 
             Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
             bullet->set_degree(this->get_degree());
-            //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
             bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
 
             if (this->get_subtank() == Tank::SUBTANK::POUNDER && this->get_skill_status() == true) {
@@ -58,6 +57,12 @@ void Basic::keyPressEvent(QKeyEvent *event){
                 bullet4->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()-90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()-90)/57)))-bullet->get_size()/2);
                 bullet4->set_degree(this->get_degree()-90);
                 scene()->addItem(bullet4);
+            }
+            if (this->get_subtank() == Tank::SUBTANK::DUAL && this->get_skill_status() == true) {
+                Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                bullet2->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+10)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+10)/57)))-bullet->get_size()/2);
+                bullet2->set_degree(this->get_degree()+10);
+                scene()->addItem(bullet2);
             }
 
             scene()->addItem(bullet);

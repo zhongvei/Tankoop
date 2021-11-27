@@ -103,7 +103,11 @@ void Hud::update_value() {
     } else {
         ui->sub_tank_frame->hide();
     }
-
+    if(tank->get_skill_status()) {
+        ui->skill_status_text->show();
+    } else {
+        ui->skill_status_text->hide();
+    }
 }
 
 bool Hud::check_upgrade() {
