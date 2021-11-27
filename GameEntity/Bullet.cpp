@@ -18,7 +18,6 @@ Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int
     timer->start(1000/60);
 }
 
-
 double Bullet::get_damage() const { return damage; }
 
 void Bullet::move(){

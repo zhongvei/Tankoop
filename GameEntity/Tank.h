@@ -10,6 +10,7 @@
 #include <QPen>
 #include <QStyleOption>
 
+
 class HealthBar;
 
 class Tank: public GameEntity {
@@ -113,9 +114,9 @@ public:
     void create_heatlh_bar(QGraphicsScene* scene);
 
     HealthBar* get_health_bar() const;
-
     void skill();
-    
+    void skill_timer_timeout();
+
 private:
     double reload_speed{};
     double bullet_speed{};
@@ -129,7 +130,6 @@ private:
     bool reload {1};
     bool cooldown_status {};
     int cooldown {};
-
 
     HealthBar* health_bar{};
 

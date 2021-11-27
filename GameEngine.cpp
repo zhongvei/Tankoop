@@ -164,7 +164,7 @@ void GameEngine::entity_spawn() {
     set_enemy_count(enemy);
 
     spawn_loop();
-    //spawn_enemies();
+    spawn_enemies();
 
 }
 
