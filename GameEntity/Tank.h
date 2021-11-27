@@ -105,6 +105,9 @@ public:
     int get_cooldown() const;
     void set_cooldown(int cooldown);
 
+    bool get_skill_status() const;
+    void change_skill_status();
+
     void change_class(Tank::TYPE type);
     TYPE get_class() const;
 
@@ -135,11 +138,12 @@ private:
     bool cooldown_status {};
     int cooldown {};
     double collision_damage {7};
+    bool skill_status {};
 
     HealthBar* health_bar{};
 
     Tank::TYPE type = Tank::TYPE::NORMAL;
-    Tank::SUBTANK subtank = Tank::SUBTANK::IMMUNE;
+    Tank::SUBTANK subtank = Tank::SUBTANK::POUNDER;
 
     qreal angle = 0;
     qreal speed = 0;

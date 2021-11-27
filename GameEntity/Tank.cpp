@@ -39,6 +39,7 @@ int Tank::get_sub_tank_evolution_point() const {return sub_tank_evolution_point;
 int Tank::get_cooldown() const {return cooldown;}
 bool Tank::get_cooldown_status() const {return cooldown_status;}
 double Tank::get_collision_damage() const {return collision_damage;}
+bool Tank::get_skill_status() const {return skill_status;}
 
 void Tank::advance(int step)
 {
@@ -183,15 +184,11 @@ void Tank::increase_level() {
 void Tank::skill() {
     if(!this->get_cooldown_status()) {
         qDebug()<<"skill pressed";
+        change_skill_status();
         if(this->get_subtank() == Tank::SUBTANK::SPINNER) {
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::POUNDER) {
-            for (int i=0; i<4; ++i) {
-                Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
-                bullet->set_degree(this->get_degree() + i*90);
-                bullet->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+i*90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+i*90)/57)))-bullet->get_size()/2);
-                scene()->addItem(bullet);
-            }
+            QTimer::singleShot(5000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::HUNTER) {
             this->set_vx(this->get_vx() * 1.2);
@@ -221,6 +218,7 @@ void Tank::skill() {
 }
 
 void Tank::skill_timer_timeout() {
+    change_skill_status();
     switch(this->get_subtank())
     {
         case Tank::SUBTANK::DEFAULT:
@@ -347,3 +345,4 @@ void Tank::decrease_sub_tank_evolution_point() {this->sub_tank_evolution_point--
 void Tank::change_cooldown_status() {this->cooldown_status? this->cooldown_status = false: this->cooldown_status = true;}
 void Tank::set_cooldown(int cooldown) {this->cooldown = cooldown;}
 void Tank::set_collision_damage(double collision_damage) {this->collision_damage = collision_damage;}
+void Tank::change_skill_status() {this->skill_status? this->skill_status = false: this->skill_status = true;}
