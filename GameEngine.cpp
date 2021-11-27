@@ -52,7 +52,6 @@ void GameEngine::run(){
 
     //spawn the block
     spawn_loop();
-    qDebug()<<get_block_count();
 
     /* The HUD */
     hud = new Hud(window, player);
@@ -99,7 +98,7 @@ void GameEngine::main_loop() {
 
 void GameEngine::spawn_enemies(){
     if(get_enemy_count() < 3) {
-        qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
+//        qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
         Enemy *enemy = new Enemy(500,100); // multiple of 50
 
         enemy->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
@@ -171,7 +170,6 @@ void GameEngine::entity_spawn() {
 
 bool GameEngine::game_over() {
     if(player->get_health() <= 0) {
-        qDebug()<<"gameover";
         return true;
     }
     return false;

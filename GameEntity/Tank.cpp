@@ -33,6 +33,7 @@ int Tank::get_evolution_point() const {return evolution_point;}
 HealthBar* Tank::get_health_bar() const {return health_bar;}
 Tank::TYPE Tank::get_class() const {return type;}
 Tank::SUBTANK Tank::get_subtank() const {return subtank;}
+int Tank::get_sub_tank_evolution_point() const {return sub_tank_evolution_point;}
 int Tank::get_cooldown() const {return cooldown;}
 bool Tank::get_cooldown_status() const {return cooldown_status;}
 
@@ -163,10 +164,14 @@ void Tank::increase_level() {
        this->set_level(this->get_level() + 1);
        this->increase_total_skill_point();
        this->increase_skill_point();
-       qDebug()<<"INCREASED LEVEL BY 1";
-       if((this->get_level() % 10) == 0 && this->get_level() != 0) {
+    //    qDebug()<<"INCREASED LEVEL BY 1";
+       if(this->get_level() == 5) {
            this->increase_evolution_point();
-           qDebug()<<"INCREASE EVOLUTION POINT BY 1";
+        //    qDebug()<<"INCREASE EVOLUTION POINT BY 1";
+       }
+       if(this->get_level() == 10) {
+           this->increase_sub_tank_evolution_point();
+        //    qDebug()<<"INCREASE SUBTANK EVOLUTION POINT";
        }
     }
 
@@ -237,6 +242,7 @@ void Tank::change_class(Tank::TYPE type) {
     }
 }
 
+
 void Tank::change_subtank(Tank::SUBTANK subtank) {
     if(!this->get_cooldown_status()) {
         this->subtank = subtank;
@@ -279,5 +285,7 @@ void Tank::set_reload_finish(int reload_finish) {this->reload_finish = reload_fi
 void Tank::change_reload_status() { reload? this->reload = 0: this->reload = 1;}
 void Tank::increase_evolution_point() {this->evolution_point++;}
 void Tank::decrease_evolution_point() {this->evolution_point--;}
+void Tank::increase_sub_tank_evolution_point() {this->sub_tank_evolution_point++;}
+void Tank::decrease_sub_tank_evolution_point() {this->sub_tank_evolution_point--;}
 void Tank::change_cooldown_status() {this->cooldown_status? this->cooldown_status = false: this->cooldown_status = true;}
 void Tank::set_cooldown(int cooldown) {this->cooldown = cooldown;}

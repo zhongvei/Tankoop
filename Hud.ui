@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>487</width>
-    <height>603</height>
+    <height>598</height>
    </rect>
   </property>
   <property name="font">
@@ -310,13 +310,13 @@
     <enum>Qt::NoFocus</enum>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QFrame" name="type_frame">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>370</y>
+     <y>380</y>
      <width>201</width>
-     <height>211</height>
+     <height>191</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -390,11 +390,11 @@
     </property>
    </widget>
   </widget>
-  <widget class="QFrame" name="frame_2">
+  <widget class="QFrame" name="sub_tank_frame">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>360</y>
+     <x>10</x>
+     <y>370</y>
      <width>211</width>
      <height>191</height>
     </rect>
@@ -421,7 +421,7 @@
      <string>subtank2</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="assassin_btn_16">
+   <widget class="QToolButton" name="sub_tank_2">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -441,8 +441,8 @@
   <zorder>listView</zorder>
   <zorder>groupBox</zorder>
   <zorder>show_hud_btn</zorder>
-  <zorder>frame</zorder>
-  <zorder>frame_2</zorder>
+  <zorder>type_frame</zorder>
+  <zorder>sub_tank_frame</zorder>
  </widget>
  <resources/>
  <connections/>

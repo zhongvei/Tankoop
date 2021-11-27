@@ -91,6 +91,19 @@ void Hud::update_value() {
     ui->skill_point_value->setText(QString::number(tank->get_skill_point()));
     ui->exp_value->setText(QString::number(tank->get_xp()));
     ui->level_value->setText(QString::number(tank->get_level()));
+
+    if (tank->get_evolution_point() == 1 && tank->get_class() == Tank::TYPE::NORMAL) {
+        ui->type_frame->show();
+    } else if(tank->get_evolution_point() == 0) {
+        ui->type_frame->hide();
+    }
+
+    if (tank->get_class() != Tank::TYPE::NORMAL && tank->get_sub_tank_evolution_point() == 1) {
+        ui->sub_tank_frame->show();
+    } else {
+        ui->sub_tank_frame->hide();
+    }
+
 }
 
 bool Hud::check_upgrade() {
