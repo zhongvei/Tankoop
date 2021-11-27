@@ -2,7 +2,7 @@
 #include "Block.h"
 
 #include <QDebug>
-#include <QElapsedTimer>
+#include <QTimer>
 
 class HealthBar;
 
@@ -180,19 +180,18 @@ void Tank::increase_level() {
 
 void Tank::skill() {
     if(!this->get_cooldown_status()) {
+        qDebug()<<"skill pressed";
         if(this->get_subtank() == Tank::SUBTANK::SPINNER) {
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::POUNDER) {
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::HUNTER) {
-            this->set_max_health(this->get_max_health() * 1.5);
-            this->set_health(this->get_max_health());
-            this->set_health_regen(this->get_health_regen() * 1);
-            this->set_vx(this->get_vx() * 1.1);
-            this->set_vy(this->get_vy() * 1.1);
-            this->set_damage(this->get_damage() * 1.1);
-            this->set_reload_speed(this->get_reload_speed() - 0.1);
-            this->set_bullet_speed(this->get_bullet_speed() * 1.3);
+            this->set_vx(this->get_vx() * 1.2);
+            this->set_vy(this->get_vy() * 1.2);
+            this->set_damage(this->get_damage() * 1.5);
+            this->set_reload_speed(this->get_reload_speed() - 0.2);
+            this->set_bullet_speed(this->get_bullet_speed() * 1.5);
+            QTimer::singleShot(5000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::IMMUNE) {
             return;
@@ -206,7 +205,43 @@ void Tank::skill() {
             return;
         }
     }
+}
 
+void Tank::skill_timer_timeout() {
+    switch(this->get_subtank())
+    {
+        case Tank::SUBTANK::DEFUALT:
+            break;
+        case Tank::SUBTANK::SPINNER:
+            break;
+        case Tank::SUBTANK::POUNDER:
+            break;
+        case Tank::SUBTANK::HUNTER:
+
+            this->set_vx(this->get_vx());
+            this->set_vy(this->get_vy());
+            this->set_damage(this->get_damage());
+            this->set_reload_speed(this->get_reload_speed());
+            this->set_bullet_speed(this->get_bullet_speed());
+            break;
+        case Tank::SUBTANK::IMMUNE:
+            break;
+        case Tank::SUBTANK::SNIPER:
+            break;
+        case Tank::SUBTANK::DUAL:
+            break;
+        case Tank::SUBTANK::SPAWNER:
+            break;
+        case Tank::SUBTANK::TRAPPER:
+            break;
+
+    }
+
+    this->set_vx(this->get_vx() / 1.2);
+    this->set_vy(this->get_vy() / 1.2);
+    this->set_damage(this->get_damage() / 1.5);
+    this->set_reload_speed(this->get_reload_speed() + 0.2);
+    this->set_bullet_speed(this->get_bullet_speed() / 1.5);
 }
 
 void Tank::change_class(Tank::TYPE type) {
