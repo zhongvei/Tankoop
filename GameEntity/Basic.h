@@ -2,7 +2,7 @@
 #define BASIC_H
 
 #include "Tank.h"
-#include "tankgraphic.h"
+#include "GameEngine.h"
 
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
@@ -23,7 +23,7 @@ private:
 
 public:
 
-    Basic(QGraphicsView* parent=nullptr);
+    Basic(QGraphicsView* parent=nullptr, GameEngine* game_engine = nullptr);
     void keyPressEvent(QKeyEvent * event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
     void facing_cursor(Basic* basic);

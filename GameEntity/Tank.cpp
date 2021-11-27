@@ -14,9 +14,10 @@ Tank::Tank(
         const double& damage,
         const int& level,
         const int& skill_point,
-        const int& degree):
+        const int& degree,
+        GameEngine* game_engine):
         GameEntity(health,health_regen,max_health,size,vx,vy,xp,level),
-        reload_speed(reload_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
+        reload_speed(reload_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree), game_engine(game_engine),
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
         QRandomGenerator::global()->bounded(256))
 {};
@@ -35,6 +36,7 @@ Tank::TYPE Tank::get_class() const {return type;}
 Tank::SUBTANK Tank::get_subtank() const {return subtank;}
 int Tank::get_cooldown() const {return cooldown;}
 bool Tank::get_cooldown_status() const {return cooldown_status;}
+GameEngine* Tank::get_game_engine() const {return game_engine;}
 
 void Tank::advance(int step)
 {

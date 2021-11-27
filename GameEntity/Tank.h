@@ -3,6 +3,7 @@
 
 #include "GameEntity.h"
 #include "HealthBar.h"
+#include "../GameEngine.h"
 
 #include <QRandomGenerator>
 #include <QGraphicsScene>
@@ -10,7 +11,7 @@
 #include <QPen>
 #include <QStyleOption>
 
-class HealthBar;
+class GameEngine;
 
 class Tank: public GameEntity {
 public:
@@ -109,6 +110,7 @@ public:
     void create_heatlh_bar(QGraphicsScene* scene);
 
     HealthBar* get_health_bar() const;
+    GameEngine* get_game_engine() const;
 
     void skill();
     
@@ -135,6 +137,7 @@ private:
     qreal speed = 0;
     qreal mouseEyeDirection = 0;
     QColor color;
+    GameEngine* game_engine{};
 
 protected:
     Tank(
@@ -145,7 +148,8 @@ protected:
         const double& damage,
         const int& level,
         const int& skill_point,
-        const int& degree
+        const int& degree,
+        GameEngine* game_engine
     );
 
     void advance(int step) override;

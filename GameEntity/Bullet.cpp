@@ -1,6 +1,6 @@
 #include "Bullet.h"
 #include "Block.h"
-//#include "Enemy.h"
+#include "Enemy.h"
 #include "Basic.h"
 
 #include <QDebug>
@@ -9,13 +9,16 @@
 #include <QList>
 
 //bullet has no health, max health, health_regen and xp
-Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy):
-    GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank)
+Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy, GameEngine* game_engine):
+    GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank), game_engine(game_engine)
 {
     setRect(0,0,size,size);
     QTimer* timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
     timer->start(1000/60);
+
+    connect(this, SIGNAL(enemyDies(Enemy* enemy)), game_engine, SLOT(cumulativeEnemyList_addEnemy()) );
+    connect(this, SIGNAL(enemyDies(Enemy* enemy)), game_engine, SLOT(currentEnemyList_popBack()) );
 }
 
 
@@ -51,8 +54,9 @@ void Bullet::move(){
                        scene()->removeItem(colliding_items[i]);
                        scene()->removeItem(the_enemy->get_health_bar());
                        tank->set_xp(tank->get_xp()+the_enemy->get_xp());
-                       enemyStats temp = {the_enemy, the_enemy->name,int(the_enemy->get_xp())}; // store enemy statistics in enemyList
-                       Enemy::cumulativeEnemyList.push_back(temp);
+//                       enemyStats temp = {the_enemy, the_enemy->name,int(the_enemy->get_xp())}; // store enemy statistics in enemyList
+//                       Enemy::cumulativeEnemyList.push_back(temp);
+                       emit enemyDies(the_enemy);
                        delete colliding_items[i];
                     }
 

@@ -1,6 +1,4 @@
 #include "GameEngine.h"
-#include "GameEntity/Basic.h"
-//#include "GameEntity/Enemy.h"
 #include "GameEntity/HealthBar.h"
 #include "EndGameWindow.h"
 
@@ -22,7 +20,7 @@ int GameEngine::get_enemy_count() const {return enemy_count;}
 
 void GameEngine::run(){
     /* CREATE THE PLAYER, STARTS WITH THE BASIC CLASS */
-    player = new Basic(window);
+    player = new Basic(window,this);
     player->setRect(0,0,player->get_size(),player->get_size());
     player->setPos(350,250);
     window->scene->addItem(player);
@@ -87,13 +85,13 @@ void GameEngine::main_loop() {
         QString player_time_alive = QString::number(elapsed_timer.elapsed()/1000);
         endWindow->endGameStats(player_xp, player_class, player_subtank, player_time_alive);
 
-        for (int i = 0; i < Enemy::currentEnemyList.size(); ++i) {
-            if (Enemy::currentEnemyList[i] == nullptr) {
+        for (int i = 0; i < currentEnemyList.size(); ++i) {
+            if (currentEnemyList[i] == nullptr) {
                 qDebug() << "ERROR, not supposed to happen (debug)";
             }
             else {
-                enemyStats temp = {Enemy::currentEnemyList[i], Enemy::currentEnemyList[i]->name,int(Enemy::currentEnemyList[i]->get_xp())}; // store enemy statistics in enemyList
-                Enemy::cumulativeEnemyList.push_back(temp);
+                enemyStats temp = {currentEnemyList[i], currentEnemyList[i]->name,int(currentEnemyList[i]->get_xp())}; // store enemy statistics in enemyList
+                cumulativeEnemyList.push_back(temp);
             }
         }
 
@@ -114,10 +112,12 @@ void GameEngine::main_loop() {
 void GameEngine::spawn_enemies(){
     if(get_enemy_count() < 3) {
         qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
-        Enemy *enemy = new Enemy(500,100); // multiple of 50
+        Enemy *enemy = new Enemy(500,100, this); // multiple of 50
 //        Enemy::enemyStats temp = {enemy, QString(EnemyNames[qrand() % 4]),0}; // store enemy statistics in enemyList
 //        Enemy::enemyList.push_back(temp);
-        Enemy::currentEnemyList.push_back(enemy);
+//        Enemy::currentEnemyList.push_back(enemy);
+        currentEnemyList.push_back(enemy);
+
 
 
         enemy->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
@@ -194,3 +194,13 @@ bool GameEngine::game_over() {
     }
     return false;
 }
+
+void GameEngine::cumulativeEnemyList_addEnemy(enemyStats stats) {
+    cumulativeEnemyList.push_back(stats);
+}
+
+void GameEngine::currentEnemyList_popBack() {
+    currentEnemyList.pop_back();
+}
+
+

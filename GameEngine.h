@@ -4,6 +4,7 @@
 #include "GameWindow.h"
 #include "GameEntity/Tank.h"
 #include "GameEntity/Enemy.h"
+#include "GameEntity/Basic.h"
 #include "Hud.h"
 
 #include <QObject>
@@ -11,6 +12,8 @@
 #include <QVector>
 
 class GameWindow;
+class Enemy;
+class Basic;
 
 //struct enemyStats;
 //enemyStats p;
@@ -34,6 +37,19 @@ public:
     void set_enemy_count(int enemy_count);
     void set_block_count(int block_count);
 
+    struct enemyStats
+    {
+        Enemy* ptr = nullptr;
+        QString name = QString("");
+        int score = 0;
+    };
+    void cumulativeEnemyList_addEnemy(enemyStats stats);
+    void currentEnemyList_popBack();
+
+
+    QVector<enemyStats> cumulativeEnemyList; // vector that contains all enemies that spawns during the game
+    QVector<Enemy*> currentEnemyList; // vector that contains current enemies in the game
+
 private:
     int enemy_count{};
     int block_count{};
@@ -47,6 +63,8 @@ private:
     Hud* hud;
     QGraphicsScene* scene;
     QElapsedTimer elapsed_timer;
+
+
 
 //    QVector<QString> EnemyNames {QString("John"), QString("Adam"), QString("Bing"), QString("Chilli")};
 
