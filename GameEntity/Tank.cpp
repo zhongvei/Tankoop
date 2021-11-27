@@ -38,6 +38,7 @@ Tank::SUBTANK Tank::get_subtank() const {return subtank;}
 int Tank::get_sub_tank_evolution_point() const {return sub_tank_evolution_point;}
 int Tank::get_cooldown() const {return cooldown;}
 bool Tank::get_cooldown_status() const {return cooldown_status;}
+double Tank::get_collision_damage() const {return collision_damage;}
 
 void Tank::advance(int step)
 {
@@ -155,7 +156,7 @@ void Tank::check_collision() {
         if((typeid(*list[i]) == typeid(Block))){
 //            qDebug()<<"HIT A BLOCK";
             delete list[i];
-            this->set_health(this->get_health()-7);
+            this->set_health(this->get_health() - get_collision_damage());
             this->set_xp(this->get_xp() + 7);
         }
     }
@@ -201,6 +202,11 @@ void Tank::skill() {
             QTimer::singleShot(5000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::IMMUNE) {
+            this->set_vx(this->get_vx() * 1.5);
+            this->set_vy(this->get_vy() * 1.5);
+            this->set_collision_damage(0);
+            this->set_health_regen(this->get_health_regen() + 5);
+            QTimer::singleShot(3000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::SNIPER) {
             return;
@@ -217,21 +223,24 @@ void Tank::skill() {
 void Tank::skill_timer_timeout() {
     switch(this->get_subtank())
     {
-        case Tank::SUBTANK::DEFUALT:
+        case Tank::SUBTANK::DEFAULT:
             break;
         case Tank::SUBTANK::SPINNER:
             break;
         case Tank::SUBTANK::POUNDER:
             break;
         case Tank::SUBTANK::HUNTER:
-
-            this->set_vx(this->get_vx());
-            this->set_vy(this->get_vy());
-            this->set_damage(this->get_damage());
-            this->set_reload_speed(this->get_reload_speed());
-            this->set_bullet_speed(this->get_bullet_speed());
+            this->set_vx(this->get_vx() / 1.2);
+            this->set_vy(this->get_vy() / 1.2);
+            this->set_damage(this->get_damage() / 1.5);
+            this->set_reload_speed(this->get_reload_speed() + 0.2);
+            this->set_bullet_speed(this->get_bullet_speed() / 1.5);
             break;
         case Tank::SUBTANK::IMMUNE:
+            this->set_vx(this->get_vx() / 1.5);
+            this->set_vy(this->get_vy() / 1.5);
+            this->set_health_regen(this->get_health_regen() - 5);
+            this->set_collision_damage(7);
             break;
         case Tank::SUBTANK::SNIPER:
             break;
@@ -241,14 +250,7 @@ void Tank::skill_timer_timeout() {
             break;
         case Tank::SUBTANK::TRAPPER:
             break;
-
     }
-
-    this->set_vx(this->get_vx() / 1.2);
-    this->set_vy(this->get_vy() / 1.2);
-    this->set_damage(this->get_damage() / 1.5);
-    this->set_reload_speed(this->get_reload_speed() + 0.2);
-    this->set_bullet_speed(this->get_bullet_speed() / 1.5);
 }
 
 void Tank::change_class(Tank::TYPE type) {
@@ -344,3 +346,4 @@ void Tank::increase_sub_tank_evolution_point() {this->sub_tank_evolution_point++
 void Tank::decrease_sub_tank_evolution_point() {this->sub_tank_evolution_point--;}
 void Tank::change_cooldown_status() {this->cooldown_status? this->cooldown_status = false: this->cooldown_status = true;}
 void Tank::set_cooldown(int cooldown) {this->cooldown = cooldown;}
+void Tank::set_collision_damage(double collision_damage) {this->collision_damage = collision_damage;}

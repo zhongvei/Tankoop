@@ -117,6 +117,10 @@ public:
     void skill();
     void skill_timer_timeout();
 
+    void set_collision_damage(double collision_damage);
+    double get_collision_damage() const;
+
+
 private:
     double reload_speed{};
     double bullet_speed{};
@@ -130,11 +134,12 @@ private:
     bool reload {1};
     bool cooldown_status {};
     int cooldown {};
+    double collision_damage {7};
 
     HealthBar* health_bar{};
 
     Tank::TYPE type = Tank::TYPE::NORMAL;
-    Tank::SUBTANK subtank = Tank::SUBTANK::HUNTER;
+    Tank::SUBTANK subtank = Tank::SUBTANK::IMMUNE;
 
     qreal angle = 0;
     qreal speed = 0;
