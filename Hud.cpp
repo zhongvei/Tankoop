@@ -96,6 +96,8 @@ void Hud::update_value() {
     ui->level_value->setText(QString::number(tank->get_level()));
 
     if (tank->get_evolution_point() == 1 && tank->get_class() == Tank::TYPE::NORMAL) {
+        ui->sub_tank_1->setStyleSheet(UPGRADE_AVAILABLE);
+        ui->sub_tank_2->setStyleSheet(UPGRADE_AVAILABLE);
         ui->type_frame->show();
     } else if(tank->get_evolution_point() == 0) {
         ui->type_frame->hide();

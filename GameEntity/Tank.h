@@ -3,7 +3,6 @@
 
 #include "GameEntity.h"
 #include "HealthBar.h"
-//#include "Turret.h"
 
 #include <QRandomGenerator>
 #include <QGraphicsScene>
@@ -21,7 +20,7 @@ public:
     enum class TYPE {
         NORMAL = 0,
         GIANT = 1,
-        ASSASSIN = 2, // TODO: fix spelling: ASSASSIN
+        ASSASSIN = 2,
         SHARPSHOOTER = 3,
         ENGINEER = 4
     };
@@ -144,8 +143,8 @@ private:
 
     HealthBar* health_bar{};
 
-    Tank::TYPE type = Tank::TYPE::ENGINEER;
-    Tank::SUBTANK subtank = Tank::SUBTANK::TRAPPER;
+    Tank::TYPE type = Tank::TYPE::NORMAL;
+    Tank::SUBTANK subtank = Tank::SUBTANK::DEFAULT;
 
     qreal angle = 0;
     qreal speed = 0;

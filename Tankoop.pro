@@ -15,7 +15,6 @@ SOURCES += \
     GameEntity/Basic.cpp \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
-    GameEntity/FirstStage.cpp \
     GameEntity/HealthBar.cpp \
     GameEntity/Enemy.cpp \
     GameEntity/Tank.cpp \
@@ -31,7 +30,6 @@ HEADERS += \
     GameEntity/Basic.h \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
-    GameEntity/FirstStage.h \
     GameEntity/HealthBar.h \
     GameEntity/Enemy.h \
     GameEntity/Turret.h \
