@@ -297,54 +297,6 @@
     <string>&lt;&lt;&lt;</string>
    </property>
   </widget>
-  <widget class="QToolButton" name="giant_btn">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>470</y>
-     <width>91</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
-   </property>
-   <property name="text">
-    <string>GIANT</string>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="sharpshooter_btn">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>390</y>
-     <width>91</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
-   </property>
-   <property name="text">
-    <string>SHARPSHOOTER</string>
-   </property>
-  </widget>
-  <widget class="QToolButton" name="assassin_btn">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>470</y>
-     <width>91</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
-   </property>
-   <property name="text">
-    <string>ASSASSIN</string>
-   </property>
-  </widget>
   <widget class="QListView" name="listView">
    <property name="geometry">
     <rect>
@@ -358,29 +310,139 @@
     <enum>Qt::NoFocus</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="engineer_btn">
+  <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>390</y>
-     <width>91</width>
-     <height>81</height>
+     <x>20</x>
+     <y>370</y>
+     <width>201</width>
+     <height>211</height>
     </rect>
    </property>
-   <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
    </property>
-   <property name="text">
-    <string>ENGINEER</string>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
    </property>
+   <widget class="QToolButton" name="giant_btn">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>91</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="text">
+     <string>GIANT</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="sharpshooter_btn">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>20</y>
+      <width>91</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="text">
+     <string>SHARPSHOOTER</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="engineer_btn">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>91</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="text">
+     <string>ENGINEER</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="assassin_btn">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>100</y>
+      <width>91</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="text">
+     <string>ASSASSIN</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>360</y>
+     <width>211</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QToolButton" name="sub_tank_1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>191</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="text">
+     <string>subtank2</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="assassin_btn_16">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>191</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="text">
+     <string>subtank1</string>
+    </property>
+   </widget>
   </widget>
   <zorder>listView</zorder>
   <zorder>groupBox</zorder>
   <zorder>show_hud_btn</zorder>
-  <zorder>giant_btn</zorder>
-  <zorder>sharpshooter_btn</zorder>
-  <zorder>assassin_btn</zorder>
-  <zorder>engineer_btn</zorder>
+  <zorder>frame</zorder>
+  <zorder>frame_2</zorder>
  </widget>
  <resources/>
  <connections/>
