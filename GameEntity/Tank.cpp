@@ -1,6 +1,7 @@
 #include "Tank.h"
 #include "Block.h"
 #include "Bullet.h"
+#include "Enemy.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -160,6 +161,15 @@ void Tank::check_collision() {
             this->set_health(this->get_health() - get_collision_damage());
             this->set_xp(this->get_xp() + 7);
         }
+        if((typeid(*list[i]) == typeid(Enemy)) && get_subtank() == Tank::SUBTANK::SPINNER && get_skill_status()) {
+            Enemy* the_enemy= dynamic_cast<Enemy*>(list[i]);
+            the_enemy->set_health(the_enemy->get_health() - 10);
+            if(the_enemy->get_health() <= 0){
+               scene()->removeItem(the_enemy->get_health_bar());
+               this->set_xp(this->get_xp() + the_enemy->get_xp());
+               delete list[i];
+            }
+        }
     }
 }
 
@@ -186,6 +196,9 @@ void Tank::skill() {
         qDebug()<<"skill pressed";
         change_skill_status();
         if(this->get_subtank() == Tank::SUBTANK::SPINNER) {
+            this->set_vx(this->get_vx() * 1.5);
+            this->set_vy(this->get_vy() * 1.5);
+            QTimer::singleShot(4000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::POUNDER) {
             QTimer::singleShot(5000,[=](){skill_timer_timeout();});
@@ -228,6 +241,8 @@ void Tank::skill_timer_timeout() {
         case Tank::SUBTANK::DEFAULT:
             break;
         case Tank::SUBTANK::SPINNER:
+            this->set_vx(this->get_vx() / 1.5);
+            this->set_vy(this->get_vy() / 1.5);
             break;
         case Tank::SUBTANK::POUNDER:
             break;

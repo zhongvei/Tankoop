@@ -30,7 +30,14 @@ void Basic::keyPressEvent(QKeyEvent *event){
                 qDebug()<<"SKILL PRESSED";
                 skill();
                 this->change_cooldown_status();
-                this->set_cooldown(5); // secs * 60
+                this->set_cooldown(360); // secs * 60
+
+                if(this->get_subtank() == Tank::SUBTANK::TRAPPER){
+                    QGraphicsRectItem* wall = new QGraphicsRectItem();
+                    wall->setRect(0,0,200,200);
+                    wall->setPos(x()+50,y());
+                    scene()->addItem(wall);
+                }
             }
             break;
     }
