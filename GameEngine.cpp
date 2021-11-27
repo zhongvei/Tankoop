@@ -40,7 +40,7 @@ void GameEngine::run(){
 //    enemy_timer = new QTimer{this};
 //    connect(enemy_timer, &QTimer::timeout, this, &GameEngine::spawn_enemies);
 //    enemy_timer->start(10000); //adding new enemy every 100 seconds
-    spawn_enemies();
+//    spawn_enemies_loop();
 
     /* CREATE HEALTH BAR */
     player->create_heatlh_bar(window->scene);
@@ -51,7 +51,7 @@ void GameEngine::run(){
 //    loop_timer->start(5000);
 
     //spawn the block
-    spawn_loop();
+//    spawn_block_loop();
 
     /* The HUD */
     hud = new Hud(window, player);
@@ -61,7 +61,23 @@ void GameEngine::main_loop() {
     if(!game_over()){
         player->check_collision();
         hud->update_value();
-        entity_spawn();
+        if(finish_wave){
+            entity_spawn();
+            finish_wave = false;
+        }
+        if(get_enemy_count() == 0){
+            QList<QGraphicsItem *> list = this->window->items();
+            for(int i = 0; i < list.size(); i++){
+                if(typeid(*(list[i])) == typeid (Block)){
+
+                    delete list[i];
+                }
+            }
+            set_block_count(0);
+            finish_wave = true;
+            max_enemies += 1;
+            waves++;
+        }
     } else {
         qDebug() << "gameover";
         hud->hide();
@@ -96,10 +112,11 @@ void GameEngine::main_loop() {
     }
 }
 
-void GameEngine::spawn_enemies(){
-    if(get_enemy_count() < 3) {
+void GameEngine::spawn_enemies_loop(){
+    while(get_enemy_count() < max_enemies) {
         qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
-        Enemy *enemy = new Enemy(500,800,100); // multiple of 50
+
+        Enemy *enemy = new Enemy(this, 500,1000,100); // multiple of 50
 
         enemy->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
                       QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));
@@ -115,11 +132,13 @@ void GameEngine::spawn_enemies(){
         window->scene->addItem(enemy);
         window->scene->addItem(enemy->get_attack_area());
         window->scene->addItem(enemy->get_sight_area());
+
+        set_enemy_count(get_enemy_count()+1);
     }
 }
 
-void GameEngine::spawn_loop() {
-    if (get_block_count() < 50) {
+void GameEngine::spawn_block_loop() {
+    while (get_block_count() < 50) {
         Block* block = new Block(100,100,30,0,0,10,1,0);
         block->setRect(0,0,block->get_size(),block->get_size());
         block->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
@@ -145,27 +164,17 @@ void GameEngine::spawn_loop() {
             delete block;
         }
 
+        set_block_count(get_block_count()+1);
+
     }
 
 }
 
-void GameEngine::entity_spawn() {
-    QList<QGraphicsItem *> list = this->window->items();
-    int block = 0;
-    int enemy = 0;
-    for(int i = 0; i < list.size(); i++) {
-        if((typeid(*list[i]) == typeid(Block))){
-            block++;
-        } else if((typeid(*list[i]) == typeid(Enemy))) {
-            enemy++;
-        }
-    }
-    set_block_count(block);
-    set_enemy_count(enemy);
 
-    spawn_loop();
-    spawn_enemies();
-
+void GameEngine::entity_spawn()
+{
+    spawn_block_loop();
+    spawn_enemies_loop();
 }
 
 bool GameEngine::game_over() {
