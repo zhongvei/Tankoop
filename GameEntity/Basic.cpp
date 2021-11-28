@@ -1,5 +1,7 @@
 #include "Basic.h"
 #include "Bullet.h"
+#include "Wall.h"
+#include "Turret.h"
 
 #include <QKeyEvent>
 #include <QPointF>
@@ -22,6 +24,8 @@ Basic::Basic(QGraphicsView* parent, const double& health, const double& health_r
 Basic::Basic(const Basic &tank, QGraphicsView *parent):Tank(tank){
     this->parent = parent;
 }
+GameEntity::CLASS Basic::get_class() const {return GameEntity::CLASS::BASIC;}
+
 void Basic::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
         case Qt::Key::Key_W:
@@ -41,7 +45,21 @@ void Basic::keyPressEvent(QKeyEvent *event){
                 qDebug()<<"SKILL PRESSED";
                 skill();
                 this->change_cooldown_status();
-                this->set_cooldown(5); // secs * 60
+                this->set_cooldown(360); // secs * 60
+
+                if(this->get_subtank() == Tank::SUBTANK::TRAPPER){
+                    Wall* wall = new Wall(this->get_degree());
+//                    wall->setPos(x()+((this->get_size()/2)*(1+cos(this->get_degree()/57))-10/2),
+//                                 y()+((this->get_size()/2)*(1+sin(this->get_degree()/57)))-wall->get_size()/2);
+                    wall->setPos(x()+((this->get_size()/2)+ (this->get_size()/2+15)*cos(this->get_degree()/57)-10/2),
+                                 y()+((this->get_size()/2)+ (this->get_size()/2+15)*sin(this->get_degree()/57))-wall->get_size()/2);
+                    QTransform transform;
+                    transform.translate(10/2,this->get_size()/2);
+                    transform.rotate(get_degree());
+                    transform.translate(-(10/2),-(this->get_size()/2));
+                    wall->setTransform(transform);
+                    scene()->addItem(wall);
+                }
             }
             break;
     }
@@ -49,8 +67,6 @@ void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
         if(!this->get_reload_status()) {
-//            qDebug() << "PEW-PEW";
-
             Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
             bullet->set_degree(this->get_degree());
             bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
@@ -74,6 +90,10 @@ void Basic::keyPressEvent(QKeyEvent *event){
                 bullet2->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+10)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+10)/57)))-bullet->get_size()/2);
                 bullet2->set_degree(this->get_degree()+10);
                 scene()->addItem(bullet2);
+                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                bullet3->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()-10)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()-10)/57)))-bullet->get_size()/2);
+                bullet3->set_degree(this->get_degree()-10);
+                scene()->addItem(bullet3);
             }
 
             scene()->addItem(bullet);

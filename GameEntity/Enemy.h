@@ -25,7 +25,7 @@ public:
     int get_range() const { return attack_range; }
     double get_attack_scale() const { return attack_scale; }
     double get_sight_scale() const { return sight_scale; }
-
+    GameEntity::CLASS get_class() const override;
     void fire();
     void bounces();
     void detecting(QList <QGraphicsItem *> items, int &detected_blocks);

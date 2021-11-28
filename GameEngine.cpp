@@ -116,7 +116,7 @@ void GameEngine::main_loop() {
 
         /* Calculate Ending Statistics */
         QString player_xp = QString::number(player->get_xp());
-        QString player_class = player->TYPE_textstr[static_cast<int>(player->get_class())];
+        QString player_class = player->TYPE_textstr[static_cast<int>(player->get_type())];
         QString player_subtank = player->SUBTANK_textstr[static_cast<int>(player->get_subtank())];
         QString player_time_alive = QString::number(elapsed_timer.elapsed()/1000);
         endWindow->endGameStats(player_xp, player_class, player_subtank, player_time_alive);
@@ -197,7 +197,7 @@ void GameEngine::spawn_enemies_loop(){
 
 void GameEngine::spawn_block_loop() {
     while (get_block_count() < 50) {
-        Block* block = new Block(100,100,30,0,0,10,1,0);
+        Block* block = new Block(100,100,30,0,0,10,1,7);
         block->setRect(0,0,block->get_size(),block->get_size());
         block->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
                       QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));

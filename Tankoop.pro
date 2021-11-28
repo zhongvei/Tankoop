@@ -9,12 +9,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 SOURCES += \
     EndGameWindow.cpp \
     List.cpp \
+    GameEntity/Turret.cpp \
+    GameEntity/Wall.cpp \
     main.cpp\
     GameEngine.cpp \
     GameEntity/Basic.cpp \
     GameEntity/Block.cpp \
     GameEntity/Bullet.cpp \
-    GameEntity/FirstStage.cpp \
     GameEntity/HealthBar.cpp \
     GameEntity/Enemy.cpp \
     GameEntity/Tank.cpp \
@@ -30,9 +31,10 @@ HEADERS += \
     GameEntity/Basic.h \
     GameEntity/Block.h \
     GameEntity/Bullet.h \
-    GameEntity/FirstStage.h \
     GameEntity/HealthBar.h \
     GameEntity/Enemy.h \
+    GameEntity/Turret.h \
+    GameEntity/Wall.h \
     GameWindow.h \
     GameEntity/Tank.h \
     GameEntity/gameentity.h \

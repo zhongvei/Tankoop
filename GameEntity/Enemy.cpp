@@ -7,10 +7,35 @@
 #include <QDebug>
 #include <QTimer>
 #include <QThread>
+#include <QList>
 
 
 Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), g(g), attack_range(attack_range), sight_range(sight_range)
 {
+
+    int randomizer_lowlevel = rand()%8;
+    switch (randomizer_lowlevel) {
+        case 0:
+            change_class(Tank::TYPE::GIANT);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+        case 1:
+            change_class(Tank::TYPE::ASSASSIN);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+        case 2:
+            change_class(Tank::TYPE::SHARPSHOOTER);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+        case 3:
+            change_class(Tank::TYPE::ENGINEER);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+        default:
+            change_class(Tank::TYPE::NORMAL);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+    }
     attack_scale = attack_range/size;
     sight_scale = sight_range/size; // change 800 to variable later
 
@@ -38,12 +63,21 @@ Enemy::~Enemy(){
     sight_area = nullptr;
 
     delete this->get_health_bar();
-
+    QList<QGraphicsItem *> list = scene()->items();
+    for(int i = 0; i < list.size(); i++) {
+        GameEntity* the_thing =  dynamic_cast<GameEntity*>(list[i]);
+        if (the_thing !=nullptr && the_thing->get_category() == GameEntity::CATEGORY::BULLET) {
+            Bullet* the_bullet= dynamic_cast<Bullet*>(list[i]);
+            if(the_bullet->get_tank() == this) {
+                delete the_bullet;
+            }
+        }
+    }
     g->set_enemy_count(g->get_enemy_count()-1);
     timer->stop();
 }
 
-
+GameEntity::CLASS Enemy::get_class() const {return GameEntity::CLASS::ENEMY;}
 
 double Enemy::distanceTo(GameEntity * basic){
     QPointF this_pos = QPointF(x() + get_size()/2, y() + get_size()/2);
@@ -146,7 +180,6 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
 
         }
     }
-
 }
 
 

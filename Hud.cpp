@@ -30,10 +30,13 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     connect(ui->increase_bullet_speed_btn,SIGNAL(clicked()),this,SLOT(increase_bullet_speed_clicked()));
     connect(ui->show_hud_btn,SIGNAL(clicked()),this,SLOT(show_hud_cicked()));
 
-    connect(ui->assassin_btn,SIGNAL(clicked()),this,SLOT(assassin_btn_clicked()));
+    connect(ui->ASSASSIN_btn,SIGNAL(clicked()),this,SLOT(ASSASSIN_btn_clicked()));
     connect(ui->sharpshooter_btn,SIGNAL(clicked()),this,SLOT(sharpshooter_btn_clicked()));
     connect(ui->giant_btn,SIGNAL(clicked()),this,SLOT(giant_btn_clicked()));
     connect(ui->engineer_btn,SIGNAL(clicked()),this,SLOT(engineer_btn_clicked()));
+
+    connect(ui->sub_tank_1,SIGNAL(clicked()),this,SLOT(subtank1_btn_clicked()));
+    connect(ui->sub_tank_2,SIGNAL(clicked()),this,SLOT(subtank2_btn_clicked()));
 
 }
 
@@ -50,7 +53,7 @@ void Hud::increase_max_health_clicked() {
 }
 void Hud::increase_health_regen_clicked() {
     if(tank->get_skill_point() >= 1) {
-        tank->set_health_regen(tank->get_health_regen() + 5);
+        tank->set_health_regen(tank->get_health_regen() + 1);
         tank->decrease_skill_point();
     }
 }
@@ -92,21 +95,51 @@ void Hud::update_value() {
     ui->exp_value->setText(QString::number(tank->get_xp()));
     ui->level_value->setText(QString::number(tank->get_level()));
 
-    if (tank->get_evolution_point() == 1 && tank->get_class() == Tank::TYPE::NORMAL) {
+    if (tank->get_evolution_point() == 1 && tank->get_type() == Tank::TYPE::NORMAL) {
+        ui->sub_tank_1->setStyleSheet(UPGRADE_AVAILABLE);
+        ui->sub_tank_2->setStyleSheet(UPGRADE_AVAILABLE);
         ui->type_frame->show();
     } else if(tank->get_evolution_point() == 0) {
         ui->type_frame->hide();
     }
 
-    if (tank->get_class() != Tank::TYPE::NORMAL && tank->get_sub_tank_evolution_point() == 1) {
+    if (tank->get_type() != Tank::TYPE::NORMAL && tank->get_sub_tank_evolution_point() == 1) {
+        switch (tank->get_type())
+        {
+            case Tank::TYPE::NORMAL:
+                break;
+            case Tank::TYPE::ASSASSIN:
+                ui->sub_tank_1->setText("HUNTER");
+                ui->sub_tank_2->setText("IMMUNE");
+                break;
+            case Tank::TYPE::ENGINEER:
+                ui->sub_tank_1->setText("SPAWNER");
+                ui->sub_tank_2->setText("TRAPPER");
+                break;
+            case Tank::TYPE::GIANT:
+                ui->sub_tank_1->setText("POUNDER");
+                ui->sub_tank_2->setText("SPINNER");
+                break;
+            case Tank::TYPE::SHARPSHOOTER:
+                ui->sub_tank_1->setText("DUAL");
+                ui->sub_tank_2->setText("SNIPER");
+                break;
+        }
         ui->sub_tank_frame->show();
     } else {
         ui->sub_tank_frame->hide();
     }
+
     if(tank->get_skill_status()) {
         ui->skill_status_text->show();
     } else {
         ui->skill_status_text->hide();
+    }
+    if(tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
+        ui->cool_down_value->setText(QString::number(10));
+        ui->skill_cooldown_frame->show();
+    } else {
+        ui->skill_cooldown_frame->hide();
     }
 }
 
@@ -141,10 +174,55 @@ void Hud::engineer_btn_clicked() {
         tank->decrease_evolution_point();
     }
 }
-void Hud::assassin_btn_clicked() {
+void Hud::ASSASSIN_btn_clicked() {
     if(check_evolution()){
-        tank->change_class(Tank::TYPE::ASSASIN);
+        tank->change_class(Tank::TYPE::ASSASSIN);
         tank->decrease_evolution_point();
+    }
+}
+
+void Hud::subtank1_btn_clicked() {
+    switch(tank->get_type()) {
+        case Tank::TYPE::GIANT:
+            tank->change_subtank(Tank::SUBTANK::POUNDER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::ASSASSIN:
+            tank->change_subtank(Tank::SUBTANK::HUNTER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            tank->change_subtank(Tank::SUBTANK::DUAL);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::ENGINEER:
+            tank->change_subtank(Tank::SUBTANK::SPAWNER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        default:
+            break;
+    }
+}
+void Hud::subtank2_btn_clicked() {
+    switch(tank->get_type()) {
+        case Tank::TYPE::GIANT:
+            tank->change_subtank(Tank::SUBTANK::SPINNER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::ASSASSIN:
+            tank->change_subtank(Tank::SUBTANK::IMMUNE);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::SHARPSHOOTER:
+            tank->change_subtank(Tank::SUBTANK::SNIPER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        case Tank::TYPE::ENGINEER:
+            tank->change_subtank(Tank::SUBTANK::TRAPPER);
+            tank->decrease_sub_tank_evolution_point();
+            break;
+        default:
+            break;
     }
 }
 
@@ -166,12 +244,12 @@ void Hud::update_btn_color(){
     }
     if(tank->get_evolution_point() >= 1) {
         ui->engineer_btn->setStyleSheet(UPGRADE_AVAILABLE);
-        ui->assassin_btn->setStyleSheet(UPGRADE_AVAILABLE);
+        ui->ASSASSIN_btn->setStyleSheet(UPGRADE_AVAILABLE);
         ui->giant_btn->setStyleSheet(UPGRADE_AVAILABLE);
         ui->sharpshooter_btn->setStyleSheet(UPGRADE_AVAILABLE);
     } else {
         ui->engineer_btn->setStyleSheet(UPGRADE_DISABLE);
-        ui->assassin_btn->setStyleSheet(UPGRADE_DISABLE);
+        ui->ASSASSIN_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->giant_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->sharpshooter_btn->setStyleSheet(UPGRADE_DISABLE);
     }
@@ -188,5 +266,3 @@ void Hud::show_hud_cicked() {
         shown = true;
     }
 }
-
-

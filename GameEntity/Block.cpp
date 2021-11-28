@@ -13,3 +13,5 @@ double Block::get_collision_damge() const {return collision_damage;}
 void Block::set_collision_damage(double collision_damage) {
     this->collision_damage = collision_damage;
 } 
+
+GameEntity::CATEGORY Block::get_category() const {return GameEntity::CATEGORY::BLOCK;}

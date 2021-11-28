@@ -35,10 +35,8 @@ void MainWindow::start_button_clicked() {
 }
 
 void MainWindow::load_button_clicked() {
-    EndGameWindow* window = new EndGameWindow(this->list);
-    window->setWindowTitle("TankOOaP");
-
+    EndGameWindow* window = new EndGameWindow;
+    window->setWindowTitle("TankOOP");
     window->show();
-
     this->close();
 }

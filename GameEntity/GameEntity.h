@@ -6,10 +6,18 @@
 class GameEntity: public QGraphicsRectItem
 {
 public:
-    enum class category{
+    enum class CATEGORY{
         TANK,
         BULLET,
-        BLOCK
+        BLOCK,
+        WALL
+    };
+
+    enum class CLASS {
+        NONE,
+        BASIC,
+        ENEMY,
+        TURRET
     };
 
     ~GameEntity() = default;
@@ -36,6 +44,9 @@ public:
 
     int get_level() const;
     void set_level(int level);
+
+    virtual GameEntity::CATEGORY get_category() const = 0;
+    virtual GameEntity::CLASS get_class() const;
 
 private:
 

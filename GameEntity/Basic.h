@@ -2,12 +2,12 @@
 #define BASIC_H
 
 #include "Tank.h"
-#include "tankgraphic.h"
 
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsRotation>
 #include <QTransform>
+
 
 class Basic: public Tank, public QGraphicsRotation, public QTransform
 {
@@ -16,7 +16,6 @@ private:
     double changey = 0;
     int skill_cooldown;
     bool cooldown_status;
-
     QGraphicsView* parent = nullptr;
 
     bool UP, DOWN, RIGHT, LEFT;
@@ -36,6 +35,7 @@ public:
 
     void keyPressEvent(QKeyEvent * event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
+    GameEntity::CLASS get_class() const override;
     void facing_cursor(Basic* basic);
     // void virtual skill();
     double get_changex();
@@ -43,9 +43,10 @@ public:
     void set_parent(QGraphicsView* window){parent = window;}
 
 
+
 protected:
     void advance(int step) override;
-    
+
 };
 
 #endif // BASIC_H

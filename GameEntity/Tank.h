@@ -12,6 +12,7 @@
 
 
 class HealthBar;
+class Turret;
 
 class Tank: public GameEntity {
 public:
@@ -19,7 +20,7 @@ public:
     enum class TYPE {
         NORMAL = 0,
         GIANT = 1,
-        ASSASIN = 2, // TODO: fix spelling: assassin
+        ASSASSIN = 2,
         SHARPSHOOTER = 3,
         ENGINEER = 4
     };
@@ -110,10 +111,11 @@ public:
     void change_skill_status();
 
     void change_class(Tank::TYPE type);
-    TYPE get_class() const;
+    TYPE get_type() const;
 
     void change_subtank(Tank::SUBTANK subtank);
     SUBTANK get_subtank() const;
+    GameEntity::CATEGORY get_category() const override;
 
     void create_heatlh_bar(QGraphicsScene* scene);
 
@@ -136,7 +138,7 @@ private:
     double damage{};
     int total_skill_point{};
     int skill_point{};
-    int evolution_point{1};
+    int evolution_point{};
     int sub_tank_evolution_point{};
     double degree{};
     int reload_finish{};
@@ -149,12 +151,13 @@ private:
     HealthBar* health_bar{};
 
     Tank::TYPE type = Tank::TYPE::NORMAL;
-    Tank::SUBTANK subtank = Tank::SUBTANK::HUNTER;
+    Tank::SUBTANK subtank = Tank::SUBTANK::DEFAULT;
 
     qreal angle = 0;
     qreal speed = 0;
     qreal mouseEyeDirection = 0;
     QColor color;
+    Turret* turret{};
 
 protected:
     Tank(
