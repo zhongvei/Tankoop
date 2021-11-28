@@ -25,7 +25,7 @@ EndGameWindow::EndGameWindow(List *list, QWidget *parent) : QMainWindow(parent),
 }
 
 void EndGameWindow::start_button_clicked(){
-    int wave = 2; // should be input from the screen.. create smt like the pa4
+    int wave = 3; // should be input from the screen.. create smt like the pa4
     GameWindow* window = new GameWindow(wave, list);
     window->setWindowTitle("TankOOP");
     window->show();

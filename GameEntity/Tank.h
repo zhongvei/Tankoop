@@ -112,6 +112,7 @@ public:
 
     void change_type(Tank::TYPE type);
     TYPE get_type() const;
+    void set_type(Tank::TYPE type);
 
     void change_subtank(Tank::SUBTANK subtank);
     SUBTANK get_subtank() const;
