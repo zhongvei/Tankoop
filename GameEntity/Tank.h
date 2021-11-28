@@ -76,6 +76,7 @@ public:
     double get_degree() const;
     void set_degree(double degree);
 
+    void set_skill_point(int skill_point);
     int get_skill_point() const;
     void increase_skill_point();
     void decrease_skill_point();
@@ -125,6 +126,11 @@ public:
     void set_collision_damage(double collision_damage);
     double get_collision_damage() const;
 
+    Tank& operator=(const Tank& tank);
+    Tank(const Tank& tank);
+
+    virtual void dummy() const{};
+
 
 private:
     double reload_speed{};
@@ -155,7 +161,7 @@ private:
 
 protected:
     Tank(
-        const double& health, const double& health_regen, const double& max_health, 
+        const double& health, const double& health_regen, const double& max_health,
         const int& size, const double& vx, const double& vy,const double& xp,
         const double& reload_speed,
         const double& bullet_speed,

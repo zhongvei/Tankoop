@@ -57,7 +57,11 @@ Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& 
 
 Enemy::~Enemy(){
     delete attack_area;
+    attack_area = nullptr;
+
     delete sight_area;
+    sight_area = nullptr;
+
     delete this->get_health_bar();
     QList<QGraphicsItem *> list = scene()->items();
     for(int i = 0; i < list.size(); i++) {

@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 #include "GameEntity/Basic.h"
 #include "GameEntity/Enemy.h"
+#include "GameEntity/Bullet.h"
 #include "GameEntity/HealthBar.h"
 #include "EndGameWindow.h"
 
@@ -8,8 +9,23 @@
 #include <QMessageBox>
 #include <QTimer>
 
-GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene): window(window), scene(scene)
-{}
+
+
+GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List *list): window(window), scene(scene)
+{
+    if(wave == 0){
+        qDebug() << "CREATING A NEW LIST";
+        waves_history = new List();
+    }
+    else{
+        waves_history = list;
+        waves_history->list_clear(waves_history,wave);
+        player = waves_history->selected_tank(waves_history);
+        dynamic_cast<Basic *>(player)->set_parent(window);
+        waves = waves_history->selected_wave(waves_history);
+        max_enemies = waves_history->selected_num_of_enemies(waves_history);
+    }
+}
 
 /* MUTATOR */
 void GameEngine::set_enemy_count(int enemy_count) {this->enemy_count = enemy_count;}
@@ -21,7 +37,9 @@ int GameEngine::get_enemy_count() const {return enemy_count;}
 
 void GameEngine::run(){
     /* CREATE THE PLAYER, STARTS WITH THE BASIC CLASS */
-    player = new Basic(window);
+    if(player == nullptr){
+        player = new Basic(window);
+    }
     player->setRect(0,0,player->get_size(),player->get_size());
     player->setPos(350,250);
     window->scene->addItem(player);
@@ -62,6 +80,9 @@ void GameEngine::main_loop() {
         player->check_collision();
         hud->update_value();
         if(finish_wave){
+            qDebug() << "WAVES " << waves;
+
+            waves_history->list_push_back(waves_history, waves_history->create_node(dynamic_cast<Basic*>(player), max_enemies, waves)); //call list_delete.. but where?
             entity_spawn();
             finish_wave = false;
         }
@@ -69,8 +90,8 @@ void GameEngine::main_loop() {
             QList<QGraphicsItem *> list = this->window->items();
             for(int i = 0; i < list.size(); i++){
                 if(typeid(*(list[i])) == typeid (Block)){
-
                     delete list[i];
+                    list[i] = nullptr;
                 }
             }
             set_block_count(0);
@@ -89,7 +110,8 @@ void GameEngine::main_loop() {
         //msg_box->show();
 
         /* Create MainWindow::EndGameWindow */
-        EndGameWindow* endWindow = new EndGameWindow;
+        qDebug() << "WAVE HISTORY WORKING " << waves_history->selected_wave(waves_history);
+        EndGameWindow* endWindow = new EndGameWindow(waves_history);
         endWindow->setWindowTitle("TankOOP");
 
         /* Calculate Ending Statistics */
@@ -98,7 +120,8 @@ void GameEngine::main_loop() {
         QString player_subtank = player->SUBTANK_textstr[static_cast<int>(player->get_subtank())];
         QString player_time_alive = QString::number(elapsed_timer.elapsed()/1000);
         endWindow->endGameStats(player_xp, player_class, player_subtank, player_time_alive);
-
+        delete player;
+        player = nullptr;
         endWindow->show();
 
         // TODO: stop the game when game ends
@@ -106,15 +129,50 @@ void GameEngine::main_loop() {
         // just cannot do play again after player just died, or else severe memory leak
         //scene->clear();
 
+        QList<QGraphicsItem *> list = this->window->items();
+        bool skip = false;
+        int skip_count = 0;
+        for(int i = 0; i < list.size(); i++){
+
+            // To avoid double deletion for the enemy's properties
+            if(skip){
+                skip_count++;
+                if(skip_count == 4){
+                    skip_count = 0;
+                    skip = false;
+                }
+                continue;
+            }
+
+            if(typeid(*(list[i])) == typeid (Block)){
+                delete list[i];
+                list[i] = nullptr;
+            }
+            else if(typeid(*(list[i])) == typeid (Bullet)){
+                delete list[i];
+                list[i] = nullptr;
+            }
+
+            else if(typeid(*(list[i])) == typeid (QGraphicsLineItem)){
+                delete list[i];
+                list[i] = nullptr;
+            }
+
+            else if(typeid(*(list[i])) == typeid (Enemy)){
+                delete list[i];
+                list[i] = nullptr;
+                skip = true;
+            }
+
+        }
+
         window->close();
-
-
     }
 }
 
 void GameEngine::spawn_enemies_loop(){
     while(get_enemy_count() < max_enemies) {
-        qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
+//        qDebug() << "NEW ENEMY HAS BEEN ADDED TO THE MAP";
 
         Enemy *enemy = new Enemy(this, 500,1000,100); // multiple of 50
 
@@ -156,6 +214,7 @@ void GameEngine::spawn_block_loop() {
             if((typeid(*list[i]) == typeid(Block)) || (typeid(*list[i]) == typeid(Tank))) {
                 window->scene->removeItem(list[i]);
                 delete list[i];
+                list[i] = nullptr;
             }
         }
         if(block->x() < diagonal || block->x() > (GameWindow::WINDOW_WIDTH- diagonal)||
@@ -164,12 +223,12 @@ void GameEngine::spawn_block_loop() {
             delete block;
         }
 
+
         set_block_count(get_block_count()+1);
 
     }
 
 }
-
 
 void GameEngine::entity_spawn()
 {
