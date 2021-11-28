@@ -7,7 +7,7 @@
 
 class GameEngine;
 
-GameWindow::GameWindow(int wave, List *list, QWidget* parent)
+GameWindow::GameWindow(int wave, List *list, QWidget* parent, QString nameValue)
 {
     this->setWindowTitle("TankOOP");
     this->setWindowIcon(QIcon(":/Resources/icon/tankoop.jpg"));
@@ -37,7 +37,7 @@ GameWindow::GameWindow(int wave, List *list, QWidget* parent)
     setFixedSize(1200,600);
 
     /* START THE GAME */
-    GameEngine *game_engine = new GameEngine(this, scene, wave, list);
+    GameEngine *game_engine = new GameEngine(this, scene, wave, list, nameValue);
     game_engine->run();
 
     show();

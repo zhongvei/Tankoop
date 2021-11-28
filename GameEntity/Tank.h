@@ -130,7 +130,13 @@ public:
     Tank& operator=(const Tank& tank);
     Tank(const Tank& tank);
 
-    virtual void dummy() const{};
+    void set_name(QString name);
+    QString get_name() const;
+
+    QGraphicsTextItem* name_item {};
+    QGraphicsTextItem* get_text_item() const;
+
+
 
 
 private:
@@ -159,6 +165,11 @@ private:
     qreal mouseEyeDirection = 0;
     QColor color;
     Turret* turret{};
+
+    QVector<QString> EnemyNames {QString("Shadow"), QString("Voyage"), QString("Bing"), QString("Chilli"), QString("Galaxy"),
+                                QString("Blays"), QString("Gibbs")};
+    QString name;
+
 
 protected:
     Tank(

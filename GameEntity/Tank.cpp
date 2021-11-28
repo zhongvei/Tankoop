@@ -6,6 +6,7 @@
 
 #include <QDebug>
 #include <QTimer>
+#include <QString>
 
 class HealthBar;
 
@@ -23,7 +24,9 @@ Tank::Tank(
         reload_speed(reload_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
         QRandomGenerator::global()->bounded(256))
-{};
+{
+    set_name(QString(""));
+};
 
 GameEntity::CATEGORY Tank::get_category() const {return  GameEntity::CATEGORY::TANK;}
 
@@ -44,6 +47,8 @@ int Tank::get_cooldown() const {return cooldown;}
 bool Tank::get_cooldown_status() const {return cooldown_status;}
 double Tank::get_collision_damage() const {return collision_damage;}
 bool Tank::get_skill_status() const {return skill_status;}
+QString Tank::get_name() const {return name; }
+QGraphicsTextItem* Tank::get_text_item() const { return name_item; }
 
 void Tank::advance(int step)
 {
@@ -566,3 +571,11 @@ void Tank::change_cooldown_status() {this->cooldown_status? this->cooldown_statu
 void Tank::set_cooldown(int cooldown) {this->cooldown = cooldown;}
 void Tank::set_collision_damage(double collision_damage) {this->collision_damage = collision_damage;}
 void Tank::change_skill_status() {this->skill_status? this->skill_status = false: this->skill_status = true;}
+void Tank::set_name(QString name) {
+    if (name == QString("")) {
+        this->name = EnemyNames[qrand() % (EnemyNames.size())];
+    } else {
+        this->name = name;
+    }
+
+}
