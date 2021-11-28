@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>Resources/img/logo.png</file>
         <file>Resources/icon/tankoop.jpg</file>
+        <file>Resources/sounds/mainMenu.mp3</file>
+        <file>Resources/sounds/shoot.mp3</file>
     </qresource>
 </RCC>

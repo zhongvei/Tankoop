@@ -4,6 +4,8 @@
 #include <QIcon>
 #include <QPointF>
 #include <QPainter>
+#include <QMediaPlayer>
+#include <QUrl>
 
 class GameEngine;
 
@@ -16,6 +18,7 @@ GameWindow::GameWindow(int wave, List *list, QWidget* parent, QString nameValue)
     setScene(scene);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing); // TODO: check if this makes it more laggy
 
     /* Set size of view (game window) and scene (entire map) as maximum to draw the background */
 
@@ -35,6 +38,11 @@ GameWindow::GameWindow(int wave, List *list, QWidget* parent, QString nameValue)
 
     /* reduce size of view (game window) to appropriate size */
     setFixedSize(1200,600);
+
+    /* Play background music */
+    QMediaPlayer* music = new QMediaPlayer();
+    music->setMedia(QUrl("qrc://Resources/sounds/mainMenu.mp3"));
+    music->play();
 
     /* START THE GAME */
     GameEngine *game_engine = new GameEngine(this, scene, wave, list, nameValue);
