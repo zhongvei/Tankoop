@@ -180,9 +180,6 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
                     break;
                 case Tank::SUBTANK::DUAL:
                     painter->drawRect(this->get_size()/2,this->get_size()/4,this->get_size()*4/9,this->get_size()/2);
-//                    path.moveTo(this->get_size()/2, this->get_size()/4);
-//                    path.lineTo(this->get_size()/2+this->get_size()*4/9, this->get_size()/4);
-//                    painter->drawPath(path);
                     painter->drawRect(this->get_size()/2,this->get_size()*5/12,this->get_size()/2,this->get_size()/6);
                     painter->setBrush(color);
                     painter->drawEllipse(this->get_size()*0.25, this->get_size()*0.25, this->get_size()*0.5, this->get_size()*0.5);
@@ -495,7 +492,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
         case Tank::TYPE::SHARPSHOOTER:
-            this->set_size(this->get_size()*0.8);
+            this->set_size(this->get_size() * 1);
             this->set_max_health(this->get_max_health() * 1);
             this->set_health_regen(this->get_health_regen() * 1);
             this->set_vx(this->get_vx() * 1.2);

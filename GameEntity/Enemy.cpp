@@ -12,6 +12,30 @@
 
 Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), g(g), attack_range(attack_range), sight_range(sight_range)
 {
+
+    int randomizer_lowlevel = rand()%8;
+    switch (randomizer_lowlevel) {
+        case 0:
+            change_class(Tank::TYPE::GIANT);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+        case 1:
+            change_class(Tank::TYPE::ASSASSIN);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+        case 2:
+            change_class(Tank::TYPE::SHARPSHOOTER);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+        case 3:
+            change_class(Tank::TYPE::ENGINEER);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+        default:
+            change_class(Tank::TYPE::NORMAL);
+            change_subtank(Tank::SUBTANK::DEFAULT);
+            break;
+    }
     attack_scale = attack_range/size;
     sight_scale = sight_range/size; // change 800 to variable later
 
