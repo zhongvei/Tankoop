@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "List.h"
+
 #include <QMainWindow>
 namespace Ui { class MainWindow; }
 
@@ -16,6 +18,7 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
+    List *list = nullptr;
 
 signals:
     void startLocalGame(int nbPlayers, int nbViews);

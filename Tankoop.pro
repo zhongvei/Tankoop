@@ -8,6 +8,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 SOURCES += \
     EndGameWindow.cpp \
+    List.cpp \
     main.cpp\
     GameEngine.cpp \
     GameEntity/Basic.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     GameEntity/Tank.h \
     GameEntity/gameentity.h \
     Hud.h \
+    List.h \
     MainWindow.h\
 
 

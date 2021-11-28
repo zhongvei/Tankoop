@@ -32,8 +32,13 @@ Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& 
 
 Enemy::~Enemy(){
     delete attack_area;
+    attack_area = nullptr;
+
     delete sight_area;
+    sight_area = nullptr;
+
     delete this->get_health_bar();
+
     g->set_enemy_count(g->get_enemy_count()-1);
     timer->stop();
 }

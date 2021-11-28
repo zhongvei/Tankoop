@@ -20,6 +20,7 @@ HealthBar::HealthBar(Tank* tank, QGraphicsScene* scene) : tank(tank), scene(scen
 HealthBar::~HealthBar() {
     scene->removeItem(healthPercentageRect);
     delete healthPercentageRect;
+    healthPercentageRect = nullptr;
 }
 
 void HealthBar::advance(int step)

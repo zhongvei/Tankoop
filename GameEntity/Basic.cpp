@@ -7,10 +7,21 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.8,0.6,50,1,0,0),
+Basic::Basic(QGraphicsView* parent, const double& health, const double& health_regen, const double& max_health,
+             const int& size, const double& vx, const double& vy,const double& xp,
+             const double& reload_speed,
+             const double& bullet_speed,
+             const double& damage,
+             const int& level,
+             const int& skill_point,
+             const int& degree): Tank(health,health_regen,max_health,size,vx,vy,xp,reload_speed,bullet_speed,damage,level,skill_point,degree),
     parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
 }
 
+
+Basic::Basic(const Basic &tank, QGraphicsView *parent):Tank(tank){
+    this->parent = parent;
+}
 void Basic::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
         case Qt::Key::Key_W:

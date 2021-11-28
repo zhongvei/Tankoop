@@ -22,77 +22,75 @@ double Bullet::get_damage() const { return damage; }
 
 void Bullet::move(){
         QList<QGraphicsItem *> colliding_items = collidingItems();
-            for (int i = 0, n = colliding_items.size(); i < n; ++i){
-                if (typeid(*(colliding_items[i])) == typeid(Block)){
-                    /* Removing both the bullet and the block from the screen when colliding */
-                    Block *the_block = dynamic_cast<Block*>(colliding_items[i]);
-                    the_block->set_health(the_block->get_health()-get_damage());
+        for (int i = 0, n = colliding_items.size(); i < n; ++i){
+            if (typeid(*(colliding_items[i])) == typeid(Block)){
+                /* Removing both the bullet and the block from the screen when colliding */
+                Block *the_block = dynamic_cast<Block*>(colliding_items[i]);
+                the_block->set_health(the_block->get_health()-get_damage());
 
-                    /* Delete the Block if the heath is less than or equal to zero */
-                    if(the_block->get_health() <= 0){
-                       tank->set_xp(tank->get_xp()+the_block->get_xp());
-                       delete colliding_items[i];
-                    }
-
-                    /* Deleting both the Bullet */
-                    delete this;
-                    return;
-                }
-                else if (typeid(*(colliding_items[i])) == typeid(Enemy) && typeid(*tank) == typeid(Basic)){
-                    /* Removing both the bullet and the block from the screen when colliding */
-                    Enemy *the_enemy = dynamic_cast<Enemy*>(colliding_items[i]);
-                    the_enemy->set_health(the_enemy->get_health()-get_damage());
-
-                    /* Delete the Enemy if its health is less than or equal to zero */
-                    if(the_enemy->get_health() <= 0){
-                       scene()->removeItem(colliding_items[i]);
-                       scene()->removeItem(the_enemy->get_health_bar());
-                       tank->set_xp(tank->get_xp()+the_enemy->get_xp());
-                       delete colliding_items[i];
-                    }
-
-                    /* Deleting both the Bullet */
-                    scene()->removeItem(this);
-                    delete this;
-                    return;
-                }
-                else if (typeid(*(colliding_items[i])) == typeid(Basic) && typeid(*tank) == typeid(Enemy)){
-                    /* Removing both the bullet and the block from the screen when colliding */
-                    Basic *player = dynamic_cast<Basic*>(colliding_items[i]);
-                    player->set_health(player->get_health()-get_damage());
-                    // qDebug()<<"HIT THE PLAYER";
-                    /* Deleting both the Bullet */
-                    scene()->removeItem(this);
-                    delete this;
-                    return;
+                /* Delete the Block if the heath is less than or equal to zero */
+                if(the_block->get_health() <= 0){
+                   tank->set_xp(tank->get_xp()+the_block->get_xp());
+                   delete colliding_items[i];
+                   colliding_items[i] = nullptr;
                 }
 
+                /* Deleting both the Bullet */
+                delete this;
+                return;
+            }
+            else if (typeid(*(colliding_items[i])) == typeid(Enemy) && typeid(*tank) == typeid(Basic)){
+                /* Removing both the bullet and the block from the screen when colliding */
+                Enemy *the_enemy = dynamic_cast<Enemy*>(colliding_items[i]);
+                the_enemy->set_health(the_enemy->get_health()-get_damage());
+
+                /* Delete the Enemy if its health is less than or equal to zero */
+                if(the_enemy->get_health() <= 0){
+                   scene()->removeItem(colliding_items[i]);
+                   scene()->removeItem(the_enemy->get_health_bar());
+                   tank->set_xp(tank->get_xp()+the_enemy->get_xp());
+                   delete colliding_items[i];
+                   colliding_items[i] = nullptr;
+                }
+
+                /* Deleting both the Bullet */
+                scene()->removeItem(this);
+                delete this;
+                return;
+            }
+            else if (typeid(*(colliding_items[i])) == typeid(Basic) && typeid(*tank) == typeid(Enemy)){
+                /* Removing both the bullet and the block from the screen when colliding */
+                Basic *player = dynamic_cast<Basic*>(colliding_items[i]);
+                player->set_health(player->get_health()-get_damage());
+
+                /* Deleting both the Bullet */
+                scene()->removeItem(this);
+                delete this;
+                return;
             }
 
-            /* Set The Movement of the Bullet */
-            setPos(x()+(this->get_vx()*10*cos(this->degree/57)),y()+(this->get_vy()*10*sin(this->degree/57)));
-            if (pos().y() + rect().height() < 0){
-                qDebug() << "DELETED A BULLET";
-                scene()->removeItem(this);
-                delete this;
-                return;
-            }
-            if (pos().x() + rect().height() < 0){
-                qDebug() << "DELETED A BULLET";
-                scene()->removeItem(this);
-                delete this;
-                return;
-            }
-            if (pos().y() + rect().height() > 2000){
-                qDebug() << "DELETED A BULLET";
-                scene()->removeItem(this);
-                delete this;
-                return;
-            }
-            if (pos().x() + rect().height() > 2000){
-                qDebug() << "DELETED A BULLET";
-                scene()->removeItem(this);
-                delete this;
-                return;
-            }
+        }
+
+        /* Set The Movement of the Bullet */
+        setPos(x()+(this->get_vx()*10*cos(this->degree/57)),y()+(this->get_vy()*10*sin(this->degree/57)));
+        if (pos().y() + rect().height() < 0){
+            scene()->removeItem(this);
+            delete this;
+            return;
+        }
+        if (pos().x() + rect().height() < 0){
+            scene()->removeItem(this);
+            delete this;
+            return;
+        }
+        if (pos().y() + rect().height() > 2000){
+            scene()->removeItem(this);
+            delete this;
+            return;
+        }
+        if (pos().x() + rect().height() > 2000){
+            scene()->removeItem(this);
+            delete this;
+            return;
+        }
 }

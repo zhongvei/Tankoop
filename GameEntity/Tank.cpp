@@ -157,6 +157,7 @@ void Tank::check_collision() {
         if((typeid(*list[i]) == typeid(Block))){
 //            qDebug()<<"HIT A BLOCK";
             delete list[i];
+            list[i] = nullptr;
             this->set_health(this->get_health() - get_collision_damage());
             this->set_xp(this->get_xp() + 7);
         }
@@ -327,10 +328,42 @@ void Tank::change_subtank(Tank::SUBTANK subtank) {
 void Tank::create_heatlh_bar(QGraphicsScene *scene) {
     health_bar = new HealthBar(this,scene);
 }
+/*
+        const double& health, const double& health_regen, const double& max_health, const int& size,
+        const double& vx, const double& vy,const double& xp,
+        const double& reload_speed,
+        const double& bullet_speed,
+        const double& damage,
+        const int& level,
+        const int& skill_point,
+        const int& degree
+*/
+Tank& Tank::operator=(const Tank &tank){
+    //    this->set_health(tank.get_health());
+    //    this->set_health_regen(tank.get_health_regen());
+    //    this->set_max_health(tank.get_max_health());
+    //    this->set_size(tank.get_size());
+    //    this->set_vx(tank.get_vx());
+    //    this->set_vy(tank.get_vy());
+    //    this->set_xp(tank.get_xp());
+    qDebug() << "CALLING COPY CONSTRUCTOR";
+    this->set_reload_speed(tank.get_reload_speed());
+    this->set_bullet_speed(tank.get_bullet_speed());
+    this->set_damage(tank.get_damage());
+    this->set_skill_point(tank.get_skill_point());
+    this->set_degree(tank.get_degree());
+
+    return *this;
+}
+//health,health_regen,max_health,size,vx,vy,xp,level
+Tank::Tank(const Tank& tank):GameEntity(tank.get_health(),tank.get_health_regen(),tank.get_max_health(),tank.get_size(),tank.get_vx(),tank.get_vy(),tank.get_xp(),tank.get_level()){
+    *this = tank;
+}
 
 /* The Mutator of Tank Object */
 void Tank::set_reload_speed(double reload_speed) { this->reload_speed = reload_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
+void Tank::set_skill_point(int skill_point){ this->skill_point = skill_point; }
 void Tank::set_damage(double damage) { this->damage = damage; }
 void Tank::set_degree(double degree) { this->degree = degree; }
 void Tank::increase_skill_point() {this->skill_point++; }

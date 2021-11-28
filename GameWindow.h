@@ -1,7 +1,8 @@
 #ifndef GAMEWINDOW_H
 #define GAMEWINDOW_H
 
-#include "GameEngine.h"
+
+#include "List.h"
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -17,7 +18,8 @@ public:
     //CHANGE TO FRIEND LATER
     QGraphicsScene* scene;
 
-    GameWindow(QWidget* parent=0);
+    GameWindow(int wave = 0, List *list = nullptr, QWidget* parent = 0);
+
 
 };
 
