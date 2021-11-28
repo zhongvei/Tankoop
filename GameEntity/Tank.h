@@ -123,6 +123,14 @@ public:
     void set_collision_damage(double collision_damage);
     double get_collision_damage() const;
 
+    void set_name(QString name);
+    QString get_name() const;
+
+    QGraphicsTextItem* name_item {};
+    QGraphicsTextItem* get_text_item() const;
+
+
+
 
 private:
     double reload_speed{};
@@ -149,6 +157,11 @@ private:
     qreal speed = 0;
     qreal mouseEyeDirection = 0;
     QColor color;
+
+    QVector<QString> EnemyNames {QString("Shadow"), QString("Voyage"), QString("Bing"), QString("Chilli"), QString("Galaxy"),
+                                QString("Blays"), QString("Gibbs")};
+    QString name;
+
 
 protected:
     Tank(

@@ -9,13 +9,22 @@
 #include <QList>
 
 //bullet has no health, max health, health_regen and xp
-Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy):
-    GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank)
+Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy,
+               GameEngine* const game_engine):
+    GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank), game_engine(game_engine)
 {
     setRect(0,0,size,size);
     QTimer* timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
     timer->start(1000/60);
+
+    connect(this, SIGNAL(enemyDiedSignal(QString, int)), game_engine, SLOT(enemyDied(QString, int)));
+    //connect(this, SIGNAL(enemyDiedSignal(QString name, int score)), game_engine, SLOT(enemyDied(QString name, int score)));
+    // tank->get_name(), the_enemy->get_xp()
+
+//       QObject::connect(this, enemyDiedSignal(name,int score),
+//                        game_engine, game_engine->enemyDied(QString name, int score));
+
 }
 
 double Bullet::get_damage() const { return damage; }
@@ -48,6 +57,8 @@ void Bullet::move(){
                        scene()->removeItem(colliding_items[i]);
                        scene()->removeItem(the_enemy->get_health_bar());
                        tank->set_xp(tank->get_xp()+the_enemy->get_xp());
+                       qDebug() << "emit " << the_enemy->get_name() << the_enemy->get_xp();
+                       emit enemyDiedSignal(the_enemy->get_name(), the_enemy->get_xp());
                        delete colliding_items[i];
                     }
 
@@ -72,25 +83,25 @@ void Bullet::move(){
             /* Set The Movement of the Bullet */
             setPos(x()+(this->get_vx()*10*cos(this->degree/57)),y()+(this->get_vy()*10*sin(this->degree/57)));
             if (pos().y() + rect().height() < 0){
-                qDebug() << "DELETED A BULLET";
+                //qDebug() << "DELETED A BULLET";
                 scene()->removeItem(this);
                 delete this;
                 return;
             }
             if (pos().x() + rect().height() < 0){
-                qDebug() << "DELETED A BULLET";
+                //qDebug() << "DELETED A BULLET";
                 scene()->removeItem(this);
                 delete this;
                 return;
             }
             if (pos().y() + rect().height() > 2000){
-                qDebug() << "DELETED A BULLET";
+                //qDebug() << "DELETED A BULLET";
                 scene()->removeItem(this);
                 delete this;
                 return;
             }
             if (pos().x() + rect().height() > 2000){
-                qDebug() << "DELETED A BULLET";
+                //qDebug() << "DELETED A BULLET";
                 scene()->removeItem(this);
                 delete this;
                 return;

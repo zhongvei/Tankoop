@@ -7,8 +7,11 @@
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QTimer>
+#include <QDebug>
 
-GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene): window(window), scene(scene)
+class Basic;
+
+GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, QString nameValue): window(window), scene(scene), nameValue(nameValue)
 {}
 
 /* MUTATOR */
@@ -21,11 +24,18 @@ int GameEngine::get_enemy_count() const {return enemy_count;}
 
 void GameEngine::run(){
     /* CREATE THE PLAYER, STARTS WITH THE BASIC CLASS */
-    player = new Basic(window);
+    player = new Basic(window, this);
     player->setRect(0,0,player->get_size(),player->get_size());
     player->setPos(350,250);
     window->scene->addItem(player);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
+
+    // Display player name
+    player->name_item = new QGraphicsTextItem;
+    player->set_name(nameValue);
+    player->name_item->setPlainText(player->get_name());
+    player->name_item->setFont(QFont("Gill Sans MT", 16));
+    window->scene->addItem(player->name_item);
 
     /* INITIATE THE MAIN TIMER */
     loop_timer = new QTimer{this};
@@ -83,6 +93,7 @@ void GameEngine::main_loop() {
         hud->hide();
         loop_timer->stop();
         delete loop_timer;
+        delete player->name_item; player->name_item = nullptr; // move to wilsons code part
 
         //QMessageBox* msg_box = new QMessageBox(window);
         //msg_box->setText("GAMEOVER!");
@@ -98,6 +109,18 @@ void GameEngine::main_loop() {
         QString player_subtank = player->SUBTANK_textstr[static_cast<int>(player->get_subtank())];
         QString player_time_alive = QString::number(elapsed_timer.elapsed()/1000);
         endWindow->endGameStats(player_xp, player_class, player_subtank, player_time_alive);
+
+
+        // Add player's stats to leaderboard
+        append_cumulativeEnemyLists(player->get_name(), player->get_xp());
+        ensureMin_cumulativeEnemyLists(); // sort list from highest to lowest score
+
+        qDebug()<<"cumulative" <<cumulativeEnemyNames[0];
+        qDebug()<<"cumulative" <<cumulativeEnemyNames.at(0);
+        qDebug()<<cumulativeEnemyScores[0];
+        endWindow->endGameLeaderboard(cumulativeEnemyNames[0],cumulativeEnemyNames[1],cumulativeEnemyNames[2],
+                cumulativeEnemyNames[3],cumulativeEnemyNames[4],cumulativeEnemyScores[0],cumulativeEnemyScores[1],
+                cumulativeEnemyScores[2],cumulativeEnemyScores[3],cumulativeEnemyScores[4]);
 
         endWindow->show();
 
@@ -127,6 +150,15 @@ void GameEngine::spawn_enemies_loop(){
         enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2,
                                         enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
         enemy->create_heatlh_bar(window->scene);
+
+        enemy->name_item = new QGraphicsTextItem;
+
+        //enemy->name_item->setPos(enemy->name_item->mapFromParent(0, 50));
+        enemy->name_item->setPlainText(enemy->get_name());
+        enemy->name_item->setFont(QFont("Gill Sans MT", 16));
+
+        window->scene->addItem(enemy->name_item);
+
         window->scene->addItem(enemy->get_health_bar());
 
         window->scene->addItem(enemy);
@@ -182,4 +214,41 @@ bool GameEngine::game_over() {
         return true;
     }
     return false;
+}
+
+// Called from SIGNAL in Bullet.cpp
+// if enemy dies, emit signal to SLOT enemyDied(QString name, int score)
+void GameEngine::enemyDied(QString name, int score) {
+    //qDebug()<< "verybruh moment if not same " <<name << score;
+    append_cumulativeEnemyLists(name, score);
+}
+
+/* Ensures that QVector types cumulativeEnemyNames and cumulativeEnemyScores
+ * has a minimum size of 5 for leaderboard displaying in end screen.
+*/
+void GameEngine::ensureMin_cumulativeEnemyLists() {
+    if (cumulativeEnemyScores.size() < 5) {
+        int minimum = 5 - cumulativeEnemyScores.size();
+        for (int i = 0; i < minimum; i++) {
+            cumulativeEnemyNames.push_back(QString("N/A"));
+            cumulativeEnemyScores.push_back(0);
+        }
+    }
+}
+/* Appends name and score to (QVector) cumulativeEnemyNames and cumulativeEnemyScores
+ * respectively, adding them to a sorted list.
+*/
+void GameEngine::append_cumulativeEnemyLists(QString name, int score) {
+    if (cumulativeEnemyScores.size() == 0) {
+        cumulativeEnemyNames.append(name);
+        cumulativeEnemyScores.append(score);
+        return;
+    }
+    for (int i = 0; i < cumulativeEnemyScores.size(); ++i) {
+        if (score > cumulativeEnemyScores[i]) {
+            cumulativeEnemyNames.insert(i,name);
+            cumulativeEnemyScores.insert(i,score);
+            return;
+        }
+    }
 }

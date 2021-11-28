@@ -7,8 +7,8 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-Basic::Basic(QGraphicsView* parent): Tank(300,1,300,100,10,10,0,0.8,0.6,50,1,0,0),
-    parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
+Basic::Basic(QGraphicsView* parent,GameEngine* const game_engine): Tank(300,1,300,100,10,10,0,0.8,0.6,50,1,0,0),
+    parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false), game_engine(game_engine) {
 }
 
 void Basic::keyPressEvent(QKeyEvent *event){
@@ -40,21 +40,21 @@ void Basic::keyPressEvent(QKeyEvent *event){
         if(!this->get_reload_status()) {
 //            qDebug() << "PEW-PEW";
 
-            Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+            Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
             bullet->set_degree(this->get_degree());
             //bullet->setPos(x()+(this->get_size()/2),y()+(this->get_size()/2));
             bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
 
             if (this->get_subtank() == Tank::SUBTANK::POUNDER && this->get_skill_status() == true) {
-                Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
                 bullet2->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+90)/57)))-bullet->get_size()/2);
                 bullet2->set_degree(this->get_degree()+90);
                 scene()->addItem(bullet2);
-                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
                 bullet3->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+180)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+180)/57)))-bullet->get_size()/2);
                 bullet3->set_degree(this->get_degree()+180);
                 scene()->addItem(bullet3);
-                Bullet * bullet4 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                Bullet * bullet4 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
                 bullet4->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()-90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()-90)/57)))-bullet->get_size()/2);
                 bullet4->set_degree(this->get_degree()-90);
                 scene()->addItem(bullet4);
@@ -181,4 +181,6 @@ void Basic::facing_cursor(Basic* basic) {
     transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
     basic->setTransform(transform);
     basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
+    QPointF pos = basic->pos() + QPointF(16,-40);
+    name_item->setPos(pos);
 }

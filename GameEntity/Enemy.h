@@ -19,7 +19,7 @@ class Enemy: public QObject, public QTransform, public Tank
     Q_OBJECT
     enum class STATE{HUNTING, RUNNING};
 public:
-    Enemy(GameEngine* g, double attack_range,double sight_range, const int& size);
+    Enemy(GameEngine* const g, double attack_range,double sight_range, const int& size);
     QGraphicsEllipseItem* get_attack_area(){ return attack_area; }
     QGraphicsEllipseItem* get_sight_area(){ return sight_area; }
     int get_range() const { return attack_range; }
@@ -42,7 +42,7 @@ private:
     QTimer *timer = nullptr;
     double attack_range;
     double sight_range;
-    GameEngine *g;
+    GameEngine* const g;
 
     double attack_scale;
     double sight_scale;

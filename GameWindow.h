@@ -5,6 +5,7 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QString>
 
 class GameWindow : public QGraphicsView
 {
@@ -17,7 +18,7 @@ public:
     //CHANGE TO FRIEND LATER
     QGraphicsScene* scene;
 
-    GameWindow(QWidget* parent=0);
+    GameWindow(QWidget* parent=0, QString nameValue="");
 
 };
 

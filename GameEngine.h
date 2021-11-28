@@ -8,15 +8,17 @@
 
 #include <QObject>
 #include <QElapsedTimer>
+#include <QVector>
+#include <QString>
 
 class GameWindow;
-//class Enemy;
+class Enemy;
 
 class GameEngine: public QObject
 {
     Q_OBJECT
 public:
-    GameEngine(GameWindow* window, QGraphicsScene* scene);
+    GameEngine(GameWindow* window, QGraphicsScene* scene, QString nameValue);
     void run();
     void main_loop();
     void facing_cursor(Tank* player);
@@ -29,6 +31,8 @@ public:
 
     void set_enemy_count(int enemy_count);
     void set_block_count(int block_count);
+    void ensureMin_cumulativeEnemyLists();
+    void append_cumulativeEnemyLists(QString name, int score);
 private:
     int enemy_count{};
     int block_count{};
@@ -45,7 +49,19 @@ private:
     int max_enemies = 3;
     QGraphicsScene* scene;
     QElapsedTimer elapsed_timer;
+    QString nameValue;
 
+//    struct enemyStats
+//    {
+//        QString name = QString("");
+//        int score = 0;
+//    };
+
+    QVector<QString> cumulativeEnemyNames; // vector that contains all enemies names that spawned and have died during the game
+    QVector<int> cumulativeEnemyScores; // vector that contains all enemies scores that spawned and have died during the game
+
+public slots:
+    void enemyDied(QString name, int score);
 };
 
 #endif // GAMEENGINE_H

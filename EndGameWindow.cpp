@@ -4,6 +4,7 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QDebug>
 
 EndGameWindow::EndGameWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::EndGameWindow)
 {
@@ -40,4 +41,20 @@ void EndGameWindow::endGameStats(QString player_xp, QString player_class, QStrin
     ui->player_class->setText("Class: " + player_class);
     ui->player_subtank->setText("Sub-tank: " + player_subtank);
     ui->time_alive->setText("Time Alive: " + player_time_alive + " seconds");
+}
+
+void EndGameWindow::endGameLeaderboard(QString name_1,QString name_2,QString name_3,QString name_4,QString name_5,
+                                       int score_1, int score_2, int score_3, int score_4, int score_5) {
+    ui->Name->setText("Name");
+    ui->Score->setText("Score");
+    ui->name_1->setText(name_1);
+    ui->name_2->setText(name_2);
+    ui->name_3->setText(name_3);
+    ui->name_4->setText(name_4);
+    ui->name_5->setText(name_5);
+    ui->score_1->setText(QString::number(score_1));
+    ui->score_2->setText(QString::number(score_2));
+    ui->score_3->setText(QString::number(score_3));
+    ui->score_4->setText(QString::number(score_4));
+    ui->score_5->setText(QString::number(score_5));
 }
