@@ -9,17 +9,6 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-//QGraphicsView* parent=nullptr, const double& health = 300, const double& health_regen = 1, const double& max_health = 300,
-//          const int& size = 100, const double& vx = 10, const double& vy = 10,const double& xp = 0,
-//          const double& reload_speed = 0.8,
-//          const double& bullet_speed = 0.6,
-//          const double& damage = 50,
-//          const int& level = 1,
-//          const int& skill_point = 0,
-//          const int& degree = 0,
-//          GameEngine* const game_engine=nullptr
-
-
 Basic::Basic(QGraphicsView* parent, GameEngine* const game_engine,
              const double& health, const double& health_regen, const double& max_health,
              const int& size, const double& vx, const double& vy,const double& xp,
@@ -55,15 +44,12 @@ void Basic::keyPressEvent(QKeyEvent *event){
             break;
         case Qt::Key::Key_Q:
             if (!this->get_cooldown_status()) {
-                qDebug()<<"SKILL PRESSED";
                 skill();
                 this->change_cooldown_status();
                 this->set_cooldown(360); // secs * 60
 
                 if(this->get_subtank() == Tank::SUBTANK::TRAPPER){
                     Wall* wall = new Wall(this->get_degree());
-//                    wall->setPos(x()+((this->get_size()/2)*(1+cos(this->get_degree()/57))-10/2),
-//                                 y()+((this->get_size()/2)*(1+sin(this->get_degree()/57)))-wall->get_size()/2);
                     wall->setPos(x()+((this->get_size()/2)+ (this->get_size()/2+15)*cos(this->get_degree()/57)-10/2),
                                  y()+((this->get_size()/2)+ (this->get_size()/2+15)*sin(this->get_degree()/57))-wall->get_size()/2);
                     QTransform transform;

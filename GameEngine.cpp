@@ -237,7 +237,7 @@ void GameEngine::spawn_enemies_loop(){
 
 void GameEngine::spawn_block_loop() {
     while (get_block_count() < 50) {
-        Block* block = new Block(100,100,30,0,0,10,1,7);
+        Block* block = new Block(100,100,30,0,0,10,1);
         block->setRect(0,0,block->get_size(),block->get_size());
         block->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
                       QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));

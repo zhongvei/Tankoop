@@ -2,7 +2,6 @@
 #define BASIC_H
 
 #include "Tank.h"
-#include "tankgraphic.h"
 #include "../GameEngine.h"
 
 #include <QGraphicsRectItem>

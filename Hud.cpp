@@ -26,8 +26,6 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     ui->sub_tank_2->setStyleSheet(UPGRADE_AVAILABLE);
     ui->stackedWidget->setCurrentIndex(2);
     update_value();
-//    ui->groupBox->setStyleSheet("background-color:rgba(41, 70, 255, 0.8);");
-//    ui->listView->setStyleSheet("background-color:rgba(255, 255, 255);");
 
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
     connect(ui->increase_health_regen_btn,SIGNAL(clicked()),this,SLOT(increase_health_regen_clicked()));
@@ -134,13 +132,15 @@ void Hud::update_value() {
         }
     }
 
-    if(tank->get_skill_status() && tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
+    if(tank->get_skill_status() &&
+       tank->get_subtank() != Tank::SUBTANK::DEFAULT &&
+       tank->get_type() != Tank::TYPE::ENGINEER) {
         ui->skill_status_frame->show();
     } else {
         ui->skill_status_frame->hide();
     }
     if(tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
-        ui->cooldown_text->setText(QString::number(10));
+        ui->cooldown_text->setText(QString::number(tank->get_cooldown() / 60));
         ui->skill_cooldown_frame->show();
     } else {
         ui->skill_cooldown_frame->hide();

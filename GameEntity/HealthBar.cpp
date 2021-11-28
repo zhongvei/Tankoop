@@ -25,14 +25,10 @@ void HealthBar::advance(int step)
 {
     if (!step)
         return;
-    QPointF healthpos;
-    healthpos.setX(this->x());
-    healthpos.setY(this->y());
-
 
     QPointF tankPos;
-    tankPos.setX(tank->x()+20);
-    tankPos.setY(tank->y()+100);
+    tankPos.setX(tank->x()+ tank->get_size()/100 * 20);
+    tankPos.setY(tank->y()+ tank->get_size()/100 * 100);
     this->setPos(tankPos);
 
     // TODO: Update health bar's health

@@ -301,9 +301,9 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>130</y>
-     <width>141</width>
-     <height>51</height>
+     <y>120</y>
+     <width>131</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -316,7 +316,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
+      <y>0</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -336,9 +336,9 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>70</y>
-     <width>141</width>
-     <height>51</height>
+     <y>80</y>
+     <width>131</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -351,7 +351,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
+      <y>0</y>
       <width>131</width>
       <height>31</height>
      </rect>
