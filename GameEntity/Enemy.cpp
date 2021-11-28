@@ -16,23 +16,23 @@ Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& 
     int randomizer_lowlevel = rand()%8;
     switch (randomizer_lowlevel) {
         case 0:
-            change_class(Tank::TYPE::GIANT);
+            change_type(Tank::TYPE::GIANT);
             change_subtank(Tank::SUBTANK::DEFAULT);
             break;
         case 1:
-            change_class(Tank::TYPE::ASSASSIN);
+            change_type(Tank::TYPE::ASSASSIN);
             change_subtank(Tank::SUBTANK::DEFAULT);
             break;
         case 2:
-            change_class(Tank::TYPE::SHARPSHOOTER);
+            change_type(Tank::TYPE::SHARPSHOOTER);
             change_subtank(Tank::SUBTANK::DEFAULT);
             break;
         case 3:
-            change_class(Tank::TYPE::ENGINEER);
+            change_type(Tank::TYPE::ENGINEER);
             change_subtank(Tank::SUBTANK::DEFAULT);
             break;
         default:
-            change_class(Tank::TYPE::NORMAL);
+            change_type(Tank::TYPE::NORMAL);
             change_subtank(Tank::SUBTANK::DEFAULT);
             break;
     }
@@ -73,6 +73,7 @@ Enemy::~Enemy(){
             }
         }
     }
+    scene()->removeItem(this);
     g->set_enemy_count(g->get_enemy_count()-1);
     timer->stop();
 }

@@ -4,11 +4,11 @@
 
 
 const QString UPGRADE_AVAILABLE= "background-color: rgba(48, 212, 67, 0.8);"
-                                 "font: bold 16px;"
+                                 "font: bold 10px;"
                                  "color: white";
 
 const QString UPGRADE_DISABLE = "background-color: rgba(228, 30, 30, 1);"
-                                "font: bold 16px;"
+                                "font: bold 10px;"
                                 "color: white";
 
 Hud::Hud(QWidget *parent,Tank* tank) :
@@ -18,9 +18,16 @@ Hud::Hud(QWidget *parent,Tank* tank) :
 {
     ui->setupUi(this);
     ui->show_hud_btn->setFocusPolicy(Qt::NoFocus);
+    ui->engineer_btn->setStyleSheet(UPGRADE_AVAILABLE);
+    ui->ASSASSIN_btn->setStyleSheet(UPGRADE_AVAILABLE);
+    ui->giant_btn->setStyleSheet(UPGRADE_AVAILABLE);
+    ui->sharpshooter_btn->setStyleSheet(UPGRADE_AVAILABLE);
+    ui->sub_tank_1->setStyleSheet(UPGRADE_AVAILABLE);
+    ui->sub_tank_2->setStyleSheet(UPGRADE_AVAILABLE);
+    ui->stackedWidget->setCurrentIndex(2);
     update_value();
 //    ui->groupBox->setStyleSheet("background-color:rgba(41, 70, 255, 0.8);");
-    ui->listView->setStyleSheet("background-color:rgba(255, 255, 255);");
+//    ui->listView->setStyleSheet("background-color:rgba(255, 255, 255);");
 
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
     connect(ui->increase_health_regen_btn,SIGNAL(clicked()),this,SLOT(increase_health_regen_clicked()));
@@ -96,11 +103,11 @@ void Hud::update_value() {
     ui->level_value->setText(QString::number(tank->get_level()));
 
     if (tank->get_evolution_point() == 1 && tank->get_type() == Tank::TYPE::NORMAL) {
-        ui->sub_tank_1->setStyleSheet(UPGRADE_AVAILABLE);
-        ui->sub_tank_2->setStyleSheet(UPGRADE_AVAILABLE);
-        ui->type_frame->show();
-    } else if(tank->get_evolution_point() == 0) {
-        ui->type_frame->hide();
+        ui->stackedWidget->setCurrentIndex(0);
+    } else if(tank->get_type() != Tank::TYPE::NORMAL && tank->get_sub_tank_evolution_point() == 1) {
+        ui->stackedWidget->setCurrentIndex(1);
+    } else {
+        ui->stackedWidget->setCurrentIndex(2);
     }
 
     if (tank->get_type() != Tank::TYPE::NORMAL && tank->get_sub_tank_evolution_point() == 1) {
@@ -125,18 +132,15 @@ void Hud::update_value() {
                 ui->sub_tank_2->setText("SNIPER");
                 break;
         }
-        ui->sub_tank_frame->show();
-    } else {
-        ui->sub_tank_frame->hide();
     }
 
-    if(tank->get_skill_status()) {
-        ui->skill_status_text->show();
+    if(tank->get_skill_status() && tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
+        ui->skill_status_frame->show();
     } else {
-        ui->skill_status_text->hide();
+        ui->skill_status_frame->hide();
     }
     if(tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
-        ui->cool_down_value->setText(QString::number(10));
+        ui->cooldown_text->setText(QString::number(10));
         ui->skill_cooldown_frame->show();
     } else {
         ui->skill_cooldown_frame->hide();
@@ -158,25 +162,25 @@ bool Hud::check_evolution() {
 
 void Hud::giant_btn_clicked() {
     if(check_evolution()) {
-        tank->change_class(Tank::TYPE::GIANT);
+        tank->change_type(Tank::TYPE::GIANT);
         tank->decrease_evolution_point();
     }
 }
 void Hud::sharpshooter_btn_clicked() {
     if(check_evolution()) {
-        tank->change_class(Tank::TYPE::SHARPSHOOTER);
+        tank->change_type(Tank::TYPE::SHARPSHOOTER);
         tank->decrease_evolution_point();
     }
 }
 void Hud::engineer_btn_clicked() {
     if(check_evolution()) {
-        tank->change_class(Tank::TYPE::ENGINEER);
+        tank->change_type(Tank::TYPE::ENGINEER);
         tank->decrease_evolution_point();
     }
 }
 void Hud::ASSASSIN_btn_clicked() {
     if(check_evolution()){
-        tank->change_class(Tank::TYPE::ASSASSIN);
+        tank->change_type(Tank::TYPE::ASSASSIN);
         tank->decrease_evolution_point();
     }
 }
@@ -241,17 +245,6 @@ void Hud::update_btn_color(){
         ui->increase_health_regen_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_max_health_btn->setStyleSheet(UPGRADE_DISABLE);
         ui->increase_movement_speed_btn->setStyleSheet(UPGRADE_DISABLE);
-    }
-    if(tank->get_evolution_point() >= 1) {
-        ui->engineer_btn->setStyleSheet(UPGRADE_AVAILABLE);
-        ui->ASSASSIN_btn->setStyleSheet(UPGRADE_AVAILABLE);
-        ui->giant_btn->setStyleSheet(UPGRADE_AVAILABLE);
-        ui->sharpshooter_btn->setStyleSheet(UPGRADE_AVAILABLE);
-    } else {
-        ui->engineer_btn->setStyleSheet(UPGRADE_DISABLE);
-        ui->ASSASSIN_btn->setStyleSheet(UPGRADE_DISABLE);
-        ui->giant_btn->setStyleSheet(UPGRADE_DISABLE);
-        ui->sharpshooter_btn->setStyleSheet(UPGRADE_DISABLE);
     }
 }
 

@@ -37,7 +37,6 @@ public:
     void keyReleaseEvent(QKeyEvent *event) override;
     GameEntity::CLASS get_class() const override;
     void facing_cursor(Basic* basic);
-    // void virtual skill();
     double get_changex();
     double get_changey();
     void set_parent(QGraphicsView* window){parent = window;}
