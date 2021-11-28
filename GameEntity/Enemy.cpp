@@ -125,7 +125,7 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
         if (typeid(*(items[i])) == typeid(Basic) || typeid(*(items[i])) == typeid(Block)){
             random_movement = true; // the enemy can do random movement again only after seeing a block
             turn = 0;
-            detected_blocks++;
+
             if(!player_detected){
                 if( (items[i]->x() > x() - attack_range/2 && items[i]->x() < x() + attack_range/2) && (items[i]->y() > y() - attack_range/2 && items[i]->y() < y() + attack_range/2)){
                     num_target += 1;
@@ -140,12 +140,16 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
 
             if(typeid(*(items[i])) == typeid(Basic)){
                 player_detected = true;
+                player_location = closest_pt;
                 closest_pt = the_target->pos();
                 closest_size = the_target->get_size();
                 if( (items[i]->x() > x() - attack_range/2 && items[i]->x() < x() + attack_range/2) && (items[i]->y() > y() - attack_range/2 && items[i]->y() < y() + attack_range/2)){
                     num_target = 1;
                 }
                 break;
+            }
+            else{
+                detected_blocks++;
             }
 
 
@@ -204,13 +208,34 @@ void Enemy::stateHunting(){
 }
 
 void Enemy::stateRunning(const int &detected_blocks){
-//    setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
+    if(this->get_reload_status()){
+        this->set_reload_finish(this->get_reload_finish() + 1);
+        if (get_reload_finish() == 10){
+            this->change_reload_status();
+            this->set_reload_finish(0);
+        }
+    }
+
+    if(num_target){
+        fire();
+        num_target = 0;
+    }
+
+    if(pos().x() + 100 > 2000 || pos().y() + 100  > 2000 || pos().x() - 100 < 0 || pos().y() - 100  < 0){
+        double angle_in_radians = std::atan2((player_location.y() + 30/2 -(y()+get_size()/2)),(player_location.x() + 30/2 -(x()+get_size()/2)));
+        double angle_in_degrees = (angle_in_radians / M_PI) * 180;
+        double player_degree = angle_in_degrees;
+        set_degree(player_degree);
+    }
+    else{
+        setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
+    }
 //    if (pos().x() + attack_range/2 > 2000 || pos().y() + attack_range/2  > 2000 || pos().x() - attack_range/2 < 0 || pos().y() - attack_range/2  < 0){
 
 //    }
 }
 
-//void Enemy::stateRunning(QPointF *blocks_coordinate, const int &detected_blocks){
+//void Enemy::stateRunning(QList<QGraphicsItem *> items_coordinate, const int &detected_blocks){
 //    double angle_in_radians = std::atan2((player_location.y() + 30/2 -(y()+get_size()/2)),(player_location.x() + 30/2 -(x()+get_size()/2)));
 //    double angle_in_degrees = (angle_in_radians / M_PI) * 180;
 //    double player_degree = angle_in_degrees;
@@ -225,7 +250,7 @@ void Enemy::stateRunning(const int &detected_blocks){
 //    int num_possible_running_location = 0;
 //    QPointF *max_possible_running_location = new QPointF [detected_blocks];
 //    for(int i = 0; i < detected_blocks; i++){
-//        angle_in_radians = std::atan2((blocks_coordinate[i].y() + 30/2 -(y()+get_size()/2)),(blocks_coordinate[i].x() + 30/2 -(x()+get_size()/2)));
+//        angle_in_radians = std::atan2((items_coordinate[i].y() + 30/2 -(y()+get_size()/2)),(items_coordinate[i].x() + 30/2 -(x()+get_size()/2)));
 //        angle_in_degrees = (angle_in_radians / M_PI) * 180;
 
 //        if(quadrant == 2){
@@ -239,7 +264,7 @@ void Enemy::stateRunning(const int &detected_blocks){
 //            }
 //        }
 //        if(angle_in_degrees < (player_degree - 90) || angle_in_degrees > (player_degree + 90) ){
-//            max_possible_running_location[num_possible_running_location] = blocks_coordinate[i];
+//            max_possible_running_location[num_possible_running_location] = items_coordinate[i];
 //            num_possible_running_location++;
 //        }
 
