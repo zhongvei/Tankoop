@@ -509,6 +509,7 @@ void Tank::change_class(Tank::TYPE type) {
             this->set_bullet_speed(this->get_bullet_speed() * 1);
             break;
     }
+    this->set_health(this->get_max_health());
 }
 
 
