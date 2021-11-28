@@ -40,4 +40,5 @@ void GameEntity::set_xp(double xp) {
 void GameEntity::set_level(int level) {
     this->level = level;
 }
+
 GameEntity::CLASS GameEntity::get_class() const {return GameEntity::CLASS::NONE;}

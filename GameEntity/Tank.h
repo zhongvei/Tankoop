@@ -110,7 +110,7 @@ public:
     bool get_skill_status() const;
     void change_skill_status();
 
-    void change_class(Tank::TYPE type);
+    void change_type(Tank::TYPE type);
     TYPE get_type() const;
     void set_type(Tank::TYPE type);
 
@@ -139,8 +139,8 @@ private:
     double damage{};
     int total_skill_point{};
     int skill_point{};
-    int evolution_point{};
-    int sub_tank_evolution_point{};
+    int evolution_point{1};
+    int sub_tank_evolution_point{1};
     double degree{};
     int reload_finish{};
     bool reload {1};

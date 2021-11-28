@@ -28,9 +28,11 @@ public:
     void entity_spawn();
     int get_enemy_count() const;
     int get_block_count() const;
+    int get_waves() const;
 
     void set_enemy_count(int enemy_count);
     void set_block_count(int block_count);
+    void set_waves(int waves);
 
 private:
 

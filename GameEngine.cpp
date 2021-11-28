@@ -33,10 +33,12 @@ GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List
 /* MUTATOR */
 void GameEngine::set_enemy_count(int enemy_count) {this->enemy_count = enemy_count;}
 void GameEngine::set_block_count(int block_count) {this->block_count = block_count;}
+void GameEngine::set_waves(int waves) {this->waves = waves;}
 
 /* ACCESOR */
 int GameEngine::get_block_count() const {return block_count;}
 int GameEngine::get_enemy_count() const {return enemy_count;}
+int GameEngine::get_waves() const {return waves;}
 
 void GameEngine::run(){
     /* CREATE THE PLAYER, STARTS WITH THE BASIC CLASS */
