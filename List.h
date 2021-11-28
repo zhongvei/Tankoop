@@ -4,6 +4,9 @@
 #include "GameEntity/Tank.h"
 #include "GameEntity/Basic.h"
 
+class Tank;
+class Basic;
+
 class List
 {
 private:

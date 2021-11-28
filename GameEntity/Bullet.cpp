@@ -11,13 +11,22 @@
 #include <QList>
 
 //bullet has no health, max health, health_regen and xp
-Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy):
-    GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank)
+Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy,
+               GameEngine* const game_engine):
+    GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank), game_engine(game_engine)
 {
     setRect(0,0,size,size);
     QTimer* timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
     timer->start(1000/60);
+
+    connect(this, SIGNAL(enemyDiedSignal(QString, int)), game_engine, SLOT(enemyDied(QString, int)));
+    //connect(this, SIGNAL(enemyDiedSignal(QString name, int score)), game_engine, SLOT(enemyDied(QString name, int score)));
+    // tank->get_name(), the_enemy->get_xp()
+
+//       QObject::connect(this, enemyDiedSignal(name,int score),
+//                        game_engine, game_engine->enemyDied(QString name, int score));
+
 }
 
 GameEntity::CATEGORY Bullet::get_category() const {return GameEntity::CATEGORY::BULLET;}
@@ -54,7 +63,9 @@ void Bullet::move(){
 
                     /* Delete the Enemy if its health is less than or equal to zero */
                     if(the_thing->get_health() <= 0){
+                       Enemy* the_enemy= dynamic_cast<Enemy*>(tank);
                        the_turret->get_creator()->set_xp(the_turret->get_creator()->get_xp()+the_thing->get_xp());
+                       emit enemyDiedSignal(the_enemy->get_name(), the_enemy->get_xp());
                        delete the_thing;
                        colliding_items[i] = nullptr;
                        the_thing = nullptr;

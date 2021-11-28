@@ -9,21 +9,34 @@
 #include <QGraphicsView>
 #include <QDebug>
 
-Basic::Basic(QGraphicsView* parent, const double& health, const double& health_regen, const double& max_health,
+//QGraphicsView* parent=nullptr, const double& health = 300, const double& health_regen = 1, const double& max_health = 300,
+//          const int& size = 100, const double& vx = 10, const double& vy = 10,const double& xp = 0,
+//          const double& reload_speed = 0.8,
+//          const double& bullet_speed = 0.6,
+//          const double& damage = 50,
+//          const int& level = 1,
+//          const int& skill_point = 0,
+//          const int& degree = 0,
+//          GameEngine* const game_engine=nullptr
+
+
+Basic::Basic(QGraphicsView* parent, GameEngine* const game_engine,
+             const double& health, const double& health_regen, const double& max_health,
              const int& size, const double& vx, const double& vy,const double& xp,
              const double& reload_speed,
              const double& bullet_speed,
              const double& damage,
              const int& level,
              const int& skill_point,
-             const int& degree): Tank(health,health_regen,max_health,size,vx,vy,xp,reload_speed,bullet_speed,damage,level,skill_point,degree),
-    parent(parent), UP(false), DOWN(false), RIGHT(false), LEFT(false) {
-}
+             const int& degree):
+    Tank(health,health_regen,max_health,size,vx,vy,xp,reload_speed,bullet_speed,damage,level,skill_point,degree),
+    parent(parent),UP(false), DOWN(false), RIGHT(false), LEFT(false),game_engine(game_engine){}
 
 
-Basic::Basic(const Basic &tank, QGraphicsView *parent):Tank(tank){
+Basic::Basic(const Basic &tank, QGraphicsView *parent, GameEngine* const game_engine):Tank(tank), game_engine(game_engine){
     this->parent = parent;
 }
+
 GameEntity::CLASS Basic::get_class() const {return GameEntity::CLASS::BASIC;}
 
 void Basic::keyPressEvent(QKeyEvent *event){
@@ -67,30 +80,31 @@ void Basic::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Space){
         /* Create a bullet */
         if(!this->get_reload_status()) {
-            Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+//            qDebug() << "PEW-PEW";
+            Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
             bullet->set_degree(this->get_degree());
             bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
 
             if (this->get_subtank() == Tank::SUBTANK::POUNDER && this->get_skill_status() == true) {
-                Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
                 bullet2->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+90)/57)))-bullet->get_size()/2);
                 bullet2->set_degree(this->get_degree()+90);
                 scene()->addItem(bullet2);
-                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
                 bullet3->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+180)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+180)/57)))-bullet->get_size()/2);
                 bullet3->set_degree(this->get_degree()+180);
                 scene()->addItem(bullet3);
-                Bullet * bullet4 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                Bullet * bullet4 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
                 bullet4->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()-90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()-90)/57)))-bullet->get_size()/2);
                 bullet4->set_degree(this->get_degree()-90);
                 scene()->addItem(bullet4);
             }
             if (this->get_subtank() == Tank::SUBTANK::DUAL && this->get_skill_status() == true) {
-                Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(),game_engine);
                 bullet2->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+10)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+10)/57)))-bullet->get_size()/2);
                 bullet2->set_degree(this->get_degree()+10);
                 scene()->addItem(bullet2);
-                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed());
+                Bullet * bullet3 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(),game_engine);
                 bullet3->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()-10)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()-10)/57)))-bullet->get_size()/2);
                 bullet3->set_degree(this->get_degree()-10);
                 scene()->addItem(bullet3);
@@ -217,4 +231,6 @@ void Basic::facing_cursor(Basic* basic) {
     transform.translate(-(basic->get_size()/2),-(basic->get_size()/2));
     basic->setTransform(transform);
     basic->setPos(basic->x()+basic->get_changex(),basic->y()+basic->get_changey());
+    QPointF pos = basic->pos() + QPointF(16,-40);
+    name_item->setPos(pos);
 }

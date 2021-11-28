@@ -10,7 +10,7 @@
 #include <QList>
 
 
-Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), g(g), attack_range(attack_range), sight_range(sight_range)
+Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), g(g), attack_range(attack_range), sight_range(sight_range)
 {
     int stage = static_cast<int>(g->get_waves() / 3);
     int ministage = g->get_waves() % 3;
@@ -178,6 +178,7 @@ Enemy::~Enemy(){
         }
     }
     scene()->removeItem(this);
+    delete name_item; name_item = nullptr;
     g->set_enemy_count(g->get_enemy_count()-1);
     timer->stop();
 }
@@ -202,7 +203,7 @@ void Enemy::fire(){
     if(!this->get_reload_status()){
         change_reload_status();
 //        qDebug() << "ENEMY GOES PEW-PEW";
-        Bullet * bullet = new Bullet(this,50,0,10,0.6,0.6);
+        Bullet * bullet = new Bullet(this,50,0,10,0.6,0.6, g);
         bullet->set_degree(this->get_degree());
         bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y() +(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
         scene()->addItem(bullet);
@@ -303,6 +304,9 @@ void Enemy::stateHunting(){
     }
     else{
         setPos(x()+(10*cos(get_degree()/57)),y()+(10*sin(get_degree()/57)));
+
+        QPointF pos = this->pos() + QPointF(16,-40);
+        name_item->setPos(pos);
     }
 
 
