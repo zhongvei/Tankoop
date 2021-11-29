@@ -257,8 +257,6 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
             else{
                 detected_blocks++;
             }
-
-
         }
         else if(i == n-1){
             player_detected = false;
