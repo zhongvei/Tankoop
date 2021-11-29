@@ -163,12 +163,11 @@ void GameEngine::main_loop() {
         ensureMin_cumulativeEnemyLists(); // sort list from highest to lowest score
 
         if(original){
+            delete player->music;
             delete player;
             player = nullptr;
         }
-        delete player->music;
-        delete player;
-        player = nullptr;
+
 
         qDebug()<< "ENEMY SCORE " << cumulativeEnemyScores[0];
         endWindow->endGameLeaderboard(cumulativeEnemyNames[0],cumulativeEnemyNames[1],cumulativeEnemyNames[2],
