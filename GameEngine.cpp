@@ -10,8 +10,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QColor>
-
-
+#include <QMediaPlayer>
 
 GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List *list, QString nameValue):
     window(window), scene(scene), nameValue(nameValue)
@@ -31,6 +30,14 @@ GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List
         reset_wave = true;
         original = false;
     }
+
+    /* Play background music */
+    playlist->addMedia(QUrl("qrc:/Resources/sounds/inGameBackgroundMusic.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    music->setPlaylist(playlist);
+    music->setVolume(60);
+    music->play();
 }
 
 /* MUTATOR */
@@ -120,7 +127,12 @@ void GameEngine::main_loop() {
             }
             set_block_count(0);
             finish_wave = true;
-            max_enemies += 1;
+            if (max_enemies == 5) {
+                max_enemies = 3;
+            }
+            else {
+                max_enemies += 1;
+            }
             waves++;
         }
     } else {
@@ -154,6 +166,9 @@ void GameEngine::main_loop() {
             delete player;
             player = nullptr;
         }
+        delete player->music;
+        delete player;
+        player = nullptr;
 
         qDebug()<< "ENEMY SCORE " << cumulativeEnemyScores[0];
         endWindow->endGameLeaderboard(cumulativeEnemyNames[0],cumulativeEnemyNames[1],cumulativeEnemyNames[2],
@@ -161,6 +176,9 @@ void GameEngine::main_loop() {
                 cumulativeEnemyScores[2],cumulativeEnemyScores[3],cumulativeEnemyScores[4]);
 
         endWindow->show();
+
+        music->stop();
+        delete music; delete playlist;
 
         // TODO: stop the game when game ends
         // (not really necessary, takes too much time to find out how to delete all things)
@@ -293,6 +311,7 @@ bool GameEngine::game_over() {
 // Called from SIGNAL in Bullet.cpp
 // if enemy dies, emit signal to SLOT enemyDied(QString name, int score)
 void GameEngine::enemyDied(QString name, int score) {
+    qDebug()<<"enemy died";
     //qDebug()<< "verybruh moment if not same " <<name << score;
     append_cumulativeEnemyLists(name, score);
 }

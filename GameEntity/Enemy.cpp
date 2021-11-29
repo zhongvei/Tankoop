@@ -10,10 +10,22 @@
 #include <QList>
 
 
-Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,7,1,0,0), g(g), attack_range(attack_range), sight_range(sight_range)
+Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const int& size): Tank(200,1,200,size,10,10,0,0.6,0.6,15,1,0,0), g(g), attack_range(attack_range), sight_range(sight_range)
 {
     int stage = static_cast<int>(g->get_waves() / 3);
     int ministage = g->get_waves() % 3;
+
+    if (g->get_waves() % 5 == 0) {
+        if (g->get_enemy_count() == 0) {
+            set_health(get_health()*2.5);
+            set_damage(get_damage()*2.5);
+            set_size(get_size()*1.5);
+            set_health_regen(get_health_regen()*1.5);
+            set_bullet_speed(get_bullet_speed()*3);
+            set_max_health(get_max_health()*2.5);
+            set_reload_speed(get_reload_speed()/3);
+        }
+    }
 
     if (g->get_waves() > 3) {
         int randomizer_highlevel = rand()%8;
@@ -25,22 +37,22 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 set_max_health(get_max_health() + 60*stage + 15*ministage);
                 set_health_regen(get_health_regen() + 4*stage + 1*ministage);
                 set_damage(get_damage()+ 5*stage + 1*ministage);
-                set_bullet_speed(get_bullet_speed() + 0.2*stage + 0.05*ministage);
+                set_bullet_speed(get_bullet_speed() + 0.4*stage + 0.1*ministage);
                 break;
             case 1:
                 change_type(Tank::TYPE::ASSASSIN);
                 change_subtank(Tank::SUBTANK::HUNTER);
                 set_reload_speed(get_reload_speed() / (1+1*stage) - 0.075*ministage );
-                set_damage(get_damage() + 5*stage + 1*ministage);
+                set_damage(get_damage() + 10*stage + 2*ministage);
                 set_vx(get_vx() + 3*stage + 0.75*ministage);
                 set_vy(get_vy() + 3*stage + 0.75*ministage);
-                set_bullet_speed(get_bullet_speed() + 0.3*stage + 0.075*ministage);
+                set_bullet_speed(get_bullet_speed() + 0.6*stage + 0.15*ministage);
                 break;
             case 2:
                 change_type(Tank::TYPE::SHARPSHOOTER);
                 change_subtank(Tank::SUBTANK::SNIPER);
                 set_bullet_speed(get_bullet_speed() + 1.5*stage + 0.4*ministage);
-                set_damage(get_damage() + 10*stage + 3*ministage);
+                set_damage(get_damage() + 20*stage + 6*ministage);
                 set_reload_speed(get_reload_speed() * (1+0.2*stage) + 0.05*ministage );
                 attack_range += (400*stage + 80*ministage);
                 sight_range += (600*stage + 120*ministage);
@@ -52,7 +64,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 set_max_health(get_max_health() + 40*stage + 8*ministage);
                 set_health_regen(get_health_regen() + 2*stage + 0.5*ministage);
                 set_reload_speed(get_reload_speed() / (1+1*stage) - 0.075*ministage );
-                set_bullet_speed(get_bullet_speed() + 0.4*stage + 0.1*ministage);
+                set_bullet_speed(get_bullet_speed() + 0.8*stage + 0.2*ministage);
                 break;
             case 4:
                 change_type(Tank::TYPE::GIANT);
@@ -60,7 +72,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 set_health(get_health() + 45*stage + 10*ministage);
                 set_max_health(get_max_health() + 45*stage + 10*ministage);
                 set_health_regen(get_health_regen() + 3*stage + 0.75*ministage);
-                set_damage(get_damage()+ 7*stage + 1.5*ministage);
+                set_damage(get_damage()+ 14*stage + 3*ministage);
                 set_reload_speed(get_reload_speed() / (1+0.2*stage) - 0.02*ministage );
                 set_bullet_speed(get_bullet_speed() + 0.6*stage + 0.15*ministage);
                 break;
@@ -69,8 +81,8 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 change_subtank(Tank::SUBTANK::IMMUNE);
                 set_health_regen(get_health_regen() + 5*stage + 1*ministage);
                 set_reload_speed(get_reload_speed() / (1+0.5*stage) - 0.05*ministage );
-                set_bullet_speed(get_bullet_speed() + 0.6*stage + 0.15*ministage);
-                set_damage(get_damage() + 4*stage + 1*ministage);
+                set_bullet_speed(get_bullet_speed() + 0.8*stage + 0.2*ministage);
+                set_damage(get_damage() + 8*stage + 2*ministage);
                 set_vx(get_vx() + 3*stage + 0.75*ministage);
                 set_vy(get_vy() + 3*stage + 0.75*ministage);
                 break;
@@ -78,7 +90,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 change_type(Tank::TYPE::SHARPSHOOTER);
                 change_subtank(Tank::SUBTANK::DUAL);
                 set_bullet_speed(get_bullet_speed() + 1*stage + 0.3*ministage);
-                set_damage(get_damage() + 8*stage + 2*ministage);
+                set_damage(get_damage() + 16*stage + 4*ministage);
                 attack_range += (150*stage + 30*ministage);
                 sight_range += (300*stage + 60*ministage);
                 break;
@@ -102,13 +114,13 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 set_health(get_health() + 50*stage + 10*ministage);
                 set_max_health(get_max_health() + 50*stage + 10*ministage);
                 set_health_regen(get_health_regen() + 2*stage + 0.5*ministage);
-                set_damage(get_damage()+ 5*stage + 1*ministage);
+                set_damage(get_damage()+ 15*stage + 3*ministage);
                 break;
             case 1:
                 change_type(Tank::TYPE::ASSASSIN);
                 change_subtank(Tank::SUBTANK::DEFAULT);
                 set_reload_speed(get_reload_speed() / (1+0.5*stage) - 0.05*ministage );
-                set_damage(get_damage() + 3*stage + 0.75*ministage);
+                set_damage(get_damage() + 7*stage + 2*ministage);
                 set_vx(get_vx() + 3*stage + 0.75*ministage);
                 set_vy(get_vy() + 3*stage + 0.75*ministage);
                 break;
@@ -116,7 +128,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 change_type(Tank::TYPE::SHARPSHOOTER);
                 change_subtank(Tank::SUBTANK::DEFAULT);
                 set_bullet_speed(get_bullet_speed() + 0.4*stage + 0.1*ministage);
-                set_damage(get_damage() + 3.5*stage + 1*ministage);
+                set_damage(get_damage() + 10*stage + 3*ministage);
                 attack_range += (150*stage + 30*ministage);
                 sight_range += (300*stage + 60*ministage);
                 break;
@@ -134,7 +146,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 set_health(get_health() + 25*stage + 5*ministage);
                 set_max_health(get_max_health() + 25*stage + 5*ministage);
                 set_health_regen(get_health_regen() + 1*stage + 0.25*ministage);
-                set_damage(get_damage()+ 2.5*stage + 0.5*ministage);
+                set_damage(get_damage()+ 10*stage + 3*ministage);
                 set_reload_speed(get_reload_speed() / (1+0.2*stage) - 0.02*ministage );
                 set_bullet_speed(get_bullet_speed() + 0.2*stage + 0.05*ministage);
                 break;
@@ -203,7 +215,7 @@ void Enemy::fire(){
     if(!this->get_reload_status()){
         change_reload_status();
 //        qDebug() << "ENEMY GOES PEW-PEW";
-        Bullet * bullet = new Bullet(this,50,0,10,0.6,0.6, g);
+        Bullet * bullet = new Bullet(this,this->get_damage(),0,10,this->get_bullet_speed(),this->get_bullet_speed(),g);
         bullet->set_degree(this->get_degree());
         bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y() +(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
         scene()->addItem(bullet);
@@ -257,8 +269,6 @@ void Enemy::detecting(QList<QGraphicsItem *> items, int &detected_blocks){
             else{
                 detected_blocks++;
             }
-
-
         }
         else if(i == n-1){
             player_detected = false;

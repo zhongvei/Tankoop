@@ -4,8 +4,6 @@
 #include <QIcon>
 #include <QPointF>
 #include <QPainter>
-#include <QMediaPlayer>
-#include <QUrl>
 
 class GameEngine;
 
@@ -38,11 +36,6 @@ GameWindow::GameWindow(int wave, List *list, QWidget* parent, QString nameValue)
 
     /* reduce size of view (game window) to appropriate size */
     setFixedSize(1200,600);
-
-    /* Play background music */
-    QMediaPlayer* music = new QMediaPlayer();
-    music->setMedia(QUrl("qrc://Resources/sounds/mainMenu.mp3"));
-    music->play();
 
     /* START THE GAME */
     GameEngine *game_engine = new GameEngine(this, scene, wave, list, nameValue);

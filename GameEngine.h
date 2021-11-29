@@ -11,6 +11,8 @@
 #include <QElapsedTimer>
 #include <QVector>
 #include <QString>
+#include <QMediaPlaylist>
+#include <QMediaPlayer>
 
 class GameWindow;
 class Enemy;
@@ -71,6 +73,10 @@ private:
 
     QVector<QString> cumulativeEnemyNames; // vector that contains all enemies names that spawned and have died during the game
     QVector<int> cumulativeEnemyScores; // vector that contains all enemies scores that spawned and have died during the game
+
+    QMediaPlaylist* playlist  = new QMediaPlaylist();
+    QMediaPlayer* music = new QMediaPlayer();
+
 
 public slots:
     void enemyDied(QString name, int score);
