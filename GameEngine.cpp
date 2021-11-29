@@ -3,12 +3,14 @@
 #include <QTimer>
 
 GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List *list, QString nameValue):
-    window(window), scene(scene), nameValue(nameValue)
+                       window(window), scene(scene), nameValue(nameValue)
 {
+    /* Create a Linked List to store Game History */
     if(wave == 0){
         waves_history = new List(nameValue);
     }
     else{
+        /* Reload data from a specific wave */
         waves_history = list;
         waves_history->list_clear(waves_history,wave);
         player = waves_history->selected_tank(waves_history);
