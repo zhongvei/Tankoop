@@ -15,7 +15,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
     int stage = static_cast<int>(g->get_waves() / 3);
     int ministage = g->get_waves() % 3;
 
-    if (g->get_waves() == 1) {
+    if (g->get_waves() % 5 == 0) {
         if (g->get_enemy_count() == 0) {
             set_health(get_health()*2.5);
             set_damage(get_damage()*2.5);

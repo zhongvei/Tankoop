@@ -63,7 +63,7 @@ void Bullet::move(){
 
                     /* Delete the Enemy if its health is less than or equal to zero */
                     if(the_thing->get_health() <= 0){
-                       Enemy* the_enemy= dynamic_cast<Enemy*>(tank);
+                       Enemy* the_enemy= dynamic_cast<Enemy*>(colliding_items[i]);
                        the_turret->get_creator()->set_xp(the_turret->get_creator()->get_xp()+the_thing->get_xp());
                        emit enemyDiedSignal(the_enemy->get_name(), the_enemy->get_xp());
                        delete the_thing;
@@ -127,6 +127,8 @@ void Bullet::move(){
 
                     /* Delete the Enemy if its health is less than or equal to zero */
                     if(the_thing->get_health() <= 0){
+                       Enemy* the_enemy= dynamic_cast<Enemy*>(colliding_items[i]);
+                       emit enemyDiedSignal(the_enemy->get_name(), the_enemy->get_xp());
                        scene()->removeItem(the_thing);
                        delete the_thing;
                        the_thing = nullptr;
