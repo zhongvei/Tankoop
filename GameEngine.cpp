@@ -1,24 +1,16 @@
 #include "GameEngine.h"
-#include "GameEntity/Basic.h"
-#include "GameEntity/Enemy.h"
-#include "GameEntity/Bullet.h"
-#include "GameEntity/HealthBar.h"
-#include "EndGameWindow.h"
 
-#include <QRandomGenerator>
-#include <QMessageBox>
 #include <QTimer>
-#include <QDebug>
-#include <QColor>
-#include <QMediaPlayer>
 
 GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List *list, QString nameValue):
-    window(window), scene(scene), nameValue(nameValue)
+                       window(window), scene(scene), nameValue(nameValue)
 {
+    /* Create a Linked List to store Game History */
     if(wave == 0){
-        waves_history = new List();
+        waves_history = new List(nameValue);
     }
     else{
+        /* Reload data from a specific wave */
         waves_history = list;
         waves_history->list_clear(waves_history,wave);
         player = waves_history->selected_tank(waves_history);
@@ -29,15 +21,21 @@ GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List
         max_enemies = waves_history->selected_num_of_enemies(waves_history);
         reset_wave = true;
         original = false;
+
     }
 
     /* Play background music */
-    playlist->addMedia(QUrl("qrc:/Resources/sounds/inGameBackgroundMusic.mp3"));
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    music = new QMediaPlayer();
+        music->setMedia(QUrl("qrc:/Resources/sounds/inGameBackgroundMusic.mp3"));
 
-    music->setPlaylist(playlist);
-    music->setVolume(60);
-    music->play();
+        connect(music, &QMediaPlayer::stateChanged, [this](QMediaPlayer::State state) {
+            if (state == QMediaPlayer::State::StoppedState)
+            {
+                music->play();
+            }
+        });
+
+        music->play();
 }
 
 /* MUTATOR */
@@ -63,7 +61,7 @@ void GameEngine::run(){
 
     // Display player name
     player->name_item = new QGraphicsTextItem;
-    player->set_name(nameValue);
+    player->set_name(waves_history->get_name());
     player->name_item->setPlainText(player->get_name());
     player->name_item->setDefaultTextColor(QColor("#008000"));
     player->name_item->setFont(QFont("Gill Sans MT", 16));
@@ -177,7 +175,7 @@ void GameEngine::main_loop() {
         endWindow->show();
 
         music->stop();
-        delete music; delete playlist;
+        delete music;
 
         // TODO: stop the game when game ends
         // (not really necessary, takes too much time to find out how to delete all things)

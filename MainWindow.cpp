@@ -8,18 +8,21 @@
 #include <QString>
 #include <QMessageBox>
 
+/* The Constructor of MainWindow */
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     /* Set the background color of the main window */
     QPalette pal = palette();
     pal.setColor(QPalette::Background, Qt::lightGray);
     this->setWindowIcon(QIcon(":/Resources/icon/tankoop.jpg"));
-
     setAutoFillBackground(true);
     setPalette(pal);
 
+    /* Initializing the User Interface */
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
 
+    /* Connector */
     connect(ui->start_button, SIGNAL(clicked()), this, SLOT(start_button_clicked()));
     connect(ui->quit_button, &QPushButton::clicked, QApplication::instance(), &QApplication::quit);
     connect(ui->howtoplay_button, SIGNAL(clicked()), this, SLOT(game_rules_button_clicked()));
@@ -27,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->back_button, SIGNAL(clicked()), this, SLOT(back_button_clicked()));
     connect(ui->back_button_2, SIGNAL(clicked()), this, SLOT(back_button_clicked()));
 
-    ui->stackedWidget->setCurrentIndex(0);
 
     /* Play background music */
     music->setMedia(QUrl("qrc:/Resources/sounds/mainbruh.mp3"));
@@ -36,27 +38,34 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 }
 
 void MainWindow::startGame() {
-    // Get player's input name
+
+    /* Input name from the user */
     QString nameValue = ui->name_entry->toPlainText();
     ui->name_entry->clear();
 
+    /* Proceeds to the Game Window */
     GameWindow* gameWindow = new GameWindow(0,nullptr,nullptr, nameValue);
     gameWindow->setAttribute(Qt::WA_DeleteOnClose);
 
+    /* Stop the music before proceeding to the Game Window page */
     music->stop();
     delete music;
+
+    /* Closing Main Window */
     this->close();
 }
 
+/* Move to "Enter Name" Page */
 void MainWindow::start_button_clicked() {
     ui->stackedWidget->setCurrentIndex(1);
-
 }
 
+/* Show the "How To Play" page */
 void MainWindow::game_rules_button_clicked() {
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+/* Start the Game */
 void MainWindow::play_button_clicked() {
     if(ui->name_entry->toPlainText().length() > 7) {
         QMessageBox* msg_box = new QMessageBox(this);
@@ -67,6 +76,7 @@ void MainWindow::play_button_clicked() {
     startGame();
 }
 
+/* Go back to the main page */
 void MainWindow::back_button_clicked() {
     ui->stackedWidget->setCurrentIndex(0);
 }

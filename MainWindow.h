@@ -6,14 +6,20 @@
 #include <QMainWindow>
 #include <QMediaPlayer>
 #include <QPointer>
+
 namespace Ui { class MainWindow; }
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
+
+    /* Constructor and Destructor*/
     explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() = default;
+
     void startGame();
+
 public slots:
     void start_button_clicked();
     void game_rules_button_clicked();

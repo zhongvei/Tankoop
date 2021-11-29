@@ -17,13 +17,14 @@ private:
         int num_of_enemies;
         int the_wave;
         Node *next = nullptr, *prev = nullptr;
+        QString name;
 
     };
 
     Node *head = nullptr;
 
 public:
-    List();
+    List(QString name);
     Node *create_node(Basic *tank, int num_of_enemies, int the_wave);
     void list_push_back(List *list, Node *node);
     Node *list_find_name(List *list, const int &wave);
@@ -33,6 +34,7 @@ public:
     Tank *selected_tank(List *list);
     int selected_wave(List *list);
     int selected_num_of_enemies(List *list);
+    QString get_name(){ return this->head->name; }
 
 
 };

@@ -2,7 +2,7 @@
 #include "GameWindow.h"
 #include "QDebug"
 
-List::List()
+List::List(QString nameValue)
 {
     Node *sentinel = new Node;
 
@@ -11,6 +11,7 @@ List::List()
     sentinel->num_of_enemies = 0;
     sentinel->next = sentinel;
     sentinel->prev = sentinel;
+    sentinel->name = nameValue;
 
     this->head = sentinel;
 }
