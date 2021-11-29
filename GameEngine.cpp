@@ -88,7 +88,7 @@ void GameEngine::run(){
 //    spawn_block_loop();
 
     /* The HUD */
-    hud = new Hud(window, player);
+    hud = new Hud(window, player,this);
 }
 
 void GameEngine::main_loop() {

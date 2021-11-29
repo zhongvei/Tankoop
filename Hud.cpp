@@ -11,8 +11,9 @@ const QString UPGRADE_DISABLE = "background-color: rgba(228, 30, 30, 1);"
                                 "font: bold 10px;"
                                 "color: white";
 
-Hud::Hud(QWidget *parent,Tank* tank) :
+Hud::Hud(QWidget *parent,Tank* tank,GameEngine* g) :
     QWidget(parent),
+    g(g),
     ui(new Ui::Hud),
     tank(tank)
 {
@@ -24,7 +25,13 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     ui->sharpshooter_btn->setStyleSheet(UPGRADE_AVAILABLE);
     ui->sub_tank_1->setStyleSheet(UPGRADE_AVAILABLE);
     ui->sub_tank_2->setStyleSheet(UPGRADE_AVAILABLE);
+
     ui->stackedWidget->setCurrentIndex(2);
+
+    ui->wave_frame->setStyleSheet("background-color: transparent");
+    ui->skill_cooldown_frame->setStyleSheet("background-color: transparent");
+    ui->skill_status_frame->setStyleSheet("background-color: transparent");
+
     update_value();
 
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
@@ -99,6 +106,7 @@ void Hud::update_value() {
     ui->skill_point_value->setText(QString::number(tank->get_skill_point()));
     ui->exp_value->setText(QString::number(tank->get_xp()));
     ui->level_value->setText(QString::number(tank->get_level()));
+    ui->wave_value->setText(QString::number(g->get_waves()));
 
     if (tank->get_evolution_point() == 1 && tank->get_type() == Tank::TYPE::NORMAL) {
         ui->stackedWidget->setCurrentIndex(0);

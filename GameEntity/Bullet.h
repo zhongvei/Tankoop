@@ -16,10 +16,13 @@ class Bullet : public QObject, public GameEntity
 public:        
     Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy,
            GameEngine* const game_engine);
+
     double get_damage() const;
     double get_degree() const {return degree;}
-    void set_degree (double degree) {this->degree = degree;}
     Tank* get_tank() const;
+
+    void set_degree (double degree) {this->degree = degree;}
+
     GameEntity::CATEGORY get_category() const override;
 
 private:

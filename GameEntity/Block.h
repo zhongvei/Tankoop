@@ -7,7 +7,9 @@
 class Block : public GameEntity
 {
 public:
-    Block(const double& health, const double& max_health, const int& size, const int& vx, const int& vy, const double& xp, const int&level);
+    Block(const double& health, const double& max_health,
+          const int& size, const int& vx, const int& vy,
+          const double& xp, const int&level);
     GameEntity::CATEGORY get_category() const override;
 };
 

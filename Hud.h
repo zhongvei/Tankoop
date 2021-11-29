@@ -2,7 +2,10 @@
 #define HUD_H
 
 #include "GameEntity/Tank.h"
+#include "GameEngine.h"
 #include <QWidget>
+
+class GameEngine;
 
 namespace Ui {
 class Hud;
@@ -13,7 +16,7 @@ class Hud : public QWidget
     Q_OBJECT
 
 public:
-    explicit Hud(QWidget *parent = nullptr,Tank* tank = nullptr);
+    explicit Hud(QWidget *parent = nullptr,Tank* tank = nullptr,GameEngine* g = nullptr);
     ~Hud();
     void update_value();
     bool check_upgrade();
@@ -39,6 +42,7 @@ public slots:
 
 private:
     bool shown;
+    GameEngine* g;
     Ui::Hud *ui;
     Tank* tank;
 };

@@ -15,6 +15,7 @@
 class GameWindow;
 class Enemy;
 class List;
+class Hud;
 
 class GameEngine: public QObject
 {
