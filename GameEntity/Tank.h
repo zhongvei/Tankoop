@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QPen>
 #include <QStyleOption>
+#include <QMediaPlayer>
 
 
 class HealthBar;
@@ -137,6 +138,8 @@ public:
     QGraphicsTextItem* name_item {};
     QGraphicsTextItem* get_text_item() const;
 
+    QMediaPlayer* music = new QMediaPlayer();
+
 
 
 
@@ -172,6 +175,8 @@ private:
     QString name;
 
 
+
+
 protected:
     Tank(
         const double& health, const double& health_regen, const double& max_health,
@@ -185,6 +190,8 @@ protected:
     );
 
     void advance(int step) override;
+
+
 
 };
 

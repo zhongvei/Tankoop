@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsRotation>
 #include <QTransform>
+#include <QMediaPlayer>
 
 class GameEngine;
 
@@ -24,6 +25,7 @@ private:
 
     QGraphicsView* parent = nullptr;
     GameEngine* const game_engine;
+
 
 public:
 

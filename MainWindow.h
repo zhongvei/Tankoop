@@ -4,6 +4,8 @@
 #include "List.h"
 
 #include <QMainWindow>
+#include <QMediaPlayer>
+#include <QPointer>
 namespace Ui { class MainWindow; }
 
 class MainWindow : public QMainWindow
@@ -21,6 +23,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     List *list = nullptr;
+    QPointer<QMediaPlayer> music = new QMediaPlayer();
 
 signals:
     void startLocalGame(int nbPlayers, int nbViews);
