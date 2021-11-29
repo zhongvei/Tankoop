@@ -9,6 +9,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsRotation>
 #include <QTransform>
+#include <QMediaPlayer>
 
 class GameEngine;
 
@@ -24,6 +25,7 @@ private:
     bool UP, DOWN, RIGHT, LEFT;
 
     GameEngine* const game_engine;
+
 
 public:
 //300,1,300,100,10,10,0,0.8,0.6,50,1,0,0

@@ -30,7 +30,10 @@ Basic::Basic(QGraphicsView* parent, GameEngine* const game_engine,
              const int& skill_point,
              const int& degree):
     Tank(health,health_regen,max_health,size,vx,vy,xp,reload_speed,bullet_speed,damage,level,skill_point,degree),
-    parent(parent),UP(false), DOWN(false), RIGHT(false), LEFT(false),game_engine(game_engine){}
+    parent(parent),UP(false), DOWN(false), RIGHT(false), LEFT(false),game_engine(game_engine)
+{
+    music->setMedia(QUrl("qrc:/Resources/sounds/shoot.mp3"));
+}
 
 
 Basic::Basic(const Basic &tank, QGraphicsView *parent, GameEngine* const game_engine):Tank(tank), game_engine(game_engine){
@@ -113,6 +116,9 @@ void Basic::keyPressEvent(QKeyEvent *event){
             scene()->addItem(bullet);
             this->change_reload_status();
             this->set_reload_finish(0);
+            music->setPosition(0);
+            music->setVolume(100);
+            music->play();
         }
 
     }

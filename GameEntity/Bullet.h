@@ -7,6 +7,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QMediaPlayer>
 
 class GameEngine;
 
@@ -27,6 +28,9 @@ private:
     double degree;
     Tank* tank;
     GameEngine* const game_engine;
+    //QMediaPlayer* music = new QMediaPlayer();
+
+
 
 public slots:
     void move();
