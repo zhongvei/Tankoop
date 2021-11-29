@@ -3,7 +3,7 @@
 #include <QTimer>
 
 GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List *list, QString nameValue):
-    window(window), scene(scene), nameValue(nameValue)
+                       window(window), scene(scene), nameValue(nameValue)
 {
     if(wave == 0){
         waves_history = new List(nameValue);

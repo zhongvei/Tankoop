@@ -152,8 +152,8 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
         }
     }
-    attack_scale = attack_range/size;
-    sight_scale = sight_range/size; // change 800 to variable later
+    attack_scale = attack_range/get_size();
+    sight_scale = sight_range/get_size(); // change 800 to variable later
 
     attack_area = new QGraphicsEllipseItem(0,0,attack_range,attack_range);
     //attack_area->setStartAngle(90*16);
