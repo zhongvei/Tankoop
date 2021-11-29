@@ -10,8 +10,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QColor>
-
-
+#include <QMediaPlayer>
 
 GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List *list, QString nameValue):
     window(window), scene(scene), nameValue(nameValue)
@@ -32,6 +31,14 @@ GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List
         max_enemies = waves_history->selected_num_of_enemies(waves_history);
         reset_wave = true;
     }
+
+    /* Play background music */
+    playlist->addMedia(QUrl("qrc:/Resources/sounds/inGameBackgroundMusic.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    music->setPlaylist(playlist);
+    music->setVolume(60);
+    music->play();
 }
 
 /* MUTATOR */
@@ -151,6 +158,7 @@ void GameEngine::main_loop() {
         append_cumulativeEnemyLists(player->get_name(), player->get_xp());
         ensureMin_cumulativeEnemyLists(); // sort list from highest to lowest score
 
+        delete player->music;
         delete player;
         player = nullptr;
 
@@ -160,6 +168,9 @@ void GameEngine::main_loop() {
                 cumulativeEnemyScores[2],cumulativeEnemyScores[3],cumulativeEnemyScores[4]);
 
         endWindow->show();
+
+        music->stop();
+        delete music; delete playlist;
 
         // TODO: stop the game when game ends
         // (not really necessary, takes too much time to find out how to delete all things)

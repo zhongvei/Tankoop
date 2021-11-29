@@ -7,7 +7,6 @@
 #include <QGraphicsScene>
 #include <QString>
 #include <QMessageBox>
-#include <QMediaPlayer>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -30,8 +29,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->stackedWidget->setCurrentIndex(0);
 
-    QMediaPlayer* music = new QMediaPlayer();
-    music->setMedia(QUrl("qrc://Resources/sounds/mainMenu.mp3"));
+    /* Play background music */
+    music->setMedia(QUrl("qrc:/Resources/sounds/mainbruh.mp3"));
+    music->setVolume(100);
     music->play();
 }
 
@@ -43,6 +43,8 @@ void MainWindow::startGame() {
     GameWindow* gameWindow = new GameWindow(0,nullptr,nullptr, nameValue);
     gameWindow->setAttribute(Qt::WA_DeleteOnClose);
 
+    music->stop();
+    delete music;
     this->close();
 }
 
