@@ -9,7 +9,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QDebug>
-
+#include <QColor>
 
 
 
@@ -58,6 +58,7 @@ void GameEngine::run(){
     player->name_item = new QGraphicsTextItem;
     player->set_name(nameValue);
     player->name_item->setPlainText(player->get_name());
+    player->name_item->setDefaultTextColor(QColor("#008000"));
     player->name_item->setFont(QFont("Gill Sans MT", 16));
     window->scene->addItem(player->name_item);
 
@@ -117,7 +118,7 @@ void GameEngine::main_loop() {
             waves++;
         }
     } else {
-        qDebug() << "gameover";
+        //qDebug() << "gameover";
         hud->hide();
         loop_timer->stop();
         delete loop_timer;
@@ -146,8 +147,6 @@ void GameEngine::main_loop() {
         delete player;
         player = nullptr;
 
-        qDebug()<<"cumulative" <<cumulativeEnemyNames[0];
-        qDebug()<<"cumulative" <<cumulativeEnemyNames.at(0);
         qDebug()<<cumulativeEnemyScores[0];
         endWindow->endGameLeaderboard(cumulativeEnemyNames[0],cumulativeEnemyNames[1],cumulativeEnemyNames[2],
                 cumulativeEnemyNames[3],cumulativeEnemyNames[4],cumulativeEnemyScores[0],cumulativeEnemyScores[1],

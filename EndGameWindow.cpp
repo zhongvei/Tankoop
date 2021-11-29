@@ -22,6 +22,8 @@ EndGameWindow::EndGameWindow(List *list, QWidget *parent) : QMainWindow(parent),
     connect(ui->start_button, SIGNAL(clicked()), this, SLOT(start_button_clicked()));
     connect(ui->home_screen, SIGNAL(clicked()), this, SLOT(home_screen_clicked()));
     connect(ui->quit_button, SIGNAL(clicked()), this, SLOT(quit_game()));
+
+    ui->Score->setFocus();
 }
 
 void EndGameWindow::start_button_clicked(){
