@@ -18,6 +18,10 @@ public:
 public slots:
     void start_button_clicked();
     void home_screen_clicked();
+    void increase();
+    void decrease();
+    void reset();
+
     void quit_game();
 private:
     List *list;

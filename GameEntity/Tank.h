@@ -116,6 +116,7 @@ public:
 
     void change_subtank(Tank::SUBTANK subtank);
     SUBTANK get_subtank() const;
+    void set_subtank(Tank::SUBTANK subtank);
     GameEntity::CATEGORY get_category() const override;
 
     void create_heatlh_bar(QGraphicsScene* scene);

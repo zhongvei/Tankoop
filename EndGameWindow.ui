@@ -14,19 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="home_screen">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>390</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Home Screen</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -41,32 +28,6 @@
     </property>
     <property name="pixmap">
      <pixmap resource="Resources.qrc">:/Resources/img/logo.png</pixmap>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="quit_button">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>440</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Quit Game</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="start_button">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>340</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Start Game</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -378,6 +339,142 @@
       </layout>
      </item>
     </layout>
+   </widget>
+   <widget class="QStackedWidget" name="pages">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>330</y>
+      <width>291</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="page">
+     <widget class="QPushButton" name="quit_button">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>110</y>
+        <width>251</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Quit Game</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="home_screen">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>251</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Home Screen</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="start_button">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>251</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Game</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>40</y>
+        <width>291</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QPushButton" name="decrease_button">
+         <property name="text">
+          <string>&lt;&lt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="num_wave">
+         <property name="font">
+          <font>
+           <pointsize>27</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="increase_button">
+         <property name="text">
+          <string>&gt;&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="reset_button">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>130</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Reset Waves</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>281</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>19</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>CHOOSE THE WAVE</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
  </widget>
