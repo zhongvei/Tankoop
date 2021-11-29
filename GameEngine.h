@@ -59,6 +59,7 @@ private:
     int waves = 1;
     bool finish_wave = true;
     bool reset_wave = false;
+    bool original = true;
     int max_enemies = 3;
     QGraphicsScene* scene;
     QElapsedTimer elapsed_timer;

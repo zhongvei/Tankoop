@@ -14,8 +14,6 @@ private:
     struct Node{
 
         Tank *tank;
-        Tank::TYPE type;
-        Tank::SUBTANK subtank;
         int num_of_enemies;
         int the_wave;
         Node *next = nullptr, *prev = nullptr;
@@ -36,8 +34,6 @@ public:
     int selected_wave(List *list);
     int selected_num_of_enemies(List *list);
 
-    Tank::TYPE return_type(List *list);
-    Tank::SUBTANK return_subtank(List *list);
 
 };
 
