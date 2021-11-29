@@ -56,6 +56,7 @@ private:
     List *waves_history;
     int waves = 1;
     bool finish_wave = true;
+    bool reset_wave = false;
     int max_enemies = 3;
     QGraphicsScene* scene;
     QElapsedTimer elapsed_timer;

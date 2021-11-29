@@ -24,6 +24,10 @@ Tank::TYPE List::return_type(List *list){
     return list->head->prev->type;
 }
 
+Tank::SUBTANK List::return_subtank(List *list){
+    return list->head->prev->subtank;
+}
+
 int List::selected_wave(List *list){
     return list->head->prev->the_wave;
 }
@@ -32,10 +36,11 @@ int List::selected_num_of_enemies(List *list){
     return list->head->prev->num_of_enemies;
 }
 
-List::Node* List::create_node(Basic *tank, Tank::TYPE type, int num_of_enemies, int the_wave){
+List::Node* List::create_node(Basic *tank, int num_of_enemies, int the_wave){
     Node *new_node = new Node;
     new_node->tank = new Basic(*tank);
     new_node->type = tank->get_type();
+    new_node->subtank = tank->get_subtank();
     new_node->the_wave = the_wave;
     new_node->num_of_enemies = num_of_enemies;
     new_node->next = nullptr;
@@ -96,8 +101,12 @@ void List::list_clear(List *list, const int &wave) {
     }
 
     Node *new_last_wave = list_find_name(list, wave);
+    qDebug() << "NEW LAST WAVE "<< new_last_wave->the_wave;
     new_last_wave->next = list->head;
     list->head->prev = new_last_wave;
+    for(Node *n = list->head->next; n != list->head; n = n->next){
+        qDebug() << n->the_wave;
+    }
 
 }
 

@@ -552,6 +552,7 @@ Tank::Tank(const Tank& tank):GameEntity(tank.get_health(),tank.get_health_regen(
 
 /* The Mutator of Tank Object */
 void Tank::set_type(Tank::TYPE type){ this->type = type; }
+void Tank::set_subtank(Tank::SUBTANK subtank){ this->subtank = subtank; }
 void Tank::set_reload_speed(double reload_speed) { this->reload_speed = reload_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
 void Tank::set_skill_point(int skill_point){ this->skill_point = skill_point; }

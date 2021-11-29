@@ -22,16 +22,42 @@ EndGameWindow::EndGameWindow(List *list, QWidget *parent) : QMainWindow(parent),
     connect(ui->start_button, SIGNAL(clicked()), this, SLOT(start_button_clicked()));
     connect(ui->home_screen, SIGNAL(clicked()), this, SLOT(home_screen_clicked()));
     connect(ui->quit_button, SIGNAL(clicked()), this, SLOT(quit_game()));
+    connect(ui->increase_button, SIGNAL(clicked()), this, SLOT(increase()));
+    connect(ui->decrease_button, SIGNAL(clicked()), this, SLOT(decrease()));
+    connect(ui->reset_button, SIGNAL(clicked()), this, SLOT(reset()));
+
+}
+void EndGameWindow::increase(){
+    QString label = ui->num_wave->text();
+    int size = label.toInt();
+    if(size < list->selected_wave(list)){ //set the limit of the wave
+        size += 1;
+    }
+    ui->num_wave->setText(QString::number(size));
+}
+
+void EndGameWindow::decrease(){
+    QString label = ui->num_wave->text();
+    int size = label.toInt();
+    if(size > 1){
+        size -= 1;
+    }
+    ui->num_wave->setText(QString::number(size));
+}
+
+void EndGameWindow::reset(){
+    int selected_wave = ui->num_wave->text().toInt();
+        GameWindow* window = new GameWindow(selected_wave, list);
+        window->setWindowTitle("TankOOP");
+        window->show();
+        this->close();
 
     ui->Score->setFocus();
 }
 
 void EndGameWindow::start_button_clicked(){
-    int wave = 3; // should be input from the screen.. create smt like the pa4
-    GameWindow* window = new GameWindow(wave, list);
-    window->setWindowTitle("TankOOP");
-    window->show();
-    this->close();
+    ui->pages->setCurrentIndex(1);
+
 }
 
 void EndGameWindow::home_screen_clicked() {

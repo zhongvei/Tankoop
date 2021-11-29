@@ -24,12 +24,13 @@ GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List
         waves_history = list;
         waves_history->list_clear(waves_history,wave);
         player = waves_history->selected_tank(waves_history);
-        qDebug() << "3 " << player->get_vx();
         player->set_type(waves_history->return_type(waves_history));
-        qDebug() << "4 " << player->get_vx();
+        player->set_subtank(waves_history->return_subtank(waves_history));
+        player->set_health(player->get_max_health());
         dynamic_cast<Basic *>(player)->set_parent(window);
         waves = waves_history->selected_wave(waves_history);
         max_enemies = waves_history->selected_num_of_enemies(waves_history);
+        reset_wave = true;
     }
 }
 
@@ -98,11 +99,12 @@ void GameEngine::main_loop() {
         hud->update_value();
         if(finish_wave){
             qDebug() << "WAVES " << waves;
-            qDebug() << "1 "<< player->get_vx();
-            waves_history->list_push_back(waves_history, waves_history->create_node(dynamic_cast<Basic*>(player), player->get_type(), max_enemies, waves)); //call list_delete.. but where?
-            qDebug() << "2 " << player->get_vx();
+            if(!reset_wave){
+                waves_history->list_push_back(waves_history, waves_history->create_node(dynamic_cast<Basic*>(player), max_enemies, waves)); //call list_delete.. but where?
+            }
             entity_spawn();
             finish_wave = false;
+            reset_wave = false;
         }
         if(get_enemy_count() == 0){
             QList<QGraphicsItem *> list = this->window->items();
