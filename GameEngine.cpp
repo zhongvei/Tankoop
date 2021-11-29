@@ -17,20 +17,19 @@ GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List
     window(window), scene(scene), nameValue(nameValue)
 {
     if(wave == 0){
-        qDebug() << "CREATING A NEW LIST";
         waves_history = new List();
     }
     else{
         waves_history = list;
         waves_history->list_clear(waves_history,wave);
         player = waves_history->selected_tank(waves_history);
-        player->set_type(waves_history->return_type(waves_history));
-        player->set_subtank(waves_history->return_subtank(waves_history));
         player->set_health(player->get_max_health());
         dynamic_cast<Basic *>(player)->set_parent(window);
+        dynamic_cast<Basic *>(player)->reset_movement();
         waves = waves_history->selected_wave(waves_history);
         max_enemies = waves_history->selected_num_of_enemies(waves_history);
         reset_wave = true;
+        original = false;
     }
 }
 
@@ -98,8 +97,13 @@ void GameEngine::main_loop() {
         player->check_collision();
         hud->update_value();
         if(finish_wave){
+
             qDebug() << "WAVES " << waves;
             if(!reset_wave){
+                qDebug() << "CREATING NEW NODES";
+                if(player->get_skill_status()){
+                    qDebug() << "LOLL";
+                }
                 waves_history->list_push_back(waves_history, waves_history->create_node(dynamic_cast<Basic*>(player), max_enemies, waves)); //call list_delete.. but where?
             }
             entity_spawn();
@@ -146,10 +150,12 @@ void GameEngine::main_loop() {
         append_cumulativeEnemyLists(player->get_name(), player->get_xp());
         ensureMin_cumulativeEnemyLists(); // sort list from highest to lowest score
 
-        delete player;
-        player = nullptr;
+        if(original){
+            delete player;
+            player = nullptr;
+        }
 
-        qDebug()<<cumulativeEnemyScores[0];
+        qDebug()<< "ENEMY SCORE " << cumulativeEnemyScores[0];
         endWindow->endGameLeaderboard(cumulativeEnemyNames[0],cumulativeEnemyNames[1],cumulativeEnemyNames[2],
                 cumulativeEnemyNames[3],cumulativeEnemyNames[4],cumulativeEnemyScores[0],cumulativeEnemyScores[1],
                 cumulativeEnemyScores[2],cumulativeEnemyScores[3],cumulativeEnemyScores[4]);

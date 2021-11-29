@@ -43,6 +43,7 @@ public:
     void keyPressEvent(QKeyEvent * event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
+    void reset_movement(){ UP = false; DOWN = false; RIGHT = false; LEFT = false; }
     void facing_cursor(Basic* basic);
 
     double get_changex();

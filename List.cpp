@@ -20,13 +20,6 @@ Tank* List::selected_tank(List *list){
     return list->head->prev->tank;
 }
 
-Tank::TYPE List::return_type(List *list){
-    return list->head->prev->type;
-}
-
-Tank::SUBTANK List::return_subtank(List *list){
-    return list->head->prev->subtank;
-}
 
 int List::selected_wave(List *list){
     return list->head->prev->the_wave;
@@ -37,10 +30,16 @@ int List::selected_num_of_enemies(List *list){
 }
 
 List::Node* List::create_node(Basic *tank, int num_of_enemies, int the_wave){
+
     Node *new_node = new Node;
     new_node->tank = new Basic(*tank);
-    new_node->type = tank->get_type();
-    new_node->subtank = tank->get_subtank();
+
+    new_node->tank->set_type(tank->get_type());
+    new_node->tank->set_subtank(tank->get_subtank());
+    if(tank->get_skill_status()){
+        new_node->tank->skill_timer_timeout(); //Skill avtivated text
+        new_node->tank->change_skill_status();
+    }
     new_node->the_wave = the_wave;
     new_node->num_of_enemies = num_of_enemies;
     new_node->next = nullptr;
@@ -58,6 +57,7 @@ List::Node* List::list_find_name(List *list, const int &wave){
 }
 
 void List::list_push_back(List *list, Node *node){
+
     Node *p = list->head;
     node->next = p;
     p->prev = node;
@@ -71,6 +71,9 @@ void List::list_push_back(List *list, Node *node){
         }
         p->next = node;
         node->prev = p;
+    }
+    for(Node *n = list->head->next; n != list->head; n = n->next){
+        qDebug() << n->the_wave;
     }
 
 }
@@ -90,10 +93,14 @@ void List::list_clear(List *list) {
 }
 
 void List::list_clear(List *list, const int &wave) {
+    if(list->head->prev->the_wave == wave){
+        return;
+    }
     Node *start = list_find_name(list, wave)->next;
     Node *temp = start->next;
     for(start; start != list->head; temp = temp->next){
         start->prev = nullptr; // play safe
+        delete start->tank;
         delete start;
         start = temp;
         if(temp == list->head)
@@ -104,9 +111,6 @@ void List::list_clear(List *list, const int &wave) {
     qDebug() << "NEW LAST WAVE "<< new_last_wave->the_wave;
     new_last_wave->next = list->head;
     list->head->prev = new_last_wave;
-    for(Node *n = list->head->next; n != list->head; n = n->next){
-        qDebug() << n->the_wave;
-    }
 
 }
 
