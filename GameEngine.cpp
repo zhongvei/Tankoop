@@ -98,7 +98,12 @@ void GameEngine::main_loop() {
             }
             set_block_count(0);
             finish_wave = true;
-            max_enemies += 1;
+            if (max_enemies == 5) {
+                max_enemies = 3;
+            }
+            else {
+                max_enemies += 1;
+            }
             waves++;
         }
     } else {
@@ -192,6 +197,34 @@ void GameEngine::spawn_enemies_loop(){
         window->scene->addItem(enemy);
         window->scene->addItem(enemy->get_attack_area());
         window->scene->addItem(enemy->get_sight_area());
+
+        set_enemy_count(get_enemy_count()+1);
+    }
+
+    if (waves%5 == 0) {
+        Enemy *boss = new Enemy(this, 500,1000,100); // multiple of 50
+
+        boss->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
+                      QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));
+        boss->setRect(0,0,boss->get_size(),boss->get_size());
+        boss->get_attack_area()->setPos(boss->x() - boss->get_size() * (boss->get_attack_scale()-1)/2,
+                                         boss->y() - boss->get_size() * (boss->get_attack_scale()-1)/2);
+        boss->get_sight_area()->setPos(boss->x() - boss->get_size() * (boss->get_sight_scale()-1)/2,
+                                        boss->y() - boss->get_size() * (boss->get_sight_scale()-1)/2);
+        boss->create_heatlh_bar(window->scene);
+        boss->set_health(boss->get_health()*2.5);
+        boss->set_damage(boss->get_damage()*2.5);
+        boss->set_size(boss->get_size()*1.5);
+        boss->set_health_regen(boss->get_health_regen()*1.5);
+        boss->set_bullet_speed(boss->get_bullet_speed()*3);
+        boss->set_max_health(boss->get_max_health()*2.5);
+        boss->set_reload_speed(boss->get_reload_speed()/3);
+        //boss->change_skill_status();
+        window->scene->addItem(boss->get_health_bar());
+
+        window->scene->addItem(boss);
+        window->scene->addItem(boss->get_attack_area());
+        window->scene->addItem(boss->get_sight_area());
 
         set_enemy_count(get_enemy_count()+1);
     }

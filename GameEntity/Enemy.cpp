@@ -25,7 +25,7 @@ Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& 
                 set_max_health(get_max_health() + 60*stage + 15*ministage);
                 set_health_regen(get_health_regen() + 4*stage + 1*ministage);
                 set_damage(get_damage()+ 5*stage + 1*ministage);
-                set_bullet_speed(get_bullet_speed() + 0.2*stage + 0.05*ministage);
+                set_bullet_speed(get_bullet_speed() + 0.4*stage + 0.1*ministage);
                 break;
             case 1:
                 change_class(Tank::TYPE::ASSASSIN);
@@ -34,7 +34,7 @@ Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& 
                 set_damage(get_damage() + 5*stage + 1*ministage);
                 set_vx(get_vx() + 3*stage + 0.75*ministage);
                 set_vy(get_vy() + 3*stage + 0.75*ministage);
-                set_bullet_speed(get_bullet_speed() + 0.3*stage + 0.075*ministage);
+                set_bullet_speed(get_bullet_speed() + 0.6*stage + 0.15*ministage);
                 break;
             case 2:
                 change_class(Tank::TYPE::SHARPSHOOTER);
@@ -52,7 +52,7 @@ Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& 
                 set_max_health(get_max_health() + 40*stage + 8*ministage);
                 set_health_regen(get_health_regen() + 2*stage + 0.5*ministage);
                 set_reload_speed(get_reload_speed() / (1+1*stage) - 0.075*ministage );
-                set_bullet_speed(get_bullet_speed() + 0.4*stage + 0.1*ministage);
+                set_bullet_speed(get_bullet_speed() + 0.8*stage + 0.2*ministage);
                 break;
             case 4:
                 change_class(Tank::TYPE::GIANT);
@@ -69,7 +69,7 @@ Enemy::Enemy(GameEngine *g, double attack_range, double sight_range, const int& 
                 change_subtank(Tank::SUBTANK::IMMUNE);
                 set_health_regen(get_health_regen() + 5*stage + 1*ministage);
                 set_reload_speed(get_reload_speed() / (1+0.5*stage) - 0.05*ministage );
-                set_bullet_speed(get_bullet_speed() + 0.6*stage + 0.15*ministage);
+                set_bullet_speed(get_bullet_speed() + 0.8*stage + 0.2*ministage);
                 set_damage(get_damage() + 4*stage + 1*ministage);
                 set_vx(get_vx() + 3*stage + 0.75*ministage);
                 set_vy(get_vy() + 3*stage + 0.75*ministage);
@@ -201,7 +201,7 @@ void Enemy::fire(){
     if(!this->get_reload_status()){
         change_reload_status();
 //        qDebug() << "ENEMY GOES PEW-PEW";
-        Bullet * bullet = new Bullet(this,50,0,10,0.6,0.6);
+        Bullet * bullet = new Bullet(this,this->get_damage(),0,10,this->get_bullet_speed(),this->get_bullet_speed());
         bullet->set_degree(this->get_degree());
         bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y() +(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
         scene()->addItem(bullet);
