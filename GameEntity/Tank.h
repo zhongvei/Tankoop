@@ -110,11 +110,13 @@ public:
     bool get_skill_status() const;
     void change_skill_status();
 
-    void change_class(Tank::TYPE type);
+    void change_type(Tank::TYPE type);
     TYPE get_type() const;
+    void set_type(Tank::TYPE type);
 
     void change_subtank(Tank::SUBTANK subtank);
     SUBTANK get_subtank() const;
+    void set_subtank(Tank::SUBTANK subtank);
     GameEntity::CATEGORY get_category() const override;
 
     void create_heatlh_bar(QGraphicsScene* scene);
@@ -129,7 +131,13 @@ public:
     Tank& operator=(const Tank& tank);
     Tank(const Tank& tank);
 
-    virtual void dummy() const{};
+    void set_name(QString name);
+    QString get_name() const;
+
+    QGraphicsTextItem* name_item {};
+    QGraphicsTextItem* get_text_item() const;
+
+
 
 
 private:
@@ -138,8 +146,8 @@ private:
     double damage{};
     int total_skill_point{};
     int skill_point{};
-    int evolution_point{};
-    int sub_tank_evolution_point{};
+    int evolution_point{1};
+    int sub_tank_evolution_point{1};
     double degree{};
     int reload_finish{};
     bool reload {1};
@@ -158,6 +166,11 @@ private:
     qreal mouseEyeDirection = 0;
     QColor color;
     Turret* turret{};
+
+    QVector<QString> EnemyNames {QString("Shadow"), QString("Voyage"), QString("Bing"), QString("Chilli"), QString("Galaxy"),
+                                QString("Blays"), QString("Gibbs")};
+    QString name;
+
 
 protected:
     Tank(

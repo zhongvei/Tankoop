@@ -8,10 +8,13 @@
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QTimer>
+#include <QDebug>
+#include <QColor>
 
 
 
-GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List *list): window(window), scene(scene)
+GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List *list, QString nameValue):
+    window(window), scene(scene), nameValue(nameValue)
 {
     if(wave == 0){
         qDebug() << "CREATING A NEW LIST";
@@ -21,9 +24,13 @@ GameEngine::GameEngine(GameWindow* window, QGraphicsScene* scene, int wave, List
         waves_history = list;
         waves_history->list_clear(waves_history,wave);
         player = waves_history->selected_tank(waves_history);
+        player->set_type(waves_history->return_type(waves_history));
+        player->set_subtank(waves_history->return_subtank(waves_history));
+        player->set_health(player->get_max_health());
         dynamic_cast<Basic *>(player)->set_parent(window);
         waves = waves_history->selected_wave(waves_history);
         max_enemies = waves_history->selected_num_of_enemies(waves_history);
+        reset_wave = true;
     }
 }
 
@@ -40,12 +47,21 @@ int GameEngine::get_waves() const {return waves;}
 void GameEngine::run(){
     /* CREATE THE PLAYER, STARTS WITH THE BASIC CLASS */
     if(player == nullptr){
-        player = new Basic(window);
+        player = new Basic(window,this);
     }
+    // player = new Basic(window, this);
     player->setRect(0,0,player->get_size(),player->get_size());
     player->setPos(350,250);
     window->scene->addItem(player);
     player->setFlag(QGraphicsItem::ItemIsFocusable);
+
+    // Display player name
+    player->name_item = new QGraphicsTextItem;
+    player->set_name(nameValue);
+    player->name_item->setPlainText(player->get_name());
+    player->name_item->setDefaultTextColor(QColor("#008000"));
+    player->name_item->setFont(QFont("Gill Sans MT", 16));
+    window->scene->addItem(player->name_item);
 
     /* INITIATE THE MAIN TIMER */
     loop_timer = new QTimer{this};
@@ -74,7 +90,7 @@ void GameEngine::run(){
 //    spawn_block_loop();
 
     /* The HUD */
-    hud = new Hud(window, player);
+    hud = new Hud(window, player,this);
 }
 
 void GameEngine::main_loop() {
@@ -83,10 +99,12 @@ void GameEngine::main_loop() {
         hud->update_value();
         if(finish_wave){
             qDebug() << "WAVES " << waves;
-
-            waves_history->list_push_back(waves_history, waves_history->create_node(dynamic_cast<Basic*>(player), max_enemies, waves)); //call list_delete.. but where?
+            if(!reset_wave){
+                waves_history->list_push_back(waves_history, waves_history->create_node(dynamic_cast<Basic*>(player), max_enemies, waves)); //call list_delete.. but where?
+            }
             entity_spawn();
             finish_wave = false;
+            reset_wave = false;
         }
         if(get_enemy_count() == 0){
             QList<QGraphicsItem *> list = this->window->items();
@@ -107,10 +125,11 @@ void GameEngine::main_loop() {
             waves++;
         }
     } else {
-        qDebug() << "gameover";
+        //qDebug() << "gameover";
         hud->hide();
         loop_timer->stop();
         delete loop_timer;
+        delete player->name_item; player->name_item = nullptr; // move to wilsons code part
 
         //QMessageBox* msg_box = new QMessageBox(window);
         //msg_box->setText("GAMEOVER!");
@@ -127,8 +146,19 @@ void GameEngine::main_loop() {
         QString player_subtank = player->SUBTANK_textstr[static_cast<int>(player->get_subtank())];
         QString player_time_alive = QString::number(elapsed_timer.elapsed()/1000);
         endWindow->endGameStats(player_xp, player_class, player_subtank, player_time_alive);
+
+        // Add player's stats to leaderboard
+        append_cumulativeEnemyLists(player->get_name(), player->get_xp());
+        ensureMin_cumulativeEnemyLists(); // sort list from highest to lowest score
+
         delete player;
         player = nullptr;
+
+        qDebug()<<cumulativeEnemyScores[0];
+        endWindow->endGameLeaderboard(cumulativeEnemyNames[0],cumulativeEnemyNames[1],cumulativeEnemyNames[2],
+                cumulativeEnemyNames[3],cumulativeEnemyNames[4],cumulativeEnemyScores[0],cumulativeEnemyScores[1],
+                cumulativeEnemyScores[2],cumulativeEnemyScores[3],cumulativeEnemyScores[4]);
+
         endWindow->show();
 
         // TODO: stop the game when game ends
@@ -192,6 +222,15 @@ void GameEngine::spawn_enemies_loop(){
         enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2,
                                         enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
         enemy->create_heatlh_bar(window->scene);
+
+        enemy->name_item = new QGraphicsTextItem;
+
+        //enemy->name_item->setPos(enemy->name_item->mapFromParent(0, 50));
+        enemy->name_item->setPlainText(enemy->get_name());
+        enemy->name_item->setFont(QFont("Gill Sans MT", 16));
+
+        window->scene->addItem(enemy->name_item);
+
         window->scene->addItem(enemy->get_health_bar());
 
         window->scene->addItem(enemy);
@@ -232,7 +271,7 @@ void GameEngine::spawn_enemies_loop(){
 
 void GameEngine::spawn_block_loop() {
     while (get_block_count() < 50) {
-        Block* block = new Block(100,100,30,0,0,10,1,7);
+        Block* block = new Block(100,100,30,0,0,10,1);
         block->setRect(0,0,block->get_size(),block->get_size());
         block->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
                       QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));
@@ -276,4 +315,41 @@ bool GameEngine::game_over() {
         return true;
     }
     return false;
+}
+
+// Called from SIGNAL in Bullet.cpp
+// if enemy dies, emit signal to SLOT enemyDied(QString name, int score)
+void GameEngine::enemyDied(QString name, int score) {
+    //qDebug()<< "verybruh moment if not same " <<name << score;
+    append_cumulativeEnemyLists(name, score);
+}
+
+/* Ensures that QVector types cumulativeEnemyNames and cumulativeEnemyScores
+ * has a minimum size of 5 for leaderboard displaying in end screen.
+*/
+void GameEngine::ensureMin_cumulativeEnemyLists() {
+    if (cumulativeEnemyScores.size() < 5) {
+        int minimum = 5 - cumulativeEnemyScores.size();
+        for (int i = 0; i < minimum; i++) {
+            cumulativeEnemyNames.push_back(QString("N/A"));
+            cumulativeEnemyScores.push_back(0);
+        }
+    }
+}
+/* Appends name and score to (QVector) cumulativeEnemyNames and cumulativeEnemyScores
+ * respectively, adding them to a sorted list.
+*/
+void GameEngine::append_cumulativeEnemyLists(QString name, int score) {
+    if (cumulativeEnemyScores.size() == 0) {
+        cumulativeEnemyNames.append(name);
+        cumulativeEnemyScores.append(score);
+        return;
+    }
+    for (int i = 0; i < cumulativeEnemyScores.size(); ++i) {
+        if (score > cumulativeEnemyScores[i]) {
+            cumulativeEnemyNames.insert(i,name);
+            cumulativeEnemyScores.insert(i,score);
+            return;
+        }
+    }
 }

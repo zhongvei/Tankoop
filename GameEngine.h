@@ -9,16 +9,20 @@
 
 #include <QObject>
 #include <QElapsedTimer>
+#include <QVector>
+#include <QString>
 
 class GameWindow;
-//class Enemy;
+class Enemy;
+class List;
+class Hud;
 
 class GameEngine: public QObject
 {
     Q_OBJECT
 
 public:
-    GameEngine(GameWindow* window, QGraphicsScene* scene, int wave = 0, List *list = nullptr);
+    GameEngine(GameWindow* window, QGraphicsScene* scene, int wave = 0, List *list = nullptr, QString nameValue="");
     void run();
     void main_loop();
     void facing_cursor(Tank* player);
@@ -34,6 +38,8 @@ public:
     void set_block_count(int block_count);
     void set_waves(int waves);
 
+    void ensureMin_cumulativeEnemyLists();
+    void append_cumulativeEnemyLists(QString name, int score);
 private:
 
     int enemy_count{};
@@ -50,10 +56,23 @@ private:
     List *waves_history;
     int waves = 1;
     bool finish_wave = true;
+    bool reset_wave = false;
     int max_enemies = 3;
     QGraphicsScene* scene;
     QElapsedTimer elapsed_timer;
+    QString nameValue;
 
+//    struct enemyStats
+//    {
+//        QString name = QString("");
+//        int score = 0;
+//    };
+
+    QVector<QString> cumulativeEnemyNames; // vector that contains all enemies names that spawned and have died during the game
+    QVector<int> cumulativeEnemyScores; // vector that contains all enemies scores that spawned and have died during the game
+
+public slots:
+    void enemyDied(QString name, int score);
 };
 
 #endif // GAMEENGINE_H

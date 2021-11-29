@@ -6,6 +6,7 @@
 
 #include <QDebug>
 #include <QTimer>
+#include <QString>
 
 class HealthBar;
 
@@ -23,7 +24,9 @@ Tank::Tank(
         reload_speed(reload_speed), bullet_speed(bullet_speed), damage(damage), skill_point(skill_point), degree(degree),
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
         QRandomGenerator::global()->bounded(256))
-{};
+{
+    set_name(QString(""));
+};
 
 GameEntity::CATEGORY Tank::get_category() const {return  GameEntity::CATEGORY::TANK;}
 
@@ -44,6 +47,8 @@ int Tank::get_cooldown() const {return cooldown;}
 bool Tank::get_cooldown_status() const {return cooldown_status;}
 double Tank::get_collision_damage() const {return collision_damage;}
 bool Tank::get_skill_status() const {return skill_status;}
+QString Tank::get_name() const {return name; }
+QGraphicsTextItem* Tank::get_text_item() const { return name_item; }
 
 void Tank::advance(int step)
 {
@@ -335,18 +340,21 @@ void Tank::check_collision() {
     QList<QGraphicsItem *> list = this->collidingItems();
     for(int i = 0; i < list.size();i++) {
         GameEntity* the_thing = dynamic_cast<GameEntity*>(list[i]);
-        if(the_thing != nullptr && the_thing->get_category() == GameEntity::CATEGORY::BLOCK){
-            Block* the_block= dynamic_cast<Block*>(list[i]);
-            this->set_health(this->get_health() - get_collision_damage());
-            this->set_xp(this->get_xp() + the_block->get_xp()*0.7); //only gets 70% of the exp
-            delete the_block;
-        }else if(the_thing != nullptr && the_thing->get_class() == GameEntity::CLASS::ENEMY && get_subtank() == Tank::SUBTANK::SPINNER && get_skill_status()) {
-            Enemy* the_enemy= dynamic_cast<Enemy*>(list[i]);
-            the_enemy->set_health(the_enemy->get_health() - 10);
-            if(the_enemy->get_health() <= 0){
-               scene()->removeItem(the_enemy->get_health_bar());
-               this->set_xp(this->get_xp() + the_enemy->get_xp());
-               delete the_enemy;
+        if (the_thing != nullptr) {
+            if( the_thing->get_category() == GameEntity::CATEGORY::BLOCK){
+                this->set_health(this->get_health() - get_collision_damage());
+                this->set_xp(this->get_xp() + the_thing->get_xp()*0.7); //only gets 70% of the exp
+                delete the_thing;
+                the_thing = nullptr;
+                list[i] = nullptr;
+            }else if(the_thing->get_class() == GameEntity::CLASS::ENEMY && get_subtank() == Tank::SUBTANK::SPINNER && get_skill_status()) {
+                the_thing->set_health(the_thing->get_health() - 15);
+                if(the_thing->get_health() <= 0){
+                   this->set_xp(this->get_xp() + the_thing->get_xp());
+                   delete the_thing;
+                   the_thing = nullptr;
+                   list[i] = nullptr;
+                }
             }
         }
     }
@@ -358,14 +366,11 @@ void Tank::increase_level() {
        this->increase_total_skill_point();
        this->increase_skill_point();
        this->set_size(this->get_size()*1.03);
-    //    qDebug()<<"INCREASED LEVEL BY 1";
        if(this->get_level() == 5) {
            this->increase_evolution_point();
-        //    qDebug()<<"INCREASE EVOLUTION POINT BY 1";
        }
        if(this->get_level() == 10) {
            this->increase_sub_tank_evolution_point();
-        //    qDebug()<<"INCREASE SUBTANK EVOLUTION POINT";
        }
     }
 
@@ -373,7 +378,6 @@ void Tank::increase_level() {
 
 void Tank::skill() {
     if(!this->get_cooldown_status()) {
-        qDebug()<<"skill pressed";
         change_skill_status();
         if(this->get_subtank() == Tank::SUBTANK::SPINNER) {
             this->set_vx(this->get_vx() * 1.5);
@@ -427,13 +431,9 @@ void Tank::skill_timer_timeout() {
     change_skill_status();
     switch(this->get_subtank())
     {
-        case Tank::SUBTANK::DEFAULT:
-            break;
         case Tank::SUBTANK::SPINNER:
             this->set_vx(this->get_vx() / 1.5);
             this->set_vy(this->get_vy() / 1.5);
-            break;
-        case Tank::SUBTANK::POUNDER:
             break;
         case Tank::SUBTANK::HUNTER:
             this->set_vx(this->get_vx() / 1.2);
@@ -452,17 +452,15 @@ void Tank::skill_timer_timeout() {
             this->set_damage(this->get_damage() / 3);
             this->set_bullet_speed(this->get_bullet_speed() / 3);
             break;
-        case Tank::SUBTANK::DUAL:
-            break;
         case Tank::SUBTANK::SPAWNER:
             delete turret;
             break;
-        case Tank::SUBTANK::TRAPPER:
+        default:
             break;
     }
 }
 
-void Tank::change_class(Tank::TYPE type) {
+void Tank::change_type(Tank::TYPE type) {
     this->type = type;
     switch (type)
     {
@@ -515,28 +513,6 @@ void Tank::change_class(Tank::TYPE type) {
 
 void Tank::change_subtank(Tank::SUBTANK subtank) {
     this->subtank = subtank;
-    switch (subtank)
-    {
-        case Tank::SUBTANK::DEFAULT:
-            break;
-        case Tank::SUBTANK::SPINNER:
-            break;
-        case Tank::SUBTANK::POUNDER:
-            break;
-        case Tank::SUBTANK::HUNTER:
-            break;
-        case Tank::SUBTANK::IMMUNE:
-            break;
-        case Tank::SUBTANK::SNIPER:
-            break;
-        case Tank::SUBTANK::DUAL:
-            break;
-        case Tank::SUBTANK::SPAWNER:
-            break;
-        case Tank::SUBTANK::TRAPPER:
-            break;
-    }
-
 }
 
 void Tank::create_heatlh_bar(QGraphicsScene *scene) {
@@ -575,6 +551,8 @@ Tank::Tank(const Tank& tank):GameEntity(tank.get_health(),tank.get_health_regen(
 }
 
 /* The Mutator of Tank Object */
+void Tank::set_type(Tank::TYPE type){ this->type = type; }
+void Tank::set_subtank(Tank::SUBTANK subtank){ this->subtank = subtank; }
 void Tank::set_reload_speed(double reload_speed) { this->reload_speed = reload_speed; }
 void Tank::set_bullet_speed(double speed) { this->bullet_speed = speed; }
 void Tank::set_skill_point(int skill_point){ this->skill_point = skill_point; }
@@ -594,3 +572,11 @@ void Tank::change_cooldown_status() {this->cooldown_status? this->cooldown_statu
 void Tank::set_cooldown(int cooldown) {this->cooldown = cooldown;}
 void Tank::set_collision_damage(double collision_damage) {this->collision_damage = collision_damage;}
 void Tank::change_skill_status() {this->skill_status? this->skill_status = false: this->skill_status = true;}
+void Tank::set_name(QString name) {
+    if (name == QString("")) {
+        this->name = EnemyNames[qrand() % (EnemyNames.size())];
+    } else {
+        this->name = name;
+    }
+
+}

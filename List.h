@@ -4,6 +4,9 @@
 #include "GameEntity/Tank.h"
 #include "GameEntity/Basic.h"
 
+class Tank;
+class Basic;
+
 class List
 {
 private:
@@ -11,6 +14,8 @@ private:
     struct Node{
 
         Tank *tank;
+        Tank::TYPE type;
+        Tank::SUBTANK subtank;
         int num_of_enemies;
         int the_wave;
         Node *next = nullptr, *prev = nullptr;
@@ -21,7 +26,7 @@ private:
 
 public:
     List();
-    Node *create_node(Basic *tank,int num_of_enemies, int the_wave);
+    Node *create_node(Basic *tank, int num_of_enemies, int the_wave);
     void list_push_back(List *list, Node *node);
     Node *list_find_name(List *list, const int &wave);
     void list_clear(List *list);
@@ -30,6 +35,9 @@ public:
     Tank *selected_tank(List *list);
     int selected_wave(List *list);
     int selected_num_of_enemies(List *list);
+
+    Tank::TYPE return_type(List *list);
+    Tank::SUBTANK return_subtank(List *list);
 
 };
 
