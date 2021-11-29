@@ -303,6 +303,7 @@ bool GameEngine::game_over() {
 // Called from SIGNAL in Bullet.cpp
 // if enemy dies, emit signal to SLOT enemyDied(QString name, int score)
 void GameEngine::enemyDied(QString name, int score) {
+    qDebug()<<"enemy died";
     //qDebug()<< "verybruh moment if not same " <<name << score;
     append_cumulativeEnemyLists(name, score);
 }
