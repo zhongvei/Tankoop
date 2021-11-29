@@ -1,5 +1,6 @@
 #include "GameEntity.h"
 
+/* The constructor of the GameEntity */
 GameEntity::GameEntity(const double& health, const double& health_regen, const double& max_health,
                        const int& size,const double& vx, const double& vy,const double& xp,const int& level) :
                        max_health(max_health), health(health), health_regen(health_regen),
@@ -25,4 +26,5 @@ void GameEntity::set_vy(double vy) { this->vy = vy;}
 void GameEntity::set_xp(double xp) { this->xp = xp;}
 void GameEntity::set_level(int level) { this->level = level;}
 
+/* Default virtual function */
 GameEntity::CLASS GameEntity::get_class() const {return GameEntity::CLASS::NONE;}

@@ -83,7 +83,7 @@ void GameEngine::run(){
 //    spawn_enemies_loop();
 
     /* CREATE HEALTH BAR */
-    player->create_heatlh_bar(window->scene);
+    player->create_health_bar(window->scene);
     window->scene->addItem(player->get_health_bar());
 
 //    entity_spawn_timer = new QTimer{this};
@@ -161,7 +161,6 @@ void GameEngine::main_loop() {
         ensureMin_cumulativeEnemyLists(); // sort list from highest to lowest score
 
         if(original){
-            delete player->music;
             delete player;
             player = nullptr;
         }
@@ -237,7 +236,7 @@ void GameEngine::spawn_enemies_loop(){
                                          enemy->y() - enemy->get_size() * (enemy->get_attack_scale()-1)/2);
         enemy->get_sight_area()->setPos(enemy->x() - enemy->get_size() * (enemy->get_sight_scale()-1)/2,
                                         enemy->y() - enemy->get_size() * (enemy->get_sight_scale()-1)/2);
-        enemy->create_heatlh_bar(window->scene);
+        enemy->create_health_bar(window->scene);
 
         enemy->name_item = new QGraphicsTextItem;
 

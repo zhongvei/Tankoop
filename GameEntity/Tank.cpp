@@ -10,7 +10,7 @@
 
 class HealthBar;
 
-/* The Constructor of Tank Object */
+// The Constructor of Tank Object 
 Tank::Tank(
         const double& health, const double& health_regen, const double& max_health, const int& size,
         const double& vx, const double& vy,const double& xp,
@@ -25,10 +25,14 @@ Tank::Tank(
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
         QRandomGenerator::global()->bounded(256))
 {
+    music = new QMediaPlayer();
     set_name(QString(""));
 };
 
-GameEntity::CATEGORY Tank::get_category() const {return  GameEntity::CATEGORY::TANK;}
+//The Destructor of the Tank
+Tank::~Tank() {
+    delete music;
+}
 
 /* The Accessor of Tank Object */
 double Tank::get_reload_speed() const { return reload_speed;}
@@ -48,7 +52,8 @@ bool Tank::get_cooldown_status() const {return cooldown_status;}
 double Tank::get_collision_damage() const {return collision_damage;}
 bool Tank::get_skill_status() const {return skill_status;}
 QString Tank::get_name() const {return name; }
-QGraphicsTextItem* Tank::get_text_item() const { return name_item; }
+GameEntity::CATEGORY Tank::get_category() const {return  GameEntity::CATEGORY::TANK;}
+
 
 void Tank::advance(int step)
 {
@@ -69,10 +74,7 @@ void Tank::advance(int step)
  * behind when Tank moves.
 */
 
-QRectF Tank::boundingRect() const
-{
-
-//    return QRectF(-40, -40, 130, 130);
+QRectF Tank::boundingRect() const {
     return QRectF(0, 0, this->get_size(), this->get_size());
 }
 
@@ -169,10 +171,6 @@ void Tank::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
                     break;
                 case Tank::SUBTANK::SNIPER:
                     painter->drawRect(this->get_size()*3/4,this->get_size()*5/12,this->get_size()/4,this->get_size()/6);
-//                    path.arcMoveTo(square, 270);
-//                    path.arcTo(square, 270, 180);
-//                    path.arcMoveTo(this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.3, this->get_size()*0.6, 270);
-//                    path.arcTo(this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.3, this->get_size()*0.6, 270, 180);
                     path.arcMoveTo(-this->get_size()*0.6, this->get_size()*0.2, this->get_size()*1.4, this->get_size()*0.6, 270);
                     path.arcTo(-this->get_size()*0.6, this->get_size()*0.2, this->get_size()*1.4, this->get_size()*0.6, 270, 180);
                     path.arcMoveTo(-this->get_size()*0.35, this->get_size()*0.2, this->get_size()*0.9, this->get_size()*0.6, 270);
@@ -363,7 +361,6 @@ void Tank::check_collision() {
 void Tank::increase_level() {
     if((this->get_xp()/100 >= this->get_level())) {
        this->set_level(this->get_level() + 1);
-       this->increase_total_skill_point();
        this->increase_skill_point();
        this->set_size(this->get_size()*1.03);
        if(this->get_level() == 5) {
@@ -511,41 +508,20 @@ void Tank::change_type(Tank::TYPE type) {
 }
 
 
-void Tank::change_subtank(Tank::SUBTANK subtank) {
-    this->subtank = subtank;
-}
-
-void Tank::create_heatlh_bar(QGraphicsScene *scene) {
+void Tank::create_health_bar(QGraphicsScene *scene) {
     health_bar = new HealthBar(this,scene);
 }
-/*
-        const double& health, const double& health_regen, const double& max_health, const int& size,
-        const double& vx, const double& vy,const double& xp,
-        const double& reload_speed,
-        const double& bullet_speed,
-        const double& damage,
-        const int& level,
-        const int& skill_point,
-        const int& degree
-*/
+
 Tank& Tank::operator=(const Tank &tank){
-    //    this->set_health(tank.get_health());
-    //    this->set_health_regen(tank.get_health_regen());
-    //    this->set_max_health(tank.get_max_health());
-    //    this->set_size(tank.get_size());
-    //    this->set_vx(tank.get_vx());
-    //    this->set_vy(tank.get_vy());
-    //    this->set_xp(tank.get_xp());
-    qDebug() << "CALLING COPY CONSTRUCTOR";
+    // qDebug() << "CALLING COPY CONSTRUCTOR";
     this->set_reload_speed(tank.get_reload_speed());
     this->set_bullet_speed(tank.get_bullet_speed());
     this->set_damage(tank.get_damage());
     this->set_skill_point(tank.get_skill_point());
     this->set_degree(tank.get_degree());
-
     return *this;
 }
-//health,health_regen,max_health,size,vx,vy,xp,level
+
 Tank::Tank(const Tank& tank):GameEntity(tank.get_health(),tank.get_health_regen(),tank.get_max_health(),tank.get_size(),tank.get_vx(),tank.get_vy(),tank.get_xp(),tank.get_level()){
     *this = tank;
 }
@@ -560,8 +536,6 @@ void Tank::set_damage(double damage) { this->damage = damage; }
 void Tank::set_degree(double degree) { this->degree = degree; }
 void Tank::increase_skill_point() {this->skill_point++; }
 void Tank::decrease_skill_point() {this->skill_point--; }
-int Tank::get_total_skill_point() const {return this->total_skill_point;}
-void Tank::increase_total_skill_point() {this->total_skill_point++;}
 void Tank::set_reload_finish(int reload_finish) {this->reload_finish = reload_finish;}
 void Tank::change_reload_status() { reload? this->reload = 0: this->reload = 1;}
 void Tank::increase_evolution_point() {this->evolution_point++;}
@@ -572,11 +546,5 @@ void Tank::change_cooldown_status() {this->cooldown_status? this->cooldown_statu
 void Tank::set_cooldown(int cooldown) {this->cooldown = cooldown;}
 void Tank::set_collision_damage(double collision_damage) {this->collision_damage = collision_damage;}
 void Tank::change_skill_status() {this->skill_status? this->skill_status = false: this->skill_status = true;}
-void Tank::set_name(QString name) {
-    if (name == QString("")) {
-        this->name = EnemyNames[qrand() % (EnemyNames.size())];
-    } else {
-        this->name = name;
-    }
+void Tank::set_name(QString name) { name == QString("") ? this->name = EnemyNames[qrand() % (EnemyNames.size())] : this->name = name;}
 
-}

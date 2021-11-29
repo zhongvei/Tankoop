@@ -32,7 +32,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
         switch (randomizer_highlevel) {
             case 0:
                 change_type(Tank::TYPE::GIANT);
-                change_subtank(Tank::SUBTANK::POUNDER);
+                set_subtank(Tank::SUBTANK::POUNDER);
                 set_health(get_health() + 60*stage + 15*ministage);
                 set_max_health(get_max_health() + 60*stage + 15*ministage);
                 set_health_regen(get_health_regen() + 4*stage + 1*ministage);
@@ -41,7 +41,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 1:
                 change_type(Tank::TYPE::ASSASSIN);
-                change_subtank(Tank::SUBTANK::HUNTER);
+                set_subtank(Tank::SUBTANK::HUNTER);
                 set_reload_speed(get_reload_speed() / (1+1*stage) - 0.075*ministage );
                 set_damage(get_damage() + 10*stage + 2*ministage);
                 set_vx(get_vx() + 3*stage + 0.75*ministage);
@@ -50,7 +50,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 2:
                 change_type(Tank::TYPE::SHARPSHOOTER);
-                change_subtank(Tank::SUBTANK::SNIPER);
+                set_subtank(Tank::SUBTANK::SNIPER);
                 set_bullet_speed(get_bullet_speed() + 1.5*stage + 0.4*ministage);
                 set_damage(get_damage() + 20*stage + 6*ministage);
                 set_reload_speed(get_reload_speed() * (1+0.2*stage) + 0.05*ministage );
@@ -59,7 +59,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 3:
                 change_type(Tank::TYPE::ENGINEER);
-                change_subtank(Tank::SUBTANK::SPAWNER);
+                set_subtank(Tank::SUBTANK::SPAWNER);
                 set_health(get_health() + 40*stage + 8*ministage);
                 set_max_health(get_max_health() + 40*stage + 8*ministage);
                 set_health_regen(get_health_regen() + 2*stage + 0.5*ministage);
@@ -68,7 +68,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 4:
                 change_type(Tank::TYPE::GIANT);
-                change_subtank(Tank::SUBTANK::SPINNER);
+                set_subtank(Tank::SUBTANK::SPINNER);
                 set_health(get_health() + 45*stage + 10*ministage);
                 set_max_health(get_max_health() + 45*stage + 10*ministage);
                 set_health_regen(get_health_regen() + 3*stage + 0.75*ministage);
@@ -78,7 +78,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 5:
                 change_type(Tank::TYPE::ASSASSIN);
-                change_subtank(Tank::SUBTANK::IMMUNE);
+                set_subtank(Tank::SUBTANK::IMMUNE);
                 set_health_regen(get_health_regen() + 5*stage + 1*ministage);
                 set_reload_speed(get_reload_speed() / (1+0.5*stage) - 0.05*ministage );
                 set_bullet_speed(get_bullet_speed() + 0.8*stage + 0.2*ministage);
@@ -88,7 +88,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 6:
                 change_type(Tank::TYPE::SHARPSHOOTER);
-                change_subtank(Tank::SUBTANK::DUAL);
+                set_subtank(Tank::SUBTANK::DUAL);
                 set_bullet_speed(get_bullet_speed() + 1*stage + 0.3*ministage);
                 set_damage(get_damage() + 16*stage + 4*ministage);
                 attack_range += (150*stage + 30*ministage);
@@ -96,7 +96,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 7:
                 change_type(Tank::TYPE::ENGINEER);
-                change_subtank(Tank::SUBTANK::TRAPPER);
+                set_subtank(Tank::SUBTANK::TRAPPER);
                 set_health(get_health() + 50*stage + 15*ministage);
                 set_max_health(get_max_health() + 50*stage + 15*ministage);
                 set_health_regen(get_health_regen() + 5*stage + 1*ministage);
@@ -110,7 +110,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
         switch (randomizer_lowlevel) {
             case 0:
                 change_type(Tank::TYPE::GIANT);
-                change_subtank(Tank::SUBTANK::DEFAULT);
+                set_subtank(Tank::SUBTANK::DEFAULT);
                 set_health(get_health() + 50*stage + 10*ministage);
                 set_max_health(get_max_health() + 50*stage + 10*ministage);
                 set_health_regen(get_health_regen() + 2*stage + 0.5*ministage);
@@ -118,7 +118,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 1:
                 change_type(Tank::TYPE::ASSASSIN);
-                change_subtank(Tank::SUBTANK::DEFAULT);
+                set_subtank(Tank::SUBTANK::DEFAULT);
                 set_reload_speed(get_reload_speed() / (1+0.5*stage) - 0.05*ministage );
                 set_damage(get_damage() + 7*stage + 2*ministage);
                 set_vx(get_vx() + 3*stage + 0.75*ministage);
@@ -126,7 +126,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 2:
                 change_type(Tank::TYPE::SHARPSHOOTER);
-                change_subtank(Tank::SUBTANK::DEFAULT);
+                set_subtank(Tank::SUBTANK::DEFAULT);
                 set_bullet_speed(get_bullet_speed() + 0.4*stage + 0.1*ministage);
                 set_damage(get_damage() + 10*stage + 3*ministage);
                 attack_range += (150*stage + 30*ministage);
@@ -134,7 +134,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             case 3:
                 change_type(Tank::TYPE::ENGINEER);
-                change_subtank(Tank::SUBTANK::DEFAULT);
+                set_subtank(Tank::SUBTANK::DEFAULT);
                 set_health(get_health() + 40*stage + 8*ministage);
                 set_max_health(get_max_health() + 40*stage + 8*ministage);
                 set_health_regen(get_health_regen() + 2*stage + 0.5*ministage);
@@ -142,7 +142,7 @@ Enemy::Enemy(GameEngine* const g, double attack_range, double sight_range, const
                 break;
             default:
                 change_type(Tank::TYPE::NORMAL);
-                change_subtank(Tank::SUBTANK::DEFAULT);
+                set_subtank(Tank::SUBTANK::DEFAULT);
                 set_health(get_health() + 25*stage + 5*ministage);
                 set_max_health(get_max_health() + 25*stage + 5*ministage);
                 set_health_regen(get_health_regen() + 1*stage + 0.25*ministage);

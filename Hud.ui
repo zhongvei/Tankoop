@@ -506,7 +506,7 @@
     <rect>
      <x>250</x>
      <y>20</y>
-     <width>141</width>
+     <width>221</width>
      <height>41</height>
     </rect>
    </property>
@@ -521,7 +521,7 @@
      <rect>
       <x>119</x>
       <y>0</y>
-      <width>21</width>
+      <width>101</width>
       <height>39</height>
      </rect>
     </property>

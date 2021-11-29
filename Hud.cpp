@@ -196,19 +196,19 @@ void Hud::ASSASSIN_btn_clicked() {
 void Hud::subtank1_btn_clicked() {
     switch(tank->get_type()) {
         case Tank::TYPE::GIANT:
-            tank->change_subtank(Tank::SUBTANK::POUNDER);
+            tank->set_subtank(Tank::SUBTANK::POUNDER);
             tank->decrease_sub_tank_evolution_point();
             break;
         case Tank::TYPE::ASSASSIN:
-            tank->change_subtank(Tank::SUBTANK::HUNTER);
+            tank->set_subtank(Tank::SUBTANK::HUNTER);
             tank->decrease_sub_tank_evolution_point();
             break;
         case Tank::TYPE::SHARPSHOOTER:
-            tank->change_subtank(Tank::SUBTANK::DUAL);
+            tank->set_subtank(Tank::SUBTANK::DUAL);
             tank->decrease_sub_tank_evolution_point();
             break;
         case Tank::TYPE::ENGINEER:
-            tank->change_subtank(Tank::SUBTANK::SPAWNER);
+            tank->set_subtank(Tank::SUBTANK::SPAWNER);
             tank->decrease_sub_tank_evolution_point();
             break;
         default:
@@ -218,19 +218,19 @@ void Hud::subtank1_btn_clicked() {
 void Hud::subtank2_btn_clicked() {
     switch(tank->get_type()) {
         case Tank::TYPE::GIANT:
-            tank->change_subtank(Tank::SUBTANK::SPINNER);
+            tank->set_subtank(Tank::SUBTANK::SPINNER);
             tank->decrease_sub_tank_evolution_point();
             break;
         case Tank::TYPE::ASSASSIN:
-            tank->change_subtank(Tank::SUBTANK::IMMUNE);
+            tank->set_subtank(Tank::SUBTANK::IMMUNE);
             tank->decrease_sub_tank_evolution_point();
             break;
         case Tank::TYPE::SHARPSHOOTER:
-            tank->change_subtank(Tank::SUBTANK::SNIPER);
+            tank->set_subtank(Tank::SUBTANK::SNIPER);
             tank->decrease_sub_tank_evolution_point();
             break;
         case Tank::TYPE::ENGINEER:
-            tank->change_subtank(Tank::SUBTANK::TRAPPER);
+            tank->set_subtank(Tank::SUBTANK::TRAPPER);
             tank->decrease_sub_tank_evolution_point();
             break;
         default:
