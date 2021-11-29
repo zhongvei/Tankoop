@@ -8,10 +8,10 @@ class Tank;
 
 class HealthBar : public QGraphicsRectItem
 {
-
-Tank* tank = nullptr;
-QGraphicsRectItem* healthPercentageRect;
-QGraphicsScene* scene;
+private:
+    Tank* tank = nullptr;
+    QGraphicsRectItem* healthPercentageRect;
+    QGraphicsScene* scene;
 
 public:
     HealthBar(Tank* tank, QGraphicsScene* scene);

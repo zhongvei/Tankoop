@@ -101,8 +101,12 @@ void List::list_clear(List *list, const int &wave) {
     }
 
     Node *new_last_wave = list_find_name(list, wave);
+    qDebug() << "NEW LAST WAVE "<< new_last_wave->the_wave;
     new_last_wave->next = list->head;
     list->head->prev = new_last_wave;
+    for(Node *n = list->head->next; n != list->head; n = n->next){
+        qDebug() << n->the_wave;
+    }
 
 }
 

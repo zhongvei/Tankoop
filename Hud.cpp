@@ -11,8 +11,9 @@ const QString UPGRADE_DISABLE = "background-color: rgba(228, 30, 30, 1);"
                                 "font: bold 10px;"
                                 "color: white";
 
-Hud::Hud(QWidget *parent,Tank* tank) :
+Hud::Hud(QWidget *parent,Tank* tank,GameEngine* g) :
     QWidget(parent),
+    g(g),
     ui(new Ui::Hud),
     tank(tank)
 {
@@ -24,10 +25,14 @@ Hud::Hud(QWidget *parent,Tank* tank) :
     ui->sharpshooter_btn->setStyleSheet(UPGRADE_AVAILABLE);
     ui->sub_tank_1->setStyleSheet(UPGRADE_AVAILABLE);
     ui->sub_tank_2->setStyleSheet(UPGRADE_AVAILABLE);
+
     ui->stackedWidget->setCurrentIndex(2);
+
+    ui->wave_frame->setStyleSheet("background-color: transparent");
+    ui->skill_cooldown_frame->setStyleSheet("background-color: transparent");
+    ui->skill_status_frame->setStyleSheet("background-color: transparent");
+
     update_value();
-//    ui->groupBox->setStyleSheet("background-color:rgba(41, 70, 255, 0.8);");
-//    ui->listView->setStyleSheet("background-color:rgba(255, 255, 255);");
 
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
     connect(ui->increase_health_regen_btn,SIGNAL(clicked()),this,SLOT(increase_health_regen_clicked()));
@@ -101,6 +106,7 @@ void Hud::update_value() {
     ui->skill_point_value->setText(QString::number(tank->get_skill_point()));
     ui->exp_value->setText(QString::number(tank->get_xp()));
     ui->level_value->setText(QString::number(tank->get_level()));
+    ui->wave_value->setText(QString::number(g->get_waves()));
 
     if (tank->get_evolution_point() == 1 && tank->get_type() == Tank::TYPE::NORMAL) {
         ui->stackedWidget->setCurrentIndex(0);
@@ -134,13 +140,15 @@ void Hud::update_value() {
         }
     }
 
-    if(tank->get_skill_status() && tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
+    if(tank->get_skill_status() &&
+       tank->get_subtank() != Tank::SUBTANK::DEFAULT &&
+       tank->get_type() != Tank::TYPE::ENGINEER) {
         ui->skill_status_frame->show();
     } else {
         ui->skill_status_frame->hide();
     }
     if(tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
-        ui->cooldown_text->setText(QString::number(10));
+        ui->cooldown_text->setText(QString::number(tank->get_cooldown() / 60));
         ui->skill_cooldown_frame->show();
     } else {
         ui->skill_cooldown_frame->hide();

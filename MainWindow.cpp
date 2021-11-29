@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <QString>
 #include <QMessageBox>
+#include <QMediaPlayer>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -28,13 +29,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->back_button_2, SIGNAL(clicked()), this, SLOT(back_button_clicked()));
 
     ui->stackedWidget->setCurrentIndex(0);
+
+    QMediaPlayer* music = new QMediaPlayer();
+    music->setMedia(QUrl("qrc://Resources/sounds/mainMenu.mp3"));
+    music->play();
 }
 
 void MainWindow::startGame() {
     // Get player's input name
     QString nameValue = ui->name_entry->toPlainText();
     ui->name_entry->clear();
-    qDebug() << "name value is mainwindow" <<nameValue;
 
     GameWindow* gameWindow = new GameWindow(0,nullptr,nullptr, nameValue);
     gameWindow->setAttribute(Qt::WA_DeleteOnClose);
@@ -54,7 +58,7 @@ void MainWindow::game_rules_button_clicked() {
 void MainWindow::play_button_clicked() {
     if(ui->name_entry->toPlainText().length() > 7) {
         QMessageBox* msg_box = new QMessageBox(this);
-        msg_box->setText("Username must be less than 8 characters long!     ");
+        msg_box->setText("Username must be less than 8 characters long!     "); // Ending whitespace for formatting
         msg_box->show();
         return;
     }

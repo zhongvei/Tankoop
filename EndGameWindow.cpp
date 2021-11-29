@@ -51,6 +51,8 @@ void EndGameWindow::reset(){
         window->setWindowTitle("TankOOP");
         window->show();
         this->close();
+
+    ui->Score->setFocus();
 }
 
 void EndGameWindow::start_button_clicked(){

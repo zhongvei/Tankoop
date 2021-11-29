@@ -9,7 +9,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QDebug>
-
+#include <QColor>
 
 
 
@@ -59,6 +59,7 @@ void GameEngine::run(){
     player->name_item = new QGraphicsTextItem;
     player->set_name(nameValue);
     player->name_item->setPlainText(player->get_name());
+    player->name_item->setDefaultTextColor(QColor("#008000"));
     player->name_item->setFont(QFont("Gill Sans MT", 16));
     window->scene->addItem(player->name_item);
 
@@ -89,7 +90,7 @@ void GameEngine::run(){
 //    spawn_block_loop();
 
     /* The HUD */
-    hud = new Hud(window, player);
+    hud = new Hud(window, player,this);
 }
 
 void GameEngine::main_loop() {
@@ -103,6 +104,7 @@ void GameEngine::main_loop() {
             }
             entity_spawn();
             finish_wave = false;
+            reset_wave = false;
         }
         if(get_enemy_count() == 0){
             QList<QGraphicsItem *> list = this->window->items();
@@ -118,7 +120,7 @@ void GameEngine::main_loop() {
             waves++;
         }
     } else {
-        qDebug() << "gameover";
+        //qDebug() << "gameover";
         hud->hide();
         loop_timer->stop();
         delete loop_timer;
@@ -147,8 +149,6 @@ void GameEngine::main_loop() {
         delete player;
         player = nullptr;
 
-        qDebug()<<"cumulative" <<cumulativeEnemyNames[0];
-        qDebug()<<"cumulative" <<cumulativeEnemyNames.at(0);
         qDebug()<<cumulativeEnemyScores[0];
         endWindow->endGameLeaderboard(cumulativeEnemyNames[0],cumulativeEnemyNames[1],cumulativeEnemyNames[2],
                 cumulativeEnemyNames[3],cumulativeEnemyNames[4],cumulativeEnemyScores[0],cumulativeEnemyScores[1],
@@ -238,7 +238,7 @@ void GameEngine::spawn_enemies_loop(){
 
 void GameEngine::spawn_block_loop() {
     while (get_block_count() < 50) {
-        Block* block = new Block(100,100,30,0,0,10,1,7);
+        Block* block = new Block(100,100,30,0,0,10,1);
         block->setRect(0,0,block->get_size(),block->get_size());
         block->setPos(QRandomGenerator::global()->bounded(GameWindow::WINDOW_WIDTH),
                       QRandomGenerator::global()->bounded(GameWindow::WINDOW_HEIGHT));

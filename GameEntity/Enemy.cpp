@@ -338,6 +338,9 @@ void Enemy::stateRunning(const int &detected_blocks){
     }
     else{
         setPos(x()+(10*cos((get_degree()+180)/57)),y()+(10*sin((get_degree()+180)/57)));
+
+        QPointF pos = this->pos() + QPointF(16,-40);
+        name_item->setPos(pos);
     }
 //    if (pos().x() + attack_range/2 > 2000 || pos().y() + attack_range/2  > 2000 || pos().x() - attack_range/2 < 0 || pos().y() - attack_range/2  < 0){
 

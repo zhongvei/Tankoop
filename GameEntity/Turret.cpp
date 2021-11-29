@@ -53,10 +53,10 @@ void Turret::fire(){
 
     if(!this->get_reload_status()){
         change_reload_status();
-//        Bullet * bullet = new Bullet(this,30,0,10,0.6,0.6,);
-//        bullet->set_degree(this->get_degree());
-//        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y() +(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
-//        scene()->addItem(bullet);
+        Bullet * bullet = new Bullet(this,30,0,10,0.6,0.6,nullptr);
+        bullet->set_degree(this->get_degree());
+        bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y() +(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
+        scene()->addItem(bullet);
     }
 }
 
