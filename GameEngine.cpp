@@ -84,7 +84,7 @@ void GameEngine::run(){
     elapsed_timer.start();
 
     /* Create the Health Bar */
-    player->create_heatlh_bar(window->scene);
+    player->create_health_bar(window->scene);
     window->scene->addItem(player->get_health_bar());
 
     /* The HUD */
