@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 void MainWindow::startGame() {
 
-    /* Input name from the user */
+    /* Input name based on the value from the name label */
     QString nameValue = ui->name_entry->toPlainText();
     ui->name_entry->clear();
 
@@ -55,17 +55,23 @@ void MainWindow::startGame() {
     this->close();
 }
 
-/* Move to "Enter Name" Page */
+/*
+ * Move to "Enter Name" Page
+*/
 void MainWindow::start_button_clicked() {
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-/* Show the "How To Play" page */
+/*
+ * Show the "How To Play" page
+*/
 void MainWindow::game_rules_button_clicked() {
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-/* Start the Game */
+/*
+ * Start the Game
+*/
 void MainWindow::play_button_clicked() {
     if(ui->name_entry->toPlainText().length() > 7) {
         QMessageBox* msg_box = new QMessageBox(this);
@@ -76,7 +82,9 @@ void MainWindow::play_button_clicked() {
     startGame();
 }
 
-/* Go back to the main page */
+/*
+ * Go back to the main page
+*/
 void MainWindow::back_button_clicked() {
     ui->stackedWidget->setCurrentIndex(0);
 }

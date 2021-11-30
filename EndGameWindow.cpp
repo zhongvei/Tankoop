@@ -27,6 +27,8 @@ EndGameWindow::EndGameWindow(List *list, QWidget *parent) : QMainWindow(parent),
     connect(ui->reset_button, SIGNAL(clicked()), this, SLOT(reset()));
 
 }
+
+/* Increase the value of wave in the interface */
 void EndGameWindow::increase(){
     QString label = ui->num_wave->text();
     int size = label.toInt();
@@ -36,6 +38,7 @@ void EndGameWindow::increase(){
     ui->num_wave->setText(QString::number(size));
 }
 
+/* Decrease the value of wave in the interface */
 void EndGameWindow::decrease(){
     QString label = ui->num_wave->text();
     int size = label.toInt();
@@ -45,6 +48,7 @@ void EndGameWindow::decrease(){
     ui->num_wave->setText(QString::number(size));
 }
 
+/* Reset the game to the selected wave */
 void EndGameWindow::reset(){
     int selected_wave = ui->num_wave->text().toInt();
         GameWindow* window = new GameWindow(selected_wave, list);
@@ -70,6 +74,7 @@ void EndGameWindow::quit_game(){
 }
 
 void EndGameWindow::homeScreen() {
+    list->list_delete(list);
     MainWindow* window = new MainWindow;
     window->setWindowTitle("TankOOP");
     window->show();
@@ -86,6 +91,7 @@ void EndGameWindow::endGameStats(QString player_xp, QString player_class, QStrin
     ui->time_alive->setText("Time Alive: " + player_time_alive + " seconds");
 }
 
+/* Display the game leaderboard */
 void EndGameWindow::endGameLeaderboard(QString name_1,QString name_2,QString name_3,QString name_4,QString name_5,
                                        int score_1, int score_2, int score_3, int score_4, int score_5) {
     ui->Name->setText("Name");
