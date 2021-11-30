@@ -9,6 +9,7 @@ class Block : public GameEntity
 public:
     /*
     *  @funct:  constructor for the Block
+    *
     *  @param:  health: the health for the Block, max_health: the max_health for the Block, size: the size for the Block
     *  @param:  vx: the movement speed in the x axis for the Block, vy: the movement speed in the y axis for the Block
     *  @param:  xp: the experience point for the Block, level: the level for the Block
@@ -20,6 +21,7 @@ public:
 
     /*
     *  @funct:  default the destructor for the Block to improve readebility
+    *
     *  @param:  N/A
     *  @return: N/A     
     */      
@@ -27,6 +29,7 @@ public:
     
     /*
     *  @funct:  get the GameEntity category type, which is GameEntity::CATEGORY::BLOCK in this case
+    *
     *  @param:  N/A
     *  @return: GameEntitiy::CATEGORY: the GameEntity category type, which is GameEntity::CATEGORY::BLOCK in this case
     */

@@ -18,6 +18,7 @@ public:
 
     /*
     *  @funct:  constructor for the Bullet
+    *
     *  @param:  tank: the pointer to the Tank that shoots(create) the bullet, damage: the damage for the Bullet, size: the size for the Bullet
     *  @param:  vx: the movement speed in the x axis for the Bullet, vy: the movement speed in the y axis for the Bullet
     *  @param:  game_engine: the pointer to the GameEngine that the current Bullet is created at
@@ -27,6 +28,7 @@ public:
            GameEngine* const game_engine);
     /*
     *  @funct:  the destructor of the Bullet, remove the dynamic allocated objects
+    *
     *  @param:  N/A
     *  @return: N/A
     */
@@ -35,6 +37,7 @@ public:
     /* Accessor */
     /*
     *  @funct:  get the damage of the Bullet
+    *
     *  @param:  N/A   
     *  @return: double: the damage of the Bullet
     */
@@ -42,6 +45,7 @@ public:
 
     /*
     *  @funct:  get the travelling degree of the of the Bullet
+    *
     *  @param:  N/A   
     *  @return: double: the travelling degree of the of the Bullet
     */
@@ -57,6 +61,7 @@ public:
     /* Mutators */
     /*
     *  @funct:  get the pointer to the Tank that creates the tank
+    *
     *  @param:  N/A   
     *  @return: Tank*: the pointer to the Tank that creates the tank
     */
@@ -64,6 +69,7 @@ public:
 
     /*
     *  @funct:  get the GameEntity category type, which is GameEntity::CATEGORY::BULLET in this case
+    *
     *  @param:  N/A
     *  @return: GameEntitiy::CATEGORY: the GameEntity category type, which is GameEntity::CATEGORY::BULLET in this case      
     */
@@ -79,6 +85,7 @@ private:
 public slots:
     /*
     *  @funct:  the function that is being repeated called to update and move the bullet
+    *
     *  @param:  N/A
     *  @return: N/A      
     */
@@ -87,6 +94,7 @@ public slots:
 signals:
     /*
     *  @funct:  the signal that is emitted for the case where a bullet destroy an enemy
+    *
     *  @param:  name: the name of the enemy, score: the score of the enemy, which is the total exp for the enemy
     *  @return: N/A      
     */
