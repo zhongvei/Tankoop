@@ -1,10 +1,10 @@
 #include "GameWindow.h"
 
-class GameEngine;
-
 GameWindow::GameWindow(int wave, List *list, QWidget* parent, QString nameValue)
 {
-    /* Setting up the Game Window */
+    /*
+     * Setting up the Game Window
+    */
     this->setWindowTitle("TankOOP");
     this->setWindowIcon(QIcon(":/Resources/icon/tankoop.jpg"));
     scene = new QGraphicsScene();
@@ -17,7 +17,9 @@ GameWindow::GameWindow(int wave, List *list, QWidget* parent, QString nameValue)
     setFixedSize(GameWindow::WINDOW_WIDTH,GameWindow::WINDOW_HEIGHT);
     setSceneRect(0,0,GameWindow::WINDOW_WIDTH,GameWindow::WINDOW_HEIGHT);
 
-    /* Set the Background Color and Draw the Background Grid */
+    /*
+     * Set the Background Color and Draw the Background Grid
+    */
     setStyleSheet("background:rgb(204,204,204)");
     QPen lineColor(QColor(196, 196, 196));
     for(int x = -1; x <= this->width(); x += 28){
@@ -31,9 +33,12 @@ GameWindow::GameWindow(int wave, List *list, QWidget* parent, QString nameValue)
     setFixedSize(1200,600);
 
     /* Start the Game Engine */
-    GameEngine *game_engine = new GameEngine(this, scene, wave, list, nameValue);
+    game_engine = new GameEngine(this, wave, list, nameValue);
     game_engine->run();
 
     show();
 }
 
+GameWindow::~GameWindow(){
+    delete game_engine;
+}

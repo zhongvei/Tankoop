@@ -165,7 +165,8 @@ private:
     double max_health {};  
     double health {};
     double health_regen {};
-    int size {};
+
+    int size{};
     double vx{}, vy{};
     double xp{};
     int level{};
