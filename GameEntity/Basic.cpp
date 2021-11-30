@@ -23,7 +23,7 @@ Basic::Basic(QGraphicsView* parent, GameEngine* game_engine,
     Tank(health,health_regen,max_health,size,vx,vy,xp,reload_speed,bullet_speed,damage,level,skill_point,degree),
     UP(false), DOWN(false), RIGHT(false), LEFT(false), parent(parent), game_engine(game_engine)
 {
-    music->setMedia(QUrl("qrc:/Resources/sounds/shoot.mp3"));
+//    music->setMedia(QUrl("qrc:/Resources/sounds/shoot.mp3"));
 }
 
 //copy constructor for basic
@@ -97,7 +97,9 @@ void Basic::keyPressEvent(QKeyEvent *event){
             this->set_reload_finish(0);
 
             //setting up the shoot music for basic
-
+            if (!music->isAudioAvailable()) {
+                            music->setMedia(QUrl("qrc:/Resources/sounds/shoot.mp3"));
+            }
             music->setPosition(0);
             music->setVolume(100);
             music->play();
