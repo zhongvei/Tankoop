@@ -227,7 +227,9 @@ void GameEngine::spawn_enemies_loop(){
         window->scene->addItem(enemy);
         window->scene->addItem(enemy->get_health_bar());
         window->scene->addItem(enemy->get_attack_area());
+        enemy->get_attack_area()->hide();
         window->scene->addItem(enemy->get_sight_area());
+        enemy->get_sight_area()->hide();
         set_enemy_count(get_enemy_count()+1);
     }
 }

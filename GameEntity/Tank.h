@@ -473,8 +473,8 @@ private:
     double bullet_speed{};
     double damage{};
     int skill_point{};
-    int evolution_point{1};
-    int sub_tank_evolution_point{1};
+    int evolution_point{};
+    int sub_tank_evolution_point{};
     double degree{};
     int reload_finish{};
     bool reload {1};
