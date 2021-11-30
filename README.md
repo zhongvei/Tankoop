@@ -93,6 +93,11 @@ If the player choose the quit the game, the winow closes and the program is term
 <img src="Indicator.jpeg" alt="drawing" width="400"/>
 
 
+### Compiling the program
+The following group project is designed to work with Qt version 5.0.3, to compile the program, open QT Creator and open this project.
+Hit the build button and the program compiles.
+
+
 
 
 
