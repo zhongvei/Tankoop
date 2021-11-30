@@ -389,7 +389,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Start Game</string>
+       <string>Reset Wave</string>
       </property>
      </widget>
     </widget>
