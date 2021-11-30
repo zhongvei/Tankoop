@@ -68,6 +68,26 @@ Immune | Assassin | Remove collision damage with block and increase tank's movem
 Spawner | Engineer | A static turret is spawn which will target the nearest enemy or block, giving the tank exp when the block/enemy is destroyed  | 4
 Trapper | Engineer | A wall is created on the map, where the enemy's bullet cannot pass throught the wall without destroying the wall first | N/A
 
+### Starting the game
+The game is started in a **Main Menu Window**. The **Main Menu Window** displays 3 different button "Start Game", "How To Play", "Quit Game".
+
+If the player clicks on the "How To Play" button, the screen then changes to a screen where descriptions for the game is listed.
+
+If the player clicks on the "Quit Game" button, the window closes and the program is terminated.
+
+If the player clicks on the "Start Game" button, the player is then prompted to type their name in the screen and proceed to the **Game Window**.
+
+
+### Gameover
+Whenever the game eneded, a **End Game Window** is shown to the player. The **End Game Window** displays the score, the type, the sub tank and the time alive for the tank.
+Besides that, a leaderboard is also display for player to see the score of the enemies as well.
+
+The player have the option to replay the game or quit the game. 
+
+If the player chooses to reset the game, they can go to the previous wave with the stats they have in that particular wave. 
+
+If the player choose the quit the game, the winow closes and the program is terminated.
+
 
 
 
