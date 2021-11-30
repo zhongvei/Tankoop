@@ -488,9 +488,6 @@ private:
     Tank::TYPE type = Tank::TYPE::NORMAL;
     Tank::SUBTANK subtank = Tank::SUBTANK::DEFAULT;
 
-    qreal angle = 0;
-    qreal speed = 0;
-    qreal mouseEyeDirection = 0;
     QColor color;
     Turret* turret{};
 
