@@ -22,6 +22,7 @@ EndGameWindow::EndGameWindow(List *list, QWidget *parent) : QMainWindow(parent),
     connect(ui->start_button, SIGNAL(clicked()), this, SLOT(start_button_clicked()));
     connect(ui->home_screen, SIGNAL(clicked()), this, SLOT(home_screen_clicked()));
     connect(ui->quit_button, SIGNAL(clicked()), this, SLOT(quit_game()));
+    connect(ui->quit_button_2, SIGNAL(clicked()), this, SLOT(quit_game()));
     connect(ui->increase_button, SIGNAL(clicked()), this, SLOT(increase()));
     connect(ui->decrease_button, SIGNAL(clicked()), this, SLOT(decrease()));
     connect(ui->reset_button, SIGNAL(clicked()), this, SLOT(reset()));

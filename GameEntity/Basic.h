@@ -110,8 +110,9 @@ public:
     *  @return: GameEntitiy::CLASS: the GameEntity class, which is GameEntity::CLASS::TANK in this case
     */
     GameEntity::CLASS get_class() const override;
+    void set_game_engine(GameEngine *game_engine);
 
-    GameEngine*  game_engine;
+
 
 private:
     double changex = 0;
@@ -122,7 +123,7 @@ private:
 
     bool UP, DOWN, RIGHT, LEFT;
 
-
+    GameEngine*  game_engine;
     QGraphicsView* parent{};
 
 protected:

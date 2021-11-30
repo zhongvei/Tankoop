@@ -346,11 +346,11 @@
       <x>270</x>
       <y>330</y>
       <width>291</width>
-      <height>161</height>
+      <height>241</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QPushButton" name="quit_button">
@@ -474,20 +474,20 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
+     <widget class="QPushButton" name="quit_button_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>180</y>
+        <width>251</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Quit Game</string>
+      </property>
+     </widget>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="quit_button_2">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>520</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Quit Game</string>
-    </property>
    </widget>
   </widget>
  </widget>

@@ -219,3 +219,4 @@ void Basic::facing_cursor(Basic* basic) {
 
 void Basic::reset_movement () { UP = false; DOWN = false; RIGHT = false; LEFT = false; }
 void Basic::set_parent(QGraphicsView *window) {parent = window;}
+void Basic::set_game_engine(GameEngine *game_engine) {this->game_engine = game_engine;}
