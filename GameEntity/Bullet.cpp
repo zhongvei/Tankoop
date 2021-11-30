@@ -12,7 +12,7 @@
 
 //bullet has no health, max health, health_regen, xp and level
 Bullet::Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy,
-               GameEngine* const game_engine):
+               GameEngine* game_engine):
     GameEntity(0,0,0,size,vx,vy,0,0), damage(damage), degree(degree), tank(tank), game_engine(game_engine)
 {
     setRect(0,0,size,size); //setting the size of the bullet in the GameWindow

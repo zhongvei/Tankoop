@@ -25,13 +25,12 @@ Tank::Tank(
         color(QRandomGenerator::global()->bounded(256), QRandomGenerator::global()->bounded(256),
         QRandomGenerator::global()->bounded(256))
 {
-    music = new QMediaPlayer();
     set_name(QString(""));
 };
 
 //The Destructor of the Tank
 Tank::~Tank() {
-    delete music;
+//    delete music;
 }
 
 /* The Accessor of Tank Object */

@@ -21,6 +21,7 @@ GameEngine::GameEngine(GameWindow* window, int wave, List *list, QString nameVal
         max_enemies = waves_history->selected_num_of_enemies(waves_history);
         dynamic_cast<Basic *>(player)->set_parent(window);
         dynamic_cast<Basic *>(player)->reset_movement();
+        dynamic_cast<Basic *>(player)->game_engine  = this;
 
         reset_wave = true;
         original = false;
@@ -147,6 +148,7 @@ void GameEngine::main_loop() {
         ensureMin_cumulativeEnemyLists(); // sort list from highest to lowest score
 
         if(original){
+            //delete player->music;
             delete player;
             player = nullptr;
         }

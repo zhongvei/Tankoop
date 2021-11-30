@@ -465,7 +465,7 @@ public:
     Tank(const Tank& tank);
 
     QGraphicsTextItem* name_item {};
-    QMediaPlayer* music{};
+    QMediaPlayer* music = new QMediaPlayer;
 
 private:
     /* Private Data Members */

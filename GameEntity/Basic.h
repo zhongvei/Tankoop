@@ -27,7 +27,7 @@ public:
     *  @param:  degree: the initial angle which the Bullet will be fire from the Basic object
     *  @return: N/A     
     */
-    Basic(QGraphicsView* parent=nullptr, GameEngine* const game_engine=nullptr,
+    Basic(QGraphicsView* parent=nullptr, GameEngine* game_engine=nullptr,
           const double& health = 300, const double& health_regen = 1, const double& max_health = 300,
           const int& size = 100, const double& vx = 10, const double& vy = 10,const double& xp = 0,
           const double& reload_speed = 0.8,
@@ -44,7 +44,7 @@ public:
     *  @param:  basic: the Basic object that is being copied from, parent: the view that the Baisc object is on, game_engine: the gameengine that creates Basic
     *  @return: N/A
     */
-    Basic(const Basic &basic, QGraphicsView *parent = nullptr, GameEngine* const game_engine=nullptr);
+    Basic(const Basic &basic,  QGraphicsView *parent = nullptr,GameEngine* game_engine=nullptr);
 
     /*
     *  @funct:  an override function from QGraphicsRectItem to identify which key is pressed by the player
@@ -111,6 +111,8 @@ public:
     */
     GameEntity::CLASS get_class() const override;
 
+    GameEngine*  game_engine;
+
 private:
     double changex = 0;
     double changey = 0;
@@ -120,7 +122,7 @@ private:
 
     bool UP, DOWN, RIGHT, LEFT;
 
-    GameEngine* const game_engine;
+
     QGraphicsView* parent{};
 
 protected:

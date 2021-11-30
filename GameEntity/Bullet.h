@@ -25,7 +25,7 @@ public:
     *  @return: N/A     
     */
     Bullet(Tank* tank, const double& damage, const double& degree, const int& size, const double& vx, const double& vy,
-           GameEngine* const game_engine);
+           GameEngine* game_engine);
     /*
     *  @funct:  the destructor of the Bullet, remove the dynamic allocated objects
     *
@@ -79,7 +79,7 @@ private:
     double damage{};
     double degree{};
     Tank* tank{};
-    GameEngine* const game_engine{};
+    GameEngine* game_engine{};
     QTimer* timer{};
 
 public slots:
