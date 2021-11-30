@@ -2,7 +2,7 @@
 #include "ui_Hud.h"
 #include <QDebug>
 
-
+//QString to set up the color of the buttons
 const QString UPGRADE_AVAILABLE= "background-color: rgba(48, 212, 67, 0.8);"
                                  "font: bold 10px;"
                                  "color: white";
@@ -11,6 +11,7 @@ const QString UPGRADE_DISABLE = "background-color: rgba(228, 30, 30, 1);"
                                 "font: bold 10px;"
                                 "color: white";
 
+//costructor for the HUD
 Hud::Hud(QWidget *parent,Tank* tank,GameEngine* g) :
     QWidget(parent),
     g(g),
@@ -34,6 +35,7 @@ Hud::Hud(QWidget *parent,Tank* tank,GameEngine* g) :
 
     update_value();
 
+    //connectors for the HUD's button to its functions
     connect(ui->increase_max_health_btn,SIGNAL(clicked()),this,SLOT(increase_max_health_clicked()));
     connect(ui->increase_health_regen_btn,SIGNAL(clicked()),this,SLOT(increase_health_regen_clicked()));
     connect(ui->increase_damage_btn,SIGNAL(clicked()),this,SLOT(increase_damage_clicked()));
@@ -52,6 +54,7 @@ Hud::Hud(QWidget *parent,Tank* tank,GameEngine* g) :
 
 }
 
+//destructor for the HUD
 Hud::~Hud()
 {
     delete ui;
@@ -140,6 +143,7 @@ void Hud::update_value() {
         }
     }
 
+    //every tank type has a period where an active skill is activated
     if(tank->get_skill_status() &&
        tank->get_subtank() != Tank::SUBTANK::DEFAULT &&
        tank->get_type() != Tank::TYPE::ENGINEER) {
@@ -147,6 +151,7 @@ void Hud::update_value() {
     } else {
         ui->skill_status_frame->hide();
     }
+
     if(tank->get_subtank() != Tank::SUBTANK::DEFAULT) {
         ui->cooldown_text->setText(QString::number(tank->get_cooldown() / 60));
         ui->skill_cooldown_frame->show();
@@ -155,18 +160,7 @@ void Hud::update_value() {
     }
 }
 
-bool Hud::check_upgrade() {
-    if(tank->get_level() > tank->get_skill_point()) {
-        return true;
-    }
-    return false;
-}
-bool Hud::check_evolution() {
-    if(tank->get_evolution_point() == 1) {
-        return true;
-    }
-    return false;
-}
+bool Hud::check_evolution() {return tank->get_evolution_point() == 1? true: false;}
 
 void Hud::giant_btn_clicked() {
     if(check_evolution()) {

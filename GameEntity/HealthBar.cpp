@@ -5,9 +5,9 @@
 #include <QDebug>
 #include <QGraphicsRectItem>
 
+//the constructor for the HealthBar
 HealthBar::HealthBar(Tank* tank, QGraphicsScene* scene) : tank(tank), scene(scene)
 {
-
     this->setRect(0,0,80,18);
     healthPercentageRect = new QGraphicsRectItem(this);
     healthPercentageRect->setRect(0,0,100,20);
@@ -15,6 +15,7 @@ HealthBar::HealthBar(Tank* tank, QGraphicsScene* scene) : tank(tank), scene(scen
     scene->addItem(healthPercentageRect);
 }
 
+//the destuctor for the HealthBar
 HealthBar::~HealthBar() {
     scene->removeItem(healthPercentageRect);
     delete healthPercentageRect;
@@ -41,9 +42,6 @@ void HealthBar::advance(int step)
     if (health_percentage<=0) {health_percentage=0;}
 
     healthPercentageRect->setRect(this->x(),this->y(),80*health_percentage,18); // change 80 if health_bar width is changed
-
-
-
 
     /* DO NOT DELETE
      * Archived Code:

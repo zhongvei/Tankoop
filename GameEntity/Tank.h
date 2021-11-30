@@ -3,6 +3,7 @@
 
 #include "GameEntity.h"
 #include "HealthBar.h"
+#include "Wall.h"
 
 #include <QRandomGenerator>
 #include <QGraphicsScene>
@@ -330,7 +331,7 @@ public:
     void check_collision();
 
     /*
-    *  @funct:  increase the level for the Tank
+    *  @funct:  increase the level for the Tank if the experience point reach 100 and give the tank certain skill point when it reached certain levels
     *
     *  @param:  N/A
     *  @return: N/A
@@ -520,7 +521,7 @@ protected:
     );
 
     /*
-    *  @funct:  an override function from QGraphicsRectItem such that this function is being by the GameWindow
+    *  @funct:  an override function from QGraphicsRectItem such that this function is being repetedly called by the GameEngine
     *
     *  @param:  step: the phase of the function, step = 0 would not run the function body
     *  @return: N/A     

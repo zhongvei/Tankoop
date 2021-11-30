@@ -9,6 +9,8 @@
 #include <QGraphicsView>
 #include <QDebug>
 
+
+//constructor for Basic
 Basic::Basic(QGraphicsView* parent, GameEngine* const game_engine,
              const double& health, const double& health_regen, const double& max_health,
              const int& size, const double& vx, const double& vy,const double& xp,
@@ -19,18 +21,20 @@ Basic::Basic(QGraphicsView* parent, GameEngine* const game_engine,
              const int& skill_point,
              const int& degree):
     Tank(health,health_regen,max_health,size,vx,vy,xp,reload_speed,bullet_speed,damage,level,skill_point,degree),
-    parent(parent),UP(false), DOWN(false), RIGHT(false), LEFT(false),game_engine(game_engine)
+    UP(false), DOWN(false), RIGHT(false), LEFT(false), parent(parent), game_engine(game_engine)
 {
+    //setting up the shoot music for basic
     music->setMedia(QUrl("qrc:/Resources/sounds/shoot.mp3"));
 }
 
-
+//copy constructor for basic
 Basic::Basic(const Basic &tank, QGraphicsView *parent, GameEngine* const game_engine):Tank(tank), game_engine(game_engine){
     this->parent = parent;
 }
 
 GameEntity::CLASS Basic::get_class() const {return GameEntity::CLASS::BASIC;}
 
+//to identified the key pressed by the player
 void Basic::keyPressEvent(QKeyEvent *event){
     switch(event->key()){
         case Qt::Key::Key_W:
@@ -44,36 +48,26 @@ void Basic::keyPressEvent(QKeyEvent *event){
             break;
         case Qt::Key::Key_A:
             LEFT = true;
-            break;
+            break;            
+        //using the skill of the current sub tank class
         case Qt::Key::Key_Q:
             if (!this->get_cooldown_status()) {
                 skill();
                 this->change_cooldown_status();
                 this->set_cooldown(360); // secs * 60
-
-                if(this->get_subtank() == Tank::SUBTANK::TRAPPER){
-                    Wall* wall = new Wall(this->get_degree());
-                    wall->setPos(x()+((this->get_size()/2)+ (this->get_size()/2+15)*cos(this->get_degree()/57)-10/2),
-                                 y()+((this->get_size()/2)+ (this->get_size()/2+15)*sin(this->get_degree()/57))-wall->get_size()/2);
-                    QTransform transform;
-                    transform.translate(10/2,this->get_size()/2);
-                    transform.rotate(get_degree());
-                    transform.translate(-(10/2),-(this->get_size()/2));
-                    wall->setTransform(transform);
-                    scene()->addItem(wall);
-                }
             }
             break;
     }
 
+    //fires a bullet from the tank where the bullet travels in the direction of the mouse
     if (event->key() == Qt::Key_Space){
-        /* Create a bullet */
+        //creates a bullet and check the reload status
         if(!this->get_reload_status()) {
-//            qDebug() << "PEW-PEW";
             Bullet * bullet = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
             bullet->set_degree(this->get_degree());
             bullet->setPos(x()+(this->get_size()/2*(1+cos(bullet->get_degree()/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin(bullet->get_degree()/57)))-bullet->get_size()/2);
-
+            
+            //some special cases for the sub tank when they are fired in certain state(skill is active)
             if (this->get_subtank() == Tank::SUBTANK::POUNDER && this->get_skill_status() == true) {
                 Bullet * bullet2 = new Bullet(this,get_damage(),0,10,get_bullet_speed(),get_bullet_speed(), game_engine);
                 bullet2->setPos(x()+(this->get_size()/2*(1+cos((bullet->get_degree()+90)/57))-bullet->get_size()/2),y()+(this->get_size()/2*(1+sin((bullet->get_degree()+90)/57)))-bullet->get_size()/2);
@@ -111,7 +105,7 @@ void Basic::keyPressEvent(QKeyEvent *event){
 
 }
 
-
+//calculate the change of movement if the x axis based on how long the 'W' 'A' 'S' 'D' key is pressed
 double Basic::get_changex() {
     bool diagonalMovement = (double) RIGHT - (double) UP ||
          (double) UP - (double) LEFT  ||
@@ -136,6 +130,7 @@ double Basic::get_changex() {
     return result;
 }
 
+//calculate the change of movement if the y axis based on how long the 'W' 'A' 'S' 'D' key is pressed
 double Basic::get_changey() {
     bool diagonalMovement = (double) RIGHT - (double) UP ||
          (double) UP - (double) LEFT  ||
@@ -161,6 +156,7 @@ double Basic::get_changey() {
     return result;
 }
 
+//to identified which key is released by the player
 void Basic::keyReleaseEvent(QKeyEvent *event){
     switch(event->key()){
         case Qt::Key::Key_W:
@@ -175,10 +171,11 @@ void Basic::keyReleaseEvent(QKeyEvent *event){
         case Qt::Key::Key_A:
             LEFT = false;
             break;
-
     }
 
 }
+
+//the repeted function that is call such that Basic tank can be moved, fire a bullet and use a skill
 void Basic::advance(int step)
 {
     if (!step)
@@ -200,13 +197,6 @@ void Basic::advance(int step)
         }
 
     }
-
-    // dont delete
-//    QPainter painter(QPaintDevice);
-//    //painter.setPen(QPen(Qt::black), 1);
-//    painter.drawRect(this->x(), this->y(), 200,200);
-
-    // IF THIS BASIC IS THE USER: THEN CENTER ON. ELSE, DONT CENTER ON
     parent->centerOn(this);
 
 }
@@ -226,3 +216,6 @@ void Basic::facing_cursor(Basic* basic) {
     QPointF pos = basic->pos() + QPointF(16,-40);
     name_item->setPos(pos);
 }
+
+void Basic::reset_movement () { UP = false; DOWN = false; RIGHT = false; LEFT = false; }
+void Basic::set_parent(QGraphicsView *window) {parent = window;}

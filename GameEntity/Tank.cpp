@@ -373,6 +373,13 @@ void Tank::increase_level() {
 
 }
 
+/* Skills for the Tank
+ *
+ * Function below set up the skills for each of the subtank. A sub tank has its own skill
+ * that is unqiue for each different sub tank. Below are the implementation for the skill
+ * some skills temporarily increases the stats for the Tank, which is later reset by using a
+ * QTimer::singleShot call the function skill_timer_timeout after a delay   
+*/
 void Tank::skill() {
     if(!this->get_cooldown_status()) {
         change_skill_status();
@@ -408,7 +415,6 @@ void Tank::skill() {
             QTimer::singleShot(4000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::SPAWNER) {
-
             turret = new Turret(500,100,this); // multiple of 50
             turret->setPos(x(),y());
             turret->setRect(0,0,turret->get_size(),turret->get_size());
@@ -419,11 +425,16 @@ void Tank::skill() {
             QTimer::singleShot(4000,[=](){skill_timer_timeout();});
             return;
         } else if (this->get_subtank() == Tank::SUBTANK::TRAPPER) {
+            Wall* wall = new Wall(this->get_degree());
+            wall->setPos(x()+((this->get_size()/2)+ (this->get_size()/2+15)*cos(this->get_degree()/57)-10/2),
+                         y()+((this->get_size()/2)+ (this->get_size()/2+15)*sin(this->get_degree()/57))-wall->get_size()/2);
+            scene()->addItem(wall);
             return;
         }
     }
 }
 
+//the timeout event where the stats of the Tank is change back to its original state
 void Tank::skill_timer_timeout() {
     change_skill_status();
     switch(this->get_subtank())
@@ -457,6 +468,7 @@ void Tank::skill_timer_timeout() {
     }
 }
 
+//change the type of the tank and increases its substats based on different type chose
 void Tank::change_type(Tank::TYPE type) {
     this->type = type;
     switch (type)
@@ -513,7 +525,6 @@ void Tank::create_health_bar(QGraphicsScene *scene) {
 }
 
 Tank& Tank::operator=(const Tank &tank){
-    // qDebug() << "CALLING COPY CONSTRUCTOR";
     this->set_reload_speed(tank.get_reload_speed());
     this->set_bullet_speed(tank.get_bullet_speed());
     this->set_damage(tank.get_damage());

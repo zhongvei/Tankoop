@@ -53,7 +53,7 @@ void GameEngine::run(){
     if(player == nullptr){
         player = new Basic(window,this);
     }
-    // player = new Basic(window, this);
+    // player = (window, this);
     player->setRect(0,0,player->get_size(),player->get_size());
     player->setPos(350,250);
     window->scene->addItem(player);

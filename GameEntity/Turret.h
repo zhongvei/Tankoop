@@ -11,7 +11,6 @@
 //class Tank;
 class Basic;
 
-
 class Turret: public QObject, public QTransform, public Tank
 {
     Q_OBJECT
