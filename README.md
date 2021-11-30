@@ -88,7 +88,9 @@ If the player chooses to reset the game, they can go to the previous wave with t
 
 If the player choose the quit the game, the winow closes and the program is terminated.
 
-
+### Simplified UML diagram
+![UML](UML.jpeg) 
+<img src="Indicator.jpeg" alt="drawing" width="400"/>
 
 
 
